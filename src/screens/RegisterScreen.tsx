@@ -28,8 +28,9 @@ const style = StyleSheet.create({
     },
     input: {
         margin: 10,
-        width: 30,
-        height: 30,
+        width: 80,
+        height: 20,
+        alignItems: "center",
     }
 });
 export default RegisterScreen;
