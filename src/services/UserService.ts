@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { Register } from '../data/user-data';
+import { Key } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface User {
     id: string;
@@ -26,3 +28,24 @@ export const registerUser = async (): Promise<Register> => {
         throw error;
     }
 }
+
+export const loginUser = async (email:string, password:string): Promise<Key> => {
+    try {
+        const token = await axios.post<Key>(`${url}/user/auth/login`, {
+            email,
+            password
+        });
+        return token.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+export const getToken = async (): Promise<string | null> => {
+    return await AsyncStorage.getItem('token');
+};
+
+export const logout = async (): Promise<void> => {
+    await AsyncStorage.removeItem('token');
+};
