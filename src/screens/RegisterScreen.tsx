@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import { Button, Text, TextInput, View } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 
-import MyButton from '../components/MyButton';
 import globalStyles from '../themes/styles/globalStyles';
 import textStyles from '../themes/styles/textStyles';
+import { MyButton } from '../components/shared/MyButton';
 
 export function RegisterScreen() {
     const navigation = useNavigation();
@@ -18,9 +18,8 @@ export function RegisterScreen() {
             <TextInput style = {globalStyles.input} placeholder="Contraseña"></TextInput>
             <TextInput style = {globalStyles.input} placeholder="Validar contraseña"></TextInput>
             {/**Botones */}
-            <Button title="Crear cuenta" />
-            <Button title="Volver atrás" onPress={() => navigation.goBack()}/>
-            <MyButton></MyButton>
+            <MyButton title="Crear cuenta" />
+            <MyButton title="Volver atrás" onPress={() => navigation.goBack()}/>
         </View>
     );
 }

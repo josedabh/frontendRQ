@@ -8,7 +8,19 @@ export interface User {
     name: string;
     email: string;
 }
-const url = "http://localhost:8081/api"
+const url = "http://localhost:8080/api";
+
+export const prueba = async (): Promise<string> => {
+    try {
+        const response = await axios.get<string>(`${url}/user/auth/hello`);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error("No funciona " + error);
+        throw new Error("Falla esta apiS");
+    }
+}
+
 export const getUsers = async (): Promise<User[]> => {
     try {
         const response = await axios.get<User[]>('https://example.com/api/users');

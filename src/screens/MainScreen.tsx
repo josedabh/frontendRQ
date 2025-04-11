@@ -1,8 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { Button, Image, Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
 import { RootStackParamList } from '../../App';
+import { MyButton } from '../components/shared/MyButton';
 
 // Define las props del componente
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, "Main">;
@@ -14,7 +15,7 @@ export function MainScreen({ navigation }: MainScreenProps) {
             <Image 
             source={require("../../assets/portada_rq.png")} 
             style = {{ width:300, height:300 }} />
-            <Button title='Iniciar sesión'
+            <MyButton title='Iniciar sesión'
             onPress = {() => navigation.navigate('Login')}
             />
         </View>
