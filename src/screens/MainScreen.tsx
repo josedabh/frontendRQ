@@ -4,13 +4,14 @@ import { Image, Text, View } from 'react-native';
 
 import { RootStackParamList } from '../../App';
 import { MyButton } from '../components/shared/MyButton';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Define las props del componente
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, "Main">;
 
 export function MainScreen({ navigation }: MainScreenProps) {
     return (
-        <View>
+        <SafeAreaView style = {{ padding: 16}}>
             <Text>MainScreen</Text>
             <Image 
             source={require("../../assets/portada_rq.png")} 
@@ -18,7 +19,7 @@ export function MainScreen({ navigation }: MainScreenProps) {
             <MyButton title='Iniciar sesión'
             onPress = {() => navigation.navigate('Login')}
             />
-        </View>
+        </SafeAreaView>
     );
 }
 

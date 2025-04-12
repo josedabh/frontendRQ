@@ -1,13 +1,9 @@
-import axios from 'axios';
-import { Register } from '../data/user-data';
-import { Key } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { Key } from 'react';
 
-export interface User {
-    id: string;
-    name: string;
-    email: string;
-}
+import { Login, Register, UserResponse } from '../data/user-data';
+
 const url = "http://localhost:8080/api";
 
 export const prueba = async (): Promise<string> => {
@@ -21,9 +17,9 @@ export const prueba = async (): Promise<string> => {
     }
 }
 
-export const getUsers = async (): Promise<User[]> => {
+export const getUsers = async (): Promise<UserResponse[]> => {
     try {
-        const response = await axios.get<User[]>('https://example.com/api/users');
+        const response = await axios.get<UserResponse[]>(`${url}/user/auth/users`);
         return response.data;
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
@@ -41,11 +37,10 @@ export const registerUser = async (): Promise<Register> => {
     }
 }
 
-export const loginUser = async (email:string, password:string): Promise<Key> => {
+export const loginUser = async (login: Login): Promise<Key> => {
     try {
         const token = await axios.post<Key>(`${url}/user/auth/login`, {
-            email,
-            password
+            login
         });
         return token.data;
     } catch (error) {

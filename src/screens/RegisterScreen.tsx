@@ -1,14 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
-import { Text, TextInput, View } from 'react-native';
+import { Text, TextInput } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { MyButton } from '../components/shared/MyButton';
 import globalStyles from '../themes/styles/globalStyles';
 import textStyles from '../themes/styles/textStyles';
-import { MyButton } from '../components/shared/MyButton';
 
 export function RegisterScreen() {
     const navigation = useNavigation();
     return(
-        <View>
+        <SafeAreaView style = {{ padding: 16}}>
             <Text style = {textStyles.title}>Registrarse</Text>
             {/**Formulario */}
             <TextInput style = {globalStyles.input} placeholder="Nombre"></TextInput>
@@ -20,7 +21,7 @@ export function RegisterScreen() {
             {/**Botones */}
             <MyButton title="Crear cuenta" />
             <MyButton title="Volver atrás" onPress={() => navigation.goBack()}/>
-        </View>
+        </SafeAreaView>
     );
 }
 
