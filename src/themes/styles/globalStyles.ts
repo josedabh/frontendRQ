@@ -19,6 +19,16 @@ const globalStyles = StyleSheet.create({
     backgroundColor: '#fff',
     marginBottom: 12,
   },
+  tabBar: {
+    position: 'absolute', // Posiciona el tab bar fijo en la parte inferior
+    bottom: 0,
+    left: 0,
+    right: 0,
+    elevation: 0,
+    borderTopWidth: 0,
+    backgroundColor: '#ffffff',
+    height: 60,
+  },
 });
 
 export default globalStyles;

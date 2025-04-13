@@ -1,9 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 
-import LoginScreen from '../screens/LoginScreen';
-import MainScreen from '../screens/MainScreen';
-import RegisterScreen from '../screens/RegisterScreen';
+import LoginScreen from '../screens/auth/LoginScreen';
+import MainScreen from '../screens/auth/MainScreen';
+import RegisterScreen from '../screens/auth/RegisterScreen';
 
 export const RootStack = createNativeStackNavigator({
     initialRouteName: 'Main',

@@ -3,12 +3,12 @@ import { useContext, useEffect, useState } from 'react';
 import { Alert, Text, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { RootStackParamList } from '../../App';
-import { AuthContext } from '../components/context/AuthContext';
-import { MyButton } from '../components/shared/MyButton';
-import { prueba } from '../services/UserService';
-import globalStyles from '../themes/styles/globalStyles';
-import textStyles from '../themes/styles/textStyles';
+import { RootStackParamList } from '../../../App';
+import { AuthContext } from '../../components/context/AuthContext';
+import { MyButton } from '../../components/shared/MyButton';
+import { prueba } from '../../services/UserService';
+import globalStyles from '../../themes/styles/globalStyles';
+import textStyles from '../../themes/styles/textStyles';
 
 type RegisterScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
 
@@ -36,7 +36,7 @@ export function LoginScreen({ navigation }: RegisterScreenProps) {
     try {
       await login(email, password);
       Alert.alert('Login correcto', 'Bienvenido a la app');
-      // navigation.navigate('Home');
+      navigation.replace('Layout');
     } catch (error: any) {
       Alert.alert('Error', error.message || 'Error desconocido');
     }
