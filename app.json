@@ -19,10 +19,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/portada_rq.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.josedabh.RoutineQuest"
     },
     "web": {
       "favicon": "./assets/portada_rq.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "500ce1c7-bc44-48a7-acdb-79fe144f264b"
+      }
     }
   }
 }
