@@ -4,8 +4,10 @@ import { Key } from 'react';
 
 import { Login, Register, UserResponse } from '../data/user-data';
 
+/** Url de la Api */
 const url = "http://localhost:8080/api";
 
+/** Api Get que dice hola de prueba */
 export const prueba = async (): Promise<string> => {
     try {
         const response = await axios.get<string>(`${url}/user/auth/hello`);
@@ -17,6 +19,7 @@ export const prueba = async (): Promise<string> => {
     }
 }
 
+/**Api Get: lista de usuarios */
 export const getUsers = async (): Promise<UserResponse[]> => {
     try {
         const response = await axios.get<UserResponse[]>(`${url}/user/auth/users`);
@@ -27,6 +30,9 @@ export const getUsers = async (): Promise<UserResponse[]> => {
     }
 };
 
+/** Api Post: Registra el usaurio al no estar logeado 
+ * @returns token para validar la llamadas de la api
+*/
 export const registerUser = async (): Promise<Register> => {
     try {
         const newUser = await axios.post<Register>(url + "user/auth/register");
@@ -37,11 +43,12 @@ export const registerUser = async (): Promise<Register> => {
     }
 }
 
+/** Api Post: Inicio de sesion del usuario 
+ * @returns token para validar la llamadas de la api
+*/
 export const loginUser = async (login: Login): Promise<Key> => {
     try {
-        const token = await axios.post<Key>(`${url}/user/auth/login`, {
-            login
-        });
+        const token = await axios.post<Key>(`${url}/user/auth/login`, { login });
         return token.data;
     } catch (error) {
         console.error(error);
@@ -49,10 +56,12 @@ export const loginUser = async (login: Login): Promise<Key> => {
     }
 }
 
+/**Cambiar */
 export const getToken = async (): Promise<string | null> => {
     return await AsyncStorage.getItem('token');
 };
 
+/**Cambiar */
 export const logout = async (): Promise<void> => {
     await AsyncStorage.removeItem('token');
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
-import globalStyles from '../themes/styles/globalStyles';
+import globalStyles from '../../themes/styles/globalStyles';
 
 
 interface CardProps {
