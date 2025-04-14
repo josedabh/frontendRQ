@@ -7,6 +7,19 @@ const globalStyles = StyleSheet.create({
     backgroundColor: colors.backgroundLight,
     padding: 16,
   },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    overflow: 'hidden',
+    marginBottom: 16,
+    // Sombra para iOS y Android
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    width: '90%',
+  },
   input: {
     width: '100%',
     paddingVertical: 12,

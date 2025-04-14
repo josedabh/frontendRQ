@@ -10,6 +10,7 @@ import { prueba } from '../../services/UserService';
 import globalStyles from '../../themes/styles/globalStyles';
 import textStyles from '../../themes/styles/textStyles';
 
+/**Para Ir a la pantralla de registro Cambiar props */
 type RegisterScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
 
 export function LoginScreen({ navigation }: RegisterScreenProps) {

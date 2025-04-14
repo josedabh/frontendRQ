@@ -9,9 +9,13 @@ import { MyButton } from '../../components/shared/MyButton';
 // Define las props del componente
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, "Main">;
 
+/**Por ahora, es la pagina de carga al entrar en la aplicacion o 
+ * la primera que sale al no estar logeado. Pienso que es esat ultima
+ */
 export function MainScreen({ navigation }: MainScreenProps) {
     return (
         <SafeAreaView style = {{ padding: 16}}>
+            {/**El safeAreaView para que respete tambien iPhone */}
             <Text>MainScreen</Text>
             <Image 
             source={require("../../../assets/portada_rq.png")} 

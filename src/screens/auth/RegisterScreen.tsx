@@ -6,12 +6,13 @@ import { MyButton } from '../../components/shared/MyButton';
 import globalStyles from '../../themes/styles/globalStyles';
 import textStyles from '../../themes/styles/textStyles';
 
+/** Pantalla de registro de usuario */
 export function RegisterScreen() {
     const navigation = useNavigation();
     return(
         <SafeAreaView style = {{ padding: 16}}>
             <Text style = {textStyles.title}>Registrarse</Text>
-            {/**Formulario */}
+            {/**Formulario de incripcion*/}
             <TextInput style = {globalStyles.input} placeholder="Nombre"></TextInput>
             <TextInput style = {globalStyles.input} placeholder="Apellidos"></TextInput>
             <TextInput style = {globalStyles.input} placeholder="Nombre de usuario"></TextInput>
