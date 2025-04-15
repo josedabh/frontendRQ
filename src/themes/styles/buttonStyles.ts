@@ -11,6 +11,8 @@ const buttonStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 12,
+        marginLeft: 15,
+        marginRight: 15
     },
     buttonPrimary: {
         backgroundColor: colors.primary,
@@ -19,7 +21,7 @@ const buttonStyles = StyleSheet.create({
         borderRadius: 8,
     },
     buttonText: {
-        color: '#fff',
+        color: colors.backgroundLight,
         textAlign: 'center',
         fontWeight: '600',
     },

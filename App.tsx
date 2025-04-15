@@ -1,13 +1,14 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
-import Layout from './src/components/shared/Layout';
 import LoginScreen from './src/screens/core/LoginScreen';
 import MainScreen from './src/screens/core/MainScreen';
 import RegisterScreen from './src/screens/core/RegisterScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Layout from './src/screens/Layout';
+import Datauser from './src/screens/principal/DataUser';
 
 // Define los tipos para las rutas
 export type RootStackParamList = {
@@ -15,6 +16,8 @@ export type RootStackParamList = {
   Register: undefined;
   Layout: undefined;
   Main:undefined;
+  Datauser: undefined;
+  Perfil: undefined;
 };
 
 // Crea el navegador con los tipos
@@ -51,9 +54,13 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions = {{ headerShown: false}}>
-        {userToken ? (
+          {/**Lanzar la applicación para que funcione */}
+        {!userToken ? (
           // Usuario autenticado
-          <Stack.Screen name="Layout" component = { Layout } />
+          <>
+          <Stack.Screen name = "Layout" component = { Layout } />
+          <Stack.Screen name = "Datauser" component = { Datauser } />
+          </>
         ) : (
           // Usuario no autenticado
           <>

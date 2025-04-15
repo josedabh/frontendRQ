@@ -13,7 +13,7 @@ export function MyButton({ onPress, title }: MyButtonProps) {
     <TouchableOpacity 
       style = { buttonStyles.button } 
       onPress={onPress}>
-      <Text style = { buttonStyles.buttonText }> {title} </Text>
+      <Text style = { buttonStyles.buttonText }> { title } </Text>
     </TouchableOpacity>
   );
 };

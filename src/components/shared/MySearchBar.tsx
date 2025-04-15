@@ -1,14 +1,16 @@
 import { Alert, TextInput, View } from 'react-native';
 
-import { MyButton } from './shared/MyButton';
+import { MyButton } from './MyButton';
 import { useState } from 'react';
+import colors from '../../themes/constants/colors';
+import globalStyles from '../../themes/styles/globalStyles';
 
 interface SearchProps {
     title: string;
 }
 
 /**Logica de busca y el componete para usarla */
-const MySearchbar: React.FC<SearchProps>  = ({ title }) => {
+const MySearchBar: React.FC<SearchProps>  = ({ title }) => {
     //Creo que es un hook para el input
     const [search, setsearch] = useState('');
     //Funciona que muestra lo que buscas
@@ -21,10 +23,11 @@ const MySearchbar: React.FC<SearchProps>  = ({ title }) => {
                 placeholder = 'Buscar Reto' 
                 onChangeText = { setsearch } 
                 value = { search }
+                style = { globalStyles.input }
             />
             <MyButton title = { title } onPress = { onSearch }/>
         </View>
     );
 }
 
-export default MySearchbar;
+export default MySearchBar;

@@ -8,12 +8,12 @@ import textStyles from '../../themes/styles/textStyles';
 export default function HomeScreen() {
     return (
         <SafeAreaView style = {{ padding: 16}}>
-            <Text style = { textStyles.title }> Casa </Text>
+            <Text style = { textStyles.title }> Routine Quest </Text>
             {/* <ScrollView> */}
                 <HeaderHome person = "Brad Pitt" />
-                <Text> Top Retos </Text>
-                <Text> Retos Actuales </Text>
-                <Text> * Ver Recompensas Populares </Text>
+                <Text style = { textStyles.subtitle }> Top Retos </Text>
+                <Text style = { textStyles.subtitle }> Retos Actuales </Text>
+                <Text style = { textStyles.subtitle }> * Ver Recompensas Populares </Text>
             {/* </ScrollView> */}
         </SafeAreaView>
     )

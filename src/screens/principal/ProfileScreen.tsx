@@ -4,8 +4,14 @@ import textStyles from "../../themes/styles/textStyles";
 import { View } from "react-native";
 import globalStyles from "../../themes/styles/globalStyles";
 import colors from "../../themes/constants/colors";
+import { MyButton } from "../../components/shared/MyButton";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../App";
 
-export default function ProfileScreen() {
+type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, "Perfil">;
+
+/**Ajustes del usuarios Nombre a cambiar */
+export default function ProfileScreen( { navigation }: ProfileScreenProps) {
     return (
         <SafeAreaView style = {{ padding: 16}}>
             <View style = { globalStyles.card }>
@@ -19,7 +25,7 @@ export default function ProfileScreen() {
                 </Text>
             </View>
             <View style = { globalStyles.card }>
-                <Text> Información de usuario </Text>
+                <MyButton title = 'Información de usuario' onPress = {() => navigation.navigate('Datauser')}/>
                 <Text> Historial de retos cumplidos </Text>
                 <Text> Historial de Recompensas </Text>
             </View>

@@ -8,13 +8,14 @@ const globalStyles = StyleSheet.create({
     padding: 16,
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.backgroundLight,
     borderRadius: 8,
     overflow: 'hidden',
-    marginBottom: 16,
+    margin: 16,
+    padding: 16,
     // Sombra para iOS y Android
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -29,7 +30,7 @@ const globalStyles = StyleSheet.create({
     borderRadius: 8,
     fontSize: 16,
     color: colors.textPrimary,
-    backgroundColor: '#fff',
+    backgroundColor: colors.backgroundLight,
     marginBottom: 12,
   },
   tabBar: {
@@ -39,7 +40,7 @@ const globalStyles = StyleSheet.create({
     right: 0,
     elevation: 0,
     borderTopWidth: 0,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.backgroundLight,
     height: 60,
   },
 });

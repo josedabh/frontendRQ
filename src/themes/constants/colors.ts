@@ -10,6 +10,7 @@ const colors = {
     danger: '#EF4444',        // Red 500
     success: '#10B981',       // Green 500
     info: '#3B82F6',          // Blue 500
+    shadow: '#000000'         // Black
 };
 
 export default colors;

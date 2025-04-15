@@ -27,3 +27,12 @@ export interface UserResponse {
     points: number;
     rol: string;
 }
+
+export interface UserProfile {
+    email: string;
+    name: string;
+    lastname: string;
+    username: string;
+    numPhone: string;
+    points: number;
+}

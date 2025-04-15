@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 
 import globalStyles from '../../themes/styles/globalStyles';
 import textStyles from '../../themes/styles/textStyles';
-import MySearchbar from '../SearchBar';
+import MySearchBar from '../shared/MySearchBar';
 
 interface HeaderProps {
     person: string;
@@ -14,7 +14,7 @@ const HeaderHome: React.FC<HeaderProps> = ({ person }) => {
     return (
         <View style = { [globalStyles.card, {display: 'flex'} ] }>
             <Text style = { textStyles.title }> Hola , { person } </Text>
-            <MySearchbar title = 'Search'></MySearchbar>
+            <MySearchBar title = 'Search' />
         </View>
     );
 };
