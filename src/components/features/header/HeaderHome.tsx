@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 
-import globalStyles from '../../themes/styles/globalStyles';
-import textStyles from '../../themes/styles/textStyles';
-import MySearchBar from '../shared/MySearchBar';
+import globalStyles from '../../../themes/styles/globalStyles';
+import textStyles from '../../../themes/styles/textStyles';
+import MySearchBar from '../../shared/MySearchBar/MySearchBar';
 
 interface HeaderProps {
     person: string;

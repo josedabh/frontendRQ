@@ -1,7 +1,7 @@
 import { Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import HeaderHome from '../../components/homescreen/HeaderHome';
+import HeaderHome from '../../components/features/header/HeaderHome';
 import textStyles from '../../themes/styles/textStyles';
 
 /** Pagina main que sale al principio cuadno ya estas logeado */

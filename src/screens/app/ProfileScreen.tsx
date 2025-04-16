@@ -4,9 +4,10 @@ import textStyles from "../../themes/styles/textStyles";
 import { View } from "react-native";
 import globalStyles from "../../themes/styles/globalStyles";
 import colors from "../../themes/constants/colors";
-import { MyButton } from "../../components/shared/MyButton";
+import { MyButton } from "../../components/shared/MyButton/MyButton";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../App";
+import Option from "../../components/features/profile/Option";
 
 type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, "Perfil">;
 
@@ -17,7 +18,7 @@ export default function ProfileScreen( { navigation }: ProfileScreenProps) {
             <View style = { globalStyles.card }>
                 <Image 
                     source = {require('../../../assets/Brad-Pitt.jpg')}
-                    style = { [styles.pruebaImage, { borderRadius: 20 } , { resizeMode: "cover" }] } 
+                    style = { styles.pruebaImage } 
                 />
                 <Text 
                     style = { textStyles.title }
@@ -25,9 +26,9 @@ export default function ProfileScreen( { navigation }: ProfileScreenProps) {
                 </Text>
             </View>
             <View style = { globalStyles.card }>
-                <MyButton title = 'Información de usuario' onPress = {() => navigation.navigate('Datauser')}/>
-                <Text> Historial de retos cumplidos </Text>
-                <Text> Historial de Recompensas </Text>
+                <Option title = 'Información de usuario' onPress = {() => navigation.navigate('Datauser')}/>
+                <Option title = "Historial de retos cumplidos" />
+                <Option title = "Historial de Recompensas" />
             </View>
         </SafeAreaView>
     )
@@ -37,10 +38,12 @@ const styles = StyleSheet.create({
     pruebaImage : {
         width: 200,
         height: 200,
-        borderWidth: 5,
-        borderColor: colors.primary,
-        // alignContent: "center",
-        // justifyContent: "center",
-        // alignItems: "center"
+        borderWidth: 3.5,
+        borderColor: colors.backgroundDark,
+        borderRadius: 100,
+        //Centra la imagen
+        alignSelf: 'center',
+        //La imagen se corta para que quepa la imagen
+        resizeMode: "cover",
     }
 })

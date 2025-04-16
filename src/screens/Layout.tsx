@@ -2,10 +2,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import ChallengesScreen from './principal/ChallengesScreen';
-import HomeScreen from './principal/HomeScreen';
-import ProfileScreen from './principal/ProfileScreen';
-import StoreScreen from './principal/StoreScreen';
+import ChallengesScreen from './app/ChallengesScreen';
+import HomeScreen from './app/HomeScreen';
+import ProfileScreen from './app/ProfileScreen';
+import StoreScreen from './app/StoreScreen';
 import globalStyles from '../themes/styles/globalStyles';
 import Example from './Example';
 

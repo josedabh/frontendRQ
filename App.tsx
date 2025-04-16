@@ -4,11 +4,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
-import LoginScreen from './src/screens/core/LoginScreen';
-import MainScreen from './src/screens/core/MainScreen';
-import RegisterScreen from './src/screens/core/RegisterScreen';
+import LoginScreen from './src/screens/auth/LoginScreen';
+import MainScreen from './src/screens/auth/MainScreen';
+import RegisterScreen from './src/screens/auth/RegisterScreen';
 import Layout from './src/screens/Layout';
-import Datauser from './src/screens/principal/DataUser';
+import Datauser from './src/screens/app/DataUser';
 
 // Define los tipos para las rutas
 export type RootStackParamList = {
