@@ -1,20 +1,26 @@
 import React from 'react';
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
 import globalStyles from '../../../themes/styles/globalStyles';
+import { TouchableOpacity } from 'react-native';
 
 
 interface CardProps {
     imageSource: ImageSourcePropType;
     title: string;
     key?: React.Key;
+    onPress?: () => void;
 }
 
 // Componente Card que recibe la imagen y el título como props
-const Card: React.FC<CardProps> = ({ imageSource, title, key }) => {
+const Card: React.FC<CardProps> = ({ imageSource, title, key, onPress }) => {
     return (
-        <View key = { key } style={globalStyles.card}>
-            <Image source={imageSource} style={styles.image} />
-            <Text style={styles.cardTitle}>{title}</Text>
+        <View key = { key } style = { globalStyles.card }>
+            <TouchableOpacity
+                onPress = { onPress }
+            >
+            <Image source = { imageSource } style = { styles.image } />
+            <Text style = { styles.cardTitle }> { title } </Text>
+            </TouchableOpacity>
         </View>
     );
 };

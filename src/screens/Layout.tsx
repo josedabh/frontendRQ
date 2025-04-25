@@ -2,12 +2,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import ChallengesScreen from './app/ChallengesScreen';
+import globalStyles from '../themes/styles/globalStyles';
 import HomeScreen from './app/HomeScreen';
+import ListChallengesScreen from './app/ListChallengesScreen';
 import ProfileScreen from './app/ProfileScreen';
 import StoreScreen from './app/StoreScreen';
-import globalStyles from '../themes/styles/globalStyles';
 import Example from './Example';
+import ChallengeScreen from './app/ChallengeScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +32,7 @@ export default function Layout() {
       />
       <Tab.Screen
         name = "Retos"
-        component = { ChallengesScreen }
+        component = { ListChallengesScreen }
         options = {{
           title: 'Retos',
           tabBarIcon: ({ color }) => <Ionicons name="star-outline" color={color} size={28} />,
@@ -54,10 +55,10 @@ export default function Layout() {
         }}
       />
       <Tab.Screen
-        name = "Example"
-        component = { Example }
+        name = "Challenge"
+        component = { ChallengeScreen }
         options = {{
-          title: 'Example',
+          title: 'Challenge',
           tabBarIcon: ({ color }) => <Ionicons name="add" color={color} size={28} />,
         }}
       />

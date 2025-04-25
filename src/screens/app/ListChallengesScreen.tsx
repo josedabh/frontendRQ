@@ -10,7 +10,7 @@ const prueba = ['Correr 300 km/h', 'Hacer dinosaurio a la plancha',
     'Hacer saltos mortales sin ser mortal', 'Cazar vampiros con una cuchara',
     'Ser campeon de yerba sin fumar yerba']
 
-export default function ChallengesScreen() {
+export default function ListChallengesScreen() {
     return (
         <SafeAreaView style={{ flex: 1 }}> {/* Permite que ocupe toda la pantalla */}
             <View style={{ flex: 1, padding: 16 }}> {/* Contenedor flexible */}
@@ -25,9 +25,9 @@ export default function ChallengesScreen() {
                 >
                     {prueba.map((example, index) => (
                         <Card
-                            key={index}
-                            imageSource={require('../../../assets/PruebaChallenges.jpg')}
-                            title={example}
+                            key = { index }
+                            imageSource = {require('../../../assets/PruebaChallenges.jpg')}
+                            title = { example }
                         />
                     ))}
                 </ScrollView>
