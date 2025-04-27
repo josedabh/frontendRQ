@@ -1,7 +1,10 @@
-import React, { createContext, useState, useEffect, FC, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, FC, ReactNode, useEffect, useState } from 'react';
+
+import { Key } from '../shared/models/UserData';
 import { loginUser as loginService } from '../shared/services/UserService';
 
+//Importar bien para que no falle al usar el token
 interface AuthContextData {
     userToken: string | null;
     isAuthenticated: boolean;
@@ -21,9 +24,9 @@ interface AuthProviderProps {
 }
 
 // Funciones auxiliares para manejar el token
-const TOKEN_KEY = 'userToken';
+export const TOKEN_KEY = 'userToken';
 
-const getToken = async (): Promise<string | null> => {
+export const getToken = async (): Promise<string | null> => {
     return await AsyncStorage.getItem(TOKEN_KEY);
 };
 
@@ -31,7 +34,7 @@ const saveToken = async (token: string): Promise<void> => {
     await AsyncStorage.setItem(TOKEN_KEY, token);
 };
 
-const removeToken = async (): Promise<void> => {
+export const removeToken = async (): Promise<void> => {
     await AsyncStorage.removeItem(TOKEN_KEY);
 };
 
@@ -56,10 +59,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const login = async (identifier: string, password: string) => {
         try {
-            const response = await loginService({ identifier, password });
-            const token = response.toString();
-            await saveToken(token);
-            setUserToken(token);
+            const response: Key = await loginService({ identifier, password });
+            await saveToken(response.token);
+            setUserToken(response.token);
         } catch (error) {
             console.error('Login fallido:', error);
             throw error;
