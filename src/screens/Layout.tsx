@@ -1,17 +1,35 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabScreenProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import globalStyles from '../themes/styles/globalStyles';
+import globalStyles from '../shared/themes/styles/globalStyles';
+import ChallengeScreen from './app/ChallengeScreen';
 import HomeScreen from './app/HomeScreen';
 import ListChallengesScreen from './app/ListChallengesScreen';
 import ProfileScreen from './app/ProfileScreen';
 import StoreScreen from './app/StoreScreen';
-import Example from './Example';
-import ChallengeScreen from './app/ChallengeScreen';
 
-const Tab = createBottomTabNavigator();
+// 1. Define el tipo RootTabParamList
+export type RootTabParamList = {
+  Home: undefined;
+  Retos: undefined;
+  Tienda: undefined;
+  Perfil: undefined;
+  Challenge: undefined;
+  Datauser:undefined;
+};
 
+// 2. Crea el Tab con el tipo genérico
+const Tab = createBottomTabNavigator<RootTabParamList>();
+
+// 3. Declara ProfileScreen con BottomTabScreenProps
+type ProfileScreenProps = BottomTabScreenProps<RootTabParamList, 'Perfil'>;
+
+function ProfileScreenWrapper({ navigation, route }: ProfileScreenProps) {
+  return <ProfileScreen />;
+}
+
+// 4. Implementa el Layout con el Tab.Navigator tipado
 export default function Layout() {
   return (
     <Tab.Navigator
@@ -47,9 +65,9 @@ export default function Layout() {
         }}
       />
       <Tab.Screen
-        name = "Perfil"
-        component = { ProfileScreen }
-        options = {{
+        name="Perfil"
+        component={ProfileScreenWrapper}
+        options={{
           title: 'Perfil',
           tabBarIcon: ({ color }) => <Ionicons name="settings-outline" color={color} size={28} />,
         }}

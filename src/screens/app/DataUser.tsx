@@ -1,11 +1,11 @@
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { UserProfile } from '../../models/user-data';
+import { UserProfile } from '../../shared/models/UserData';
 import { useNavigation } from '@react-navigation/native';
 import { MyButton } from '../../components/shared/MyButton/MyButton';
-import textStyles from '../../themes/styles/textStyles';
-import globalStyles from '../../themes/styles/globalStyles';
+import textStyles from '../../shared/themes/styles/textStyles';
+import globalStyles from '../../shared/themes/styles/globalStyles';
 
 const user: UserProfile = {
     email: "bradpitt@hollywood.com",

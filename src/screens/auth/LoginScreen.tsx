@@ -6,9 +6,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../../../App';
 import { AuthContext } from '../../context/AuthContext';
 import { MyButton } from '../../components/shared/MyButton/MyButton';
-import { prueba } from '../../services/UserService';
-import globalStyles from '../../themes/styles/globalStyles';
-import textStyles from '../../themes/styles/textStyles';
+import { prueba } from '../../shared/services/UserService';
+import globalStyles from '../../shared/themes/styles/globalStyles';
+import textStyles from '../../shared/themes/styles/textStyles';
 
 /**Para Ir a la pantralla de registro Cambiar props */
 type RegisterScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;

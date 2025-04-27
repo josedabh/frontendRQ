@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather'; // Asegúrate de tener esta importación
-import colors from '../../../themes/constants/colors';
+import colors from '../../../shared/themes/constants/colors';
 
 interface OptionProps {
   title: string;

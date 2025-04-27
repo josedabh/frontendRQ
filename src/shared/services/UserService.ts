@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { Key } from 'react';
 
-import { Login, Register, UserResponse } from '../models/user-data';
+import { Login, Register, UserResponse } from '../models/UserData';
 
 /** Url de la Api */
 const url = "http://localhost:8080/api";

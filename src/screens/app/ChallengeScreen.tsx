@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import colors from '../../themes/constants/colors';
-import textStyles from '../../themes/styles/textStyles';
+import colors from '../../shared/themes/constants/colors';
+import textStyles from '../../shared/themes/styles/textStyles';
 
 export default function ChallengeScreen() {
     return (

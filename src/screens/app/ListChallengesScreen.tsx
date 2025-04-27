@@ -3,8 +3,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Card from '../../components/shared/Card/Card';
 import MySearchbar from '../../components/shared/MySearchBar/MySearchBar';
-import globalStyles from '../../themes/styles/globalStyles';
-import textStyles from '../../themes/styles/textStyles';
+import globalStyles from '../../shared/themes/styles/globalStyles';
+import textStyles from '../../shared/themes/styles/textStyles';
 
 const prueba = ['Correr 300 km/h', 'Hacer dinosaurio a la plancha',
     'Hacer saltos mortales sin ser mortal', 'Cazar vampiros con una cuchara',

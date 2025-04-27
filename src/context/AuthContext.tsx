@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, FC, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { loginUser as loginService } from '../services/UserService';
+import { loginUser as loginService } from '../shared/services/UserService';
 
 interface AuthContextData {
     userToken: string | null;

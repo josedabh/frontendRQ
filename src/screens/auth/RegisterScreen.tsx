@@ -3,8 +3,8 @@ import { Text, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { MyButton } from '../../components/shared/MyButton/MyButton';
-import globalStyles from '../../themes/styles/globalStyles';
-import textStyles from '../../themes/styles/textStyles';
+import globalStyles from '../../shared/themes/styles/globalStyles';
+import textStyles from '../../shared/themes/styles/textStyles';
 
 /** Pantalla de registro de usuario */
 export function RegisterScreen() {
