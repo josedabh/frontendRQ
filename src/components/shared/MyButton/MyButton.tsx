@@ -4,15 +4,18 @@ import buttonStyles from '../../../shared/themes/styles/buttonStyles';
 
 /**Porpiedades a implementar el boton */
 interface MyButtonProps {
+  style?: object;
   onPress?: () => void;
   title: string
 }
 
-export function MyButton({ onPress, title }: MyButtonProps) {
+export function MyButton({ style, onPress, title }: MyButtonProps) {
+  const buttonStyle = style !== undefined ? [buttonStyles.button, style] : buttonStyles.button;
   return (
     <TouchableOpacity 
-      style = { buttonStyles.button } 
-      onPress={onPress}>
+      style={buttonStyle}
+      onPress={onPress}
+    >
       <Text style = { buttonStyles.buttonText }> { title } </Text>
     </TouchableOpacity>
   );
