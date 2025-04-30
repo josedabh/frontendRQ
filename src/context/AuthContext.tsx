@@ -8,6 +8,7 @@ import { loginUser as loginService } from '../shared/services/UserService';
 interface AuthContextData {
     userToken: string | null;
     isAuthenticated: boolean;
+    loading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
 }
@@ -15,6 +16,7 @@ interface AuthContextData {
 export const AuthContext = createContext<AuthContextData>({
     userToken: null,
     isAuthenticated: false,
+    loading: true,
     login: async () => {},
     logout: async () => {},
 });
@@ -82,11 +84,12 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
             value={{
                 userToken,
                 isAuthenticated: !!userToken,
+                loading,
                 login,
                 logout,
             }}
         >
-            {loading ? null : children}
+            {children}
         </AuthContext.Provider>
     );
 };

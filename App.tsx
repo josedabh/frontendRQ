@@ -1,9 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
+import { AuthContext, AuthProvider } from './src/context/AuthContext';
 import LoginScreen from './src/screens/auth/LoginScreen';
 import MainScreen from './src/screens/auth/MainScreen';
 import RegisterScreen from './src/screens/auth/RegisterScreen';
@@ -15,7 +15,7 @@ export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   Layout: undefined;
-  Main:undefined;
+  Main: undefined;
   Datauser: undefined;
   Perfil: undefined;
 };
@@ -23,28 +23,13 @@ export type RootStackParamList = {
 // Crea el navegador con los tipos
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export const userKey = {
-  userToken: 'userToken'
-}
+function AppNavigator() {
+  const { isAuthenticated, loading } = useContext(AuthContext);
 
-export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState<string | null>(null);
-
-  // Verificar el estado de autenticación al iniciar
-  useEffect(() => {
-    const checkLogin = async () => {
-      const token = await AsyncStorage.getItem(userKey.userToken);
-      setUserToken(token);
-      setIsLoading(false);
-    };
-    
-    checkLogin();
-  }, []);
-
-  if (isLoading) {
+  // Solo mostrar el loader mientras se está verificando el token
+  if (loading) {
     return (
-      <View style = { styles.container}>
+      <View style={styles.container}>
         <ActivityIndicator size="large" />
       </View>
     );
@@ -52,21 +37,19 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions = {{ headerShown: false}}>
-          {/**Lanzar la applicación para que funcione */}
-        {!userToken ? (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {isAuthenticated ? (
           // Usuario autenticado
           <>
-          <Stack.Screen name = "Layout" component = { Layout } />
-          <Stack.Screen name = "Datauser" component = { Datauser } />
+            <Stack.Screen name="Layout" component={Layout} />
+            <Stack.Screen name="Datauser" component={Datauser} />
           </>
         ) : (
           // Usuario no autenticado
           <>
-            <Stack.Screen name="Main" component = { MainScreen } />
-            <Stack.Screen name="Login" component = { LoginScreen } />
-            <Stack.Screen name="Register" component = { RegisterScreen } />
+            <Stack.Screen name="Main" component={MainScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
           </>
         )}
       </Stack.Navigator>
@@ -74,10 +57,18 @@ export default function App() {
   );
 }
 
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppNavigator />
+    </AuthProvider>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+    alignItems: 'center',
+  },
+});

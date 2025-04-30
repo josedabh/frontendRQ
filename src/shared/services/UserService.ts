@@ -5,14 +5,19 @@ import { Key, Login, Register, UserResponse } from '../models/UserData';
 
 /** Url de la Api */
 const URL = "http://localhost:8080/api/v1";
-// const TOKEN = getToken();
-const TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlcGVyZXoiLCJpYXQiOjE3NDU3NzgxMjQsImV4cCI6MTc2MTMzMDEyNH0.F0-YrNxLSBDixzlv3EWn9GTq_BVuzD-i431GZHG-JaRhAQKNStYbrUoTQJuhphV9XnZh5MUBvQ-1JxzHn73_GQ";
+
+const getAuthHeaders = async () => {
+    const token = await getToken();
+    return {
+        Authorization: `Bearer ${token}`,
+    };
+};
+// const TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlcGVyZXoiLCJpYXQiOjE3NDU3NzgxMjQsImV4cCI6MTc2MTMzMDEyNH0.F0-YrNxLSBDixzlv3EWn9GTq_BVuzD-i431GZHG-JaRhAQKNStYbrUoTQJuhphV9XnZh5MUBvQ-1JxzHn73_GQ";
 
 /** Api Get que dice hola de prueba */
 export const prueba = async (): Promise<string> => {
     try {
         const response = await axios.get<string>(`${URL}/user/auth/hello`);
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error("No funciona " + error);
@@ -23,11 +28,8 @@ export const prueba = async (): Promise<string> => {
 /**Api Get: lista de usuarios */
 export const getListUsers = async (): Promise<UserResponse[]> => {
     try {
-        const response = await axios.get<UserResponse[]>(`${URL}/admin/list-users`, {
-            headers: {
-                Authorization: `Bearer ${TOKEN}`,
-            },
-        });
+        const headers = await getAuthHeaders();
+        const response = await axios.get<UserResponse[]>(`${URL}/admin/list-users`, { headers });
         return response.data;
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
@@ -40,7 +42,7 @@ export const getListUsers = async (): Promise<UserResponse[]> => {
 */
 export const registerUser = async (): Promise<Register> => {
     try {
-        const newUser = await axios.post<Register>(URL + "user/auth/register");
+        const newUser = await axios.post<Register>(URL + "/auth/register");
         return newUser.data;
     } catch (error) {
         console.error(error);
@@ -53,7 +55,7 @@ export const registerUser = async (): Promise<Register> => {
 */
 export const loginUser = async (login: Login): Promise<Key> => {
     try {
-        const token = await axios.post<Key>(`${URL}/user/auth/login`, { login });
+        const token = await axios.post<Key>(`${URL}/auth/login`, login);
         return token.data;
     } catch (error) {
         console.error(error);
