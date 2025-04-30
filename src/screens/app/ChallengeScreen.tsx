@@ -1,15 +1,21 @@
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import HeaderNavigation from '../../components/layout/HeaderNavigation';
 import { UserResponse } from '../../shared/models/UserData';
 import { getListUsers } from '../../shared/services/UserService';
 import colors from '../../shared/themes/constants/colors';
 import textStyles from '../../shared/themes/styles/textStyles';
+import { RootTabParamList } from '../Layout';
+
+type ChallengeScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Challenge'>;
 
 export default function ChallengeScreen() {
     const [pruebaUsers, setPruebaUsers] = useState<UserResponse[]>([]);
-
+    const navigation = useNavigation<ChallengeScreenNavigationProp>();
     useEffect(() => {
         const fetchMensaje = async () => {
             try {
@@ -25,7 +31,7 @@ export default function ChallengeScreen() {
 
     return (
         <SafeAreaView style = {{flex:1}}>
-            
+            <HeaderNavigation onPress={() => navigation.goBack()} />
             {/**Donde empezaría la pag de retos */}
             <View style = { styles.placeholder }>
                 <View style = { styles.placeholderInset }>

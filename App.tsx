@@ -4,11 +4,12 @@ import { useContext } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { AuthContext, AuthProvider } from './src/context/AuthContext';
+import ChallengeScreen from './src/screens/app/ChallengeScreen';
+import Datauser from './src/screens/app/DataUser';
 import LoginScreen from './src/screens/auth/LoginScreen';
 import MainScreen from './src/screens/auth/MainScreen';
 import RegisterScreen from './src/screens/auth/RegisterScreen';
 import Layout from './src/screens/Layout';
-import Datauser from './src/screens/app/DataUser';
 
 // Define los tipos para las rutas
 export type RootStackParamList = {
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   Main: undefined;
   Datauser: undefined;
   Perfil: undefined;
+  Challenge: undefined;
 };
 
 // Crea el navegador con los tipos
@@ -43,6 +45,7 @@ function AppNavigator() {
           <>
             <Stack.Screen name="Layout" component={Layout} />
             <Stack.Screen name="Datauser" component={Datauser} />
+            <Stack.Screen name="Challenge" component={ChallengeScreen} />
           </>
         ) : (
           // Usuario no autenticado

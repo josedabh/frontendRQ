@@ -3,17 +3,20 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import colors from '../../shared/themes/constants/colors';
 
-const HeaderNavigation = () => {
+interface HeaderNavigationProps {
+    onPress?: () => void;
+}
+/** Componente que va arriba del screen para ir para atras */
+//Opcion a cambiar estilos
+export default function HeaderNavigation({onPress}: HeaderNavigationProps) {
     return (
         <View style={styles.header}>
             <View style={styles.headerActions}>
                 <TouchableOpacity
-                    onPress={() => {
-                        // handle onPress
-                    }}
+                    onPress={ onPress }
                     style={styles.headerAction}>
                     <FeatherIcon
-                        color="#F82E08"
+                        color= {colors.backgroundLight}
                         name="arrow-left"
                         size={24} />
                 </TouchableOpacity>
@@ -31,15 +34,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: colors.shadow
+        backgroundColor: colors.backgroundDark
     },
     headerAction: {
         width: 40,
         height: 40,
-        borderRadius: 100,
+        // borderRadius: 100,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: colors.backgroundLight,
+        // backgroundColor: colors.backgroundLight,
         marginBottom: 16,
     },
 });

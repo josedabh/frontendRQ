@@ -12,11 +12,11 @@ import StoreScreen from './app/StoreScreen';
 // 1. Define el tipo RootTabParamList
 export type RootTabParamList = {
   Home: undefined;
-  Retos: undefined;
-  Tienda: undefined;
+  Store: undefined;
   Perfil: undefined;
-  Challenge: undefined;
+  ListChallenge: undefined;
   Datauser:undefined;
+  Challenge: undefined;
 };
 
 // 2. Crea el Tab con el tipo genérico
@@ -49,7 +49,7 @@ export default function Layout() {
         }}
       />
       <Tab.Screen
-        name = "Retos"
+        name = "ListChallenge"
         component = { ListChallengesScreen }
         options = {{
           title: 'Retos',
@@ -57,7 +57,7 @@ export default function Layout() {
         }}
       />
       <Tab.Screen
-        name = "Tienda"
+        name = "Store"
         component = { StoreScreen }
         options = {{
           title: 'Tienda',
@@ -72,14 +72,14 @@ export default function Layout() {
           tabBarIcon: ({ color }) => <Ionicons name="settings-outline" color={color} size={28} />,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name = "Challenge"
         component = { ChallengeScreen }
         options = {{
           title: 'Challenge',
           tabBarIcon: ({ color }) => <Ionicons name="add" color={color} size={28} />,
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
