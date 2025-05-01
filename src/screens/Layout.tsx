@@ -17,6 +17,7 @@ export type RootTabParamList = {
   ListChallenge: undefined;
   Datauser:undefined;
   Challenge: undefined;
+  Login: undefined;
 };
 
 // 2. Crea el Tab con el tipo genérico
