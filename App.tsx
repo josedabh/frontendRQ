@@ -19,7 +19,8 @@ export type RootStackParamList = {
   Main: undefined;
   Datauser: undefined;
   Perfil: undefined;
-  Challenge: undefined;
+  ListChallenge: undefined;
+  Challenge: {id:string};
 };
 
 // Crea el navegador con los tipos
@@ -45,7 +46,8 @@ function AppNavigator() {
           <>
             <Stack.Screen name="Layout" component={Layout} />
             <Stack.Screen name="Datauser" component={Datauser} />
-            <Stack.Screen name="Challenge" component={ChallengeScreen} />
+            <Stack.Screen name="Challenge" 
+              component={ChallengeScreen} />
           </>
         ) : (
           // Usuario no autenticado

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { getToken } from '../../context/AuthContext';
-import { Key, Login, Register, UserResponse } from '../models/UserData';
+import { Key, Login, Register, UserProfile, UserResponse } from '../models/UserData';
 
 /** Url de la Api */
 const URL = "http://localhost:8080/api/v1";
@@ -63,12 +63,13 @@ export const loginUser = async (login: Login): Promise<Key> => {
     }
 }
 
-// /**Cambiar */
-// export const getToken = async (): Promise<string | null> => {
-//     return await AsyncStorage.getItem('token');
-// };
-
-// /**Cambiar */
-// export const logout = async (): Promise<void> => {
-//     await AsyncStorage.removeItem('token');
-// };
+export const getMyUserInfo = async (): Promise<UserProfile> => {
+    try {
+        const headers = await getAuthHeaders();
+        const response = await axios.get<UserProfile>(`${URL}/auth/info-user`, { headers });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}

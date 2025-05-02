@@ -7,19 +7,20 @@ import textStyles from '../../../shared/themes/styles/textStyles';
 
 interface CardProps {
     title: string;
+    desc: string;
     key?: React.Key;
     onPress?: () => void;
 }
 
 // Componente Card que recibe la imagen y el título como props
-const Card: React.FC<CardProps> = ({title, key, onPress }) => {
+const Card: React.FC<CardProps> = ({title, desc, key, onPress }) => {
     return (
         <View key = { key } style = { globalStyles.card }>
             <TouchableOpacity
                 onPress = { onPress }
             >
                 <Text style = { styles.cardTitle }> { title } </Text>
-                <Text style = { textStyles.normal }> Lorem ipsum dolor sit amet, consectetur adipiscing elit. </Text>
+                <Text style = { textStyles.normal }> { desc } </Text>
             </TouchableOpacity>
         </View>
     );

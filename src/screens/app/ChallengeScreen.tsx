@@ -1,32 +1,40 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { RootStackParamList } from '../../../App';
 import HeaderNavigation from '../../components/layout/HeaderNavigation';
-import { UserResponse } from '../../shared/models/UserData';
-import { getListUsers } from '../../shared/services/UserService';
+import { ChallengeResponse } from '../../shared/models/ChallengeData';
+import { getChallengeById } from '../../shared/services/ChallengeService';
 import colors from '../../shared/themes/constants/colors';
 import textStyles from '../../shared/themes/styles/textStyles';
 import { RootTabParamList } from '../Layout';
 
 type ChallengeScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Challenge'>;
+type ChallengeScreenRouteProp = RouteProp<RootStackParamList, 'Challenge'>;
 
 export default function ChallengeScreen() {
-    const [pruebaUsers, setPruebaUsers] = useState<UserResponse[]>([]);
+    const route = useRoute<ChallengeScreenRouteProp>();
+
+    const [challenge, setChallenge] = useState<ChallengeResponse>({
+        id: "", description: "", difficulty: "", endDate: "",
+        points: 0, startDate: "", state: "", title: ""
+    });
+    
     const navigation = useNavigation<ChallengeScreenNavigationProp>();
     useEffect(() => {
-        const fetchMensaje = async () => {
+        const fetchChallenge = async () => {
             try {
-                const users = await getListUsers();
-                setPruebaUsers(users);
+                const reto = await getChallengeById(route.params.id);
+                setChallenge(reto);
             } catch (error) {
                 console.log(error)
             }
         };
 
-        fetchMensaje();
+        fetchChallenge();
     }, []);
 
     return (
@@ -36,13 +44,10 @@ export default function ChallengeScreen() {
             <View style = { styles.placeholder }>
                 <View style = { styles.placeholderInset }>
                     <Text style = { textStyles.title }>
-                        Nombre Reto
+                        {challenge?.title}
                     </Text>
                     <Text style={textStyles.normal}>
-                        Description
-                    </Text>
-                    <Text style={styles.jsonText}>
-                        {JSON.stringify(pruebaUsers, null, 2)}
+                        {challenge?.description}
                     </Text>
                 </View>
             </View>
@@ -70,14 +75,5 @@ const styles = StyleSheet.create({
         // flexShrink: 1,
         // flexBasis: 0,
         flex:1
-    },
-    jsonText: {
-        marginTop: 16,
-        fontSize: 14,
-        color: colors.backgroundDark,
-        backgroundColor: colors.backgroundLight,
-        padding: 8,
-        borderRadius: 8,
-        fontFamily: 'monospace', // Para que se vea como código
     },
 });

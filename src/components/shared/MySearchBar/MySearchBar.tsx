@@ -1,48 +1,37 @@
 import { useState } from 'react';
-import { Alert, StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import colors from '../../../shared/themes/constants/colors';
-import globalStyles from '../../../shared/themes/styles/globalStyles';
 
 interface SearchProps {
     title: string;
+    value: string;
+    onChangeText: (text: string) => void;
 }
 
-/**Logica de busca y el componete para usarla */
-const MySearchBar: React.FC<SearchProps>  = ({ title }) => {
-    //Creo que es un hook para el input
-    const [search, setsearch] = useState('');
-    //Funciona que muestra lo que buscas
-    function onSearch () {
-        Alert.alert( "Buscando " + search );
-    }
+const MySearchBar: React.FC<SearchProps> = ({ title, value, onChangeText }) => {
     return (
-        <View style = { styles.searchWrapper }>
+        <View style={styles.searchWrapper}>
             <View style={styles.search}>
                 <View style={styles.searchIcon}>
-                    <FeatherIcon
-                        color="#848484"
-                        name="search"
-                        size={17} />
+                    <FeatherIcon color="#848484" name="search" size={17} />
                 </View>
                 <TextInput
-                    autoCapitalize = "none"
-                    autoCorrect = {false}
+                    autoCapitalize="none"
+                    autoCorrect={false}
                     clearButtonMode="while-editing"
-                    placeholder='Buscar Reto'
+                    placeholder={title}
                     placeholderTextColor={colors.shadow}
-                    onChangeText={setsearch}
-                    // onChangeText={val => setInput(val)} Averiguar como usar esto
+                    onChangeText={onChangeText}
                     returnKeyType="done"
-                    value = { search }
-                    style = { styles.searchControl }
+                    value={value}
+                    style={styles.searchControl}
                 />
             </View>
         </View>
-
     );
-}
+};
 
 const styles = StyleSheet.create({
     searchWrapper: {
