@@ -8,14 +8,13 @@ import textStyles from '../../../shared/themes/styles/textStyles';
 interface CardProps {
     title: string;
     desc: string;
-    key?: React.Key;
     onPress?: () => void;
 }
 
 // Componente Card que recibe la imagen y el título como props
-const Card: React.FC<CardProps> = ({title, desc, key, onPress }) => {
+const Card: React.FC<CardProps> = ({title, desc, onPress }) => {
     return (
-        <View key = { key } style = { globalStyles.card }>
+        <View style = { globalStyles.card }>
             <TouchableOpacity
                 onPress = { onPress }
             >

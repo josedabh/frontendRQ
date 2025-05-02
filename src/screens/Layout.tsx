@@ -3,9 +3,9 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import globalStyles from '../shared/themes/styles/globalStyles';
-import ChallengeScreen from './app/ChallengeScreen';
 import HomeScreen from './app/HomeScreen';
-import ListChallengesScreen from './app/ListChallengesScreen';
+import ListChallengesScreen from './app/ListChallenge/ListChallengesScreen';
+import ValidationQuestScreen from './app/ListChallenge/ValidationQuestScreen';
 import ProfileScreen from './app/ProfileScreen';
 import StoreScreen from './app/StoreScreen';
 
@@ -18,6 +18,7 @@ export type RootTabParamList = {
   Datauser:undefined;
   Challenge: undefined;
   Login: undefined;
+  ValidationQuest: undefined;
 };
 
 // 2. Crea el Tab con el tipo genérico
@@ -73,14 +74,14 @@ export default function Layout() {
           tabBarIcon: ({ color }) => <Ionicons name="settings-outline" color={color} size={28} />,
         }}
       />
-      {/* <Tab.Screen
-        name = "Challenge"
-        component = { ChallengeScreen }
+      <Tab.Screen
+        name = "ValidationQuest"
+        component = { ValidationQuestScreen }
         options = {{
-          title: 'Challenge',
+          title: 'Quest de preguntas',
           tabBarIcon: ({ color }) => <Ionicons name="add" color={color} size={28} />,
         }}
-      /> */}
+      />
     </Tab.Navigator>
   );
 }

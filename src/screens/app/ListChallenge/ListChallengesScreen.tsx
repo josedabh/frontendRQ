@@ -1,15 +1,15 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Card from '../../components/shared/Card/Card';
-import MySearchbar from '../../components/shared/MySearchBar/MySearchBar';
-import { ChallengeCard } from '../../shared/models/ChallengeData';
-import textStyles from '../../shared/themes/styles/textStyles';
-import { RootStackParamList } from '../../../App';
-import { getUserChallengeCard } from '../../shared/services/ChallengeService';
+import { RootStackParamList } from '../../../../App';
+import Card from '../../../components/shared/Card/Card';
+import MySearchbar from '../../../components/shared/MySearchBar/MySearchBar';
+import { ChallengeCard } from '../../../shared/models/ChallengeData';
+import { getUserChallengeCard } from '../../../shared/services/ChallengeService';
+import textStyles from '../../../shared/themes/styles/textStyles';
 
 export default function ListChallengesScreen() {
     const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, 'ListChallenge'>>();

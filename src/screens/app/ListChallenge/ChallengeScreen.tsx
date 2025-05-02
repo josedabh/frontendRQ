@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { RootStackParamList } from '../../../App';
-import HeaderNavigation from '../../components/layout/HeaderNavigation';
-import { ChallengeResponse } from '../../shared/models/ChallengeData';
-import { getChallengeById } from '../../shared/services/ChallengeService';
-import colors from '../../shared/themes/constants/colors';
-import textStyles from '../../shared/themes/styles/textStyles';
-import { RootTabParamList } from '../Layout';
+import { RootStackParamList } from '../../../../App';
+import HeaderNavigation from '../../../components/layout/HeaderNavigation';
+import { ChallengeResponse } from '../../../shared/models/ChallengeData';
+import { getChallengeById } from '../../../shared/services/ChallengeService';
+import colors from '../../../shared/themes/constants/colors';
+import textStyles from '../../../shared/themes/styles/textStyles';
+import { RootTabParamList } from '../../Layout';
 
 type ChallengeScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Challenge'>;
 type ChallengeScreenRouteProp = RouteProp<RootStackParamList, 'Challenge'>;

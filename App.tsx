@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { AuthContext, AuthProvider } from './src/context/AuthContext';
-import ChallengeScreen from './src/screens/app/ChallengeScreen';
+import ChallengeScreen from './src/screens/app/ListChallenge/ChallengeScreen';
 import Datauser from './src/screens/app/DataUser';
 import LoginScreen from './src/screens/auth/LoginScreen';
 import MainScreen from './src/screens/auth/MainScreen';
