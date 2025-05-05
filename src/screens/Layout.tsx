@@ -8,6 +8,7 @@ import ListChallengesScreen from './app/ListChallenge/ListChallengesScreen';
 import ValidationQuestScreen from './app/ListChallenge/ValidationQuestScreen';
 import ProfileScreen from './app/ProfileScreen';
 import StoreScreen from './app/StoreScreen';
+import AddChallengeScreen from './admin/AddChallengeScreen';
 
 // 1. Define el tipo RootTabParamList
 export type RootTabParamList = {
@@ -19,6 +20,7 @@ export type RootTabParamList = {
   Challenge: undefined;
   Login: undefined;
   ValidationQuest: undefined;
+  AddChallenge: undefined;
 };
 
 // 2. Crea el Tab con el tipo genérico
@@ -75,8 +77,8 @@ export default function Layout() {
         }}
       />
       <Tab.Screen
-        name = "ValidationQuest"
-        component = { ValidationQuestScreen }
+        name = "AddChallenge"
+        component = { AddChallengeScreen }
         options = {{
           title: 'Quest de preguntas',
           tabBarIcon: ({ color }) => <Ionicons name="add" color={color} size={28} />,
