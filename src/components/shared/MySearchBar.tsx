@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-import colors from '../../../shared/themes/constants/colors';
+import colors from '../../shared/themes/constants/colors';
 
 interface SearchProps {
     title: string;

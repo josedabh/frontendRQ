@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Card from '../../components/shared/Card/Card';
+import Card from '../../components/shared/Card';
 import textStyles from '../../shared/themes/styles/textStyles';
 
 const prueba = [

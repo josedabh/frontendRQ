@@ -1,6 +1,7 @@
-import { Modal, StyleSheet, Text, View } from "react-native";
-import { MyButton } from "../../shared/MyButton/MyButton";
-import colors from "../../../shared/themes/constants/colors";
+import { Modal, StyleSheet, Text, View } from 'react-native';
+
+import colors from '../../../shared/themes/constants/colors';
+import { MyButton } from '../../shared/MyButton';
 
 interface MyModalProps {
     title: string;

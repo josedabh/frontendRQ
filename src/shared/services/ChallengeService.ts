@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { getToken } from '../../context/AuthContext';
-import { ChallengeCard, ChallengeResponse } from '../models/ChallengeData';
+import { ChallengeCard, ChallengeRequest, ChallengeResponse } from '../models/ChallengeData';
 
 /** Url de la Api */
 const URL = "http://localhost:8080/api/v1/challenge";
@@ -34,6 +34,18 @@ export const getChallengeById = async (id:string): Promise<ChallengeResponse> =>
         return response.data;
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
+        throw error;
+    }
+};
+
+/**Api Post: Crea un reto */
+export const createChallenge = async (challengeRequest: ChallengeRequest): Promise<ChallengeRequest> => {
+    try {
+        const headers = await getAuthHeaders();
+        const response = await axios.post<ChallengeRequest>(`${URL}/create-challenge`, challengeRequest, { headers });
+        return response.data;
+    } catch (error) {
+        console.error('Error al crear el reto:', error);
         throw error;
     }
 };

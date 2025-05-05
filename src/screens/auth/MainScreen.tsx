@@ -4,7 +4,7 @@ import { Image, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../App';
-import { MyButton } from '../../components/shared/MyButton/MyButton';
+import { MyButton } from '../../components/shared/MyButton';
 
 // Define las props del componente
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, "Main">;

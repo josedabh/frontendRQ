@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../../App';
-import HeaderNavigation from '../../../components/layout/HeaderNavigation';
+import HeaderNavigation from '../../../components/shared/HeaderNavigation';
 import { ChallengeResponse } from '../../../shared/models/ChallengeData';
 import { getChallengeById } from '../../../shared/services/ChallengeService';
 import colors from '../../../shared/themes/constants/colors';

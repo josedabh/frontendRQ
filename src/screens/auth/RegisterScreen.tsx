@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Text, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { MyButton } from '../../components/shared/MyButton/MyButton';
+import { MyButton } from '../../components/shared/MyButton';
 import globalStyles from '../../shared/themes/styles/globalStyles';
 import textStyles from '../../shared/themes/styles/textStyles';
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
-import AnswerOption from '../../../components/features/challenges/AnswerOption';
+import AnswerOption from '../../../components/layout/challenges/AnswerOption';
 
 const answers = [
   { id: 'a', label: 'Comida' },

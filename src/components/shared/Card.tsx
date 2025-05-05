@@ -1,8 +1,8 @@
 import React from 'react';
-import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
-import globalStyles from '../../../shared/themes/styles/globalStyles';
-import { TouchableOpacity } from 'react-native';
-import textStyles from '../../../shared/themes/styles/textStyles';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+import globalStyles from '../../shared/themes/styles/globalStyles';
+import textStyles from '../../shared/themes/styles/textStyles';
 
 
 interface CardProps {

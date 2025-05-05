@@ -5,8 +5,8 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../../App';
-import Card from '../../../components/shared/Card/Card';
-import MySearchbar from '../../../components/shared/MySearchBar/MySearchBar';
+import Card from '../../../components/shared/Card';
+import MySearchbar from '../../../components/shared/MySearchBar';
 import { ChallengeCard } from '../../../shared/models/ChallengeData';
 import { getUserChallengeCard } from '../../../shared/services/ChallengeService';
 import textStyles from '../../../shared/themes/styles/textStyles';

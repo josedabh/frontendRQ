@@ -1,25 +1,25 @@
 export interface ChallengeResponse {
-    id:          string;
-    title:       string;
+    id: string;
+    title: string;
     description: string;
-    difficulty:  string;
-    state:       string;
-    startDate:   string;
-    endDate:     string;
-    points:      number;
+    difficulty: string;
+    state: string;
+    startDate: string;
+    endDate: string;
+    points: number;
 }
 
 export interface ChallengeRequest {
-    title:       string;
+    title: string;
     description: string;
-    difficulty:  string;
-    startDate:   string;
-    endDate:     string;
-    points:      string;
+    difficulty: string;
+    startDate: string;
+    endDate: string;
+    points: number;
 }
 
 export interface ChallengeCard {
-    id:          string;
-    title:       string;
+    id: string;
+    title: string;
     description: string;
 }

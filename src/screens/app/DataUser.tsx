@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { UserProfile } from '../../shared/models/UserData';
 import { useNavigation } from '@react-navigation/native';
-import { MyButton } from '../../components/shared/MyButton/MyButton';
+import { MyButton } from '../../components/shared/MyButton';
 import textStyles from '../../shared/themes/styles/textStyles';
 import globalStyles from '../../shared/themes/styles/globalStyles';
 import { useEffect, useState } from 'react';

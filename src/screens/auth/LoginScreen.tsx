@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../App';
 import { AuthContext } from '../../context/AuthContext';
-import { MyButton } from '../../components/shared/MyButton/MyButton';
+import { MyButton } from '../../components/shared/MyButton';
 import { prueba } from '../../shared/services/UserService';
 import globalStyles from '../../shared/themes/styles/globalStyles';
 import textStyles from '../../shared/themes/styles/textStyles';

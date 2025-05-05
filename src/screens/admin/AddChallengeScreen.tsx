@@ -1,61 +1,103 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Platform,
-} from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Picker } from '@react-native-picker/picker';
+import React, { useState } from 'react';
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 
+import { MyButton } from '../../components/shared/MyButton';
+import { ChallengeRequest } from '../../shared/models/ChallengeData';
+import { createChallenge } from '../../shared/services/ChallengeService';
+
+/** Pantalla para crear nuevos retos */
 export default function AddChallengeScreen() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [difficulty, setDifficulty] = useState('easy');
-  const [points, setPoints] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  // Estado inicial del formulario con valores por defecto
+  const [formData, setFormData] = useState<ChallengeRequest>({
+    title: '',
+    description: '',
+    difficulty: 'easy',
+    startDate: new Date().toISOString().split('.')[0],
+    endDate: new Date().toISOString().split('.')[0],
+    points: 1
+  });
+
+  // Estados para controlar la visibilidad de los selectores de fecha
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
 
-  const handleSubmit = () => {
-    const formattedData = {
-      title,
-      description,
-      difficulty,
-      startDate: startDate.toISOString().slice(0, 16),
-      endDate: endDate.toISOString().slice(0, 19),
-      points: parseInt(points),
-    };
+  /** Función auxiliar para formatear fechas */
+  const formatDate = (date: Date): string => {
+    return date.toISOString().split('.')[0]; // Formato: "2025-05-05T07:06:50"
+  };
 
-    console.log('Challenge data:', formattedData);
-    // Aquí puedes enviar los datos a tu backend o manejarlos como quieras
+  /** Valida los campos del formulario según los requisitos */
+  const validateForm = (): boolean => {
+    if (formData.title.length < 10 || formData.title.length > 200) {
+      Alert.alert(
+        'Error de validación',
+        `El título debe tener entre 10 y 200 caracteres. Actual: ${formData.title.length}`
+      );
+      return false;
+    }
+
+    if (formData.description.length < 10 || formData.description.length > 200) {
+      Alert.alert(
+        'Error de validación',
+        `La descripción debe tener entre 10 y 200 caracteres. Actual: ${formData.description.length}`
+      );
+      return false;
+    }
+
+    return true;
+  };
+
+  /** Maneja el envío del formulario al backend */
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+
+    try {
+      const challenge: ChallengeRequest = {
+        ...formData,
+        startDate: formatDate(new Date(formData.startDate)),
+        endDate: formatDate(new Date(formData.endDate))
+      };
+
+      if (typeof createChallenge !== 'function') {
+        throw new Error('createChallenge no está definido correctamente');
+      }
+
+      const response = await createChallenge(challenge);
+      Alert.alert('Éxito', 'Reto creado correctamente');
+    } catch (error: any) {
+      Alert.alert(
+        'Error',
+        `No se pudo crear el reto: ${error.message || 'Error desconocido'}`
+      );
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Título del Reto</Text>
+      {/* Campos del formulario */}
       <TextInput
         style={styles.input}
-        value={title}
-        onChangeText={setTitle}
-        placeholder="Añadir Reto"
+        value={formData.title}
+        onChangeText={(text) => setFormData({...formData, title: text})}
+        placeholder="Añadir Reto (mínimo 10 caracteres)"
       />
 
       <Text style={styles.label}>Descripción</Text>
       <TextInput
         style={styles.input}
-        value={description}
-        onChangeText={setDescription}
-        placeholder="Descripción del reto"
+        value={formData.description}
+        onChangeText={(text) => setFormData({...formData, description: text})}
+        placeholder="Descripción del reto (mínimo 10 caracteres)"
+        multiline
       />
 
       <Text style={styles.label}>Dificultad</Text>
       <Picker
-        selectedValue={difficulty}
-        onValueChange={(itemValue) => setDifficulty(itemValue)}
+        selectedValue={formData.difficulty}
+        onValueChange={(itemValue) => setFormData({...formData, difficulty: itemValue})}
         style={styles.picker}
       >
         <Picker.Item label="Fácil" value="easy" />
@@ -66,47 +108,61 @@ export default function AddChallengeScreen() {
       <Text style={styles.label}>Puntos</Text>
       <TextInput
         style={styles.input}
-        value={points}
-        onChangeText={setPoints}
-        placeholder="1"
+        value={formData.points.toString()}
+        onChangeText={(text) => setFormData({...formData, points: parseInt(text) || 0})}
+        placeholder="0"
         keyboardType="numeric"
       />
 
       <Text style={styles.label}>Fecha de inicio</Text>
-      <Button title={startDate.toDateString()} onPress={() => setShowStartPicker(true)} />
+      <MyButton 
+        title={new Date(formData.startDate).toLocaleDateString()} 
+        onPress={() => setShowStartPicker(true)} 
+      />
       {showStartPicker && (
         <DateTimePicker
-          value={startDate}
-          mode="date"
+          value={new Date(formData.startDate)}
+          mode="datetime"
           display="default"
           onChange={(_, date) => {
-            if (date) setStartDate(date);
+            if (date) setFormData({
+              ...formData, 
+              startDate: formatDate(date)
+            });
             setShowStartPicker(false);
           }}
         />
       )}
 
       <Text style={styles.label}>Fecha de fin</Text>
-      <Button title={endDate.toDateString()} onPress={() => setShowEndPicker(true)} />
+      <MyButton 
+        title={new Date(formData.endDate).toLocaleDateString()} 
+        onPress={() => setShowEndPicker(true)} 
+      />
       {showEndPicker && (
         <DateTimePicker
-          value={endDate}
-          mode="date"
+          value={new Date(formData.endDate)}
+          mode="datetime"
           display="default"
           onChange={(_, date) => {
-            if (date) setEndDate(date);
+            if (date) setFormData({
+              ...formData, 
+              endDate: formatDate(date)
+            });
             setShowEndPicker(false);
           }}
         />
       )}
 
-      <View style={{ marginTop: 20 }}>
-        <Button title="Guardar Challenge" onPress={handleSubmit} />
+      {/* Botón de envío */}
+      <View style={styles.buttonContainer}>
+        <MyButton title="Guardar Challenge" onPress={handleSubmit} />
       </View>
     </View>
   );
 }
 
+/** Estilos para los componentes de la pantalla */
 const styles = StyleSheet.create({
   container: {
     padding: 16,
@@ -133,4 +189,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
   },
+  buttonContainer: {
+    marginTop: 20,
+    marginBottom: 20,
+  }
 });
