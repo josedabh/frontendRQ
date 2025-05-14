@@ -12,8 +12,9 @@ export interface Register {
     numPhone: string;
 }
 
-export interface Key {
-    token: string
+export interface Credentials{
+    token: string;
+    admin: boolean;
 }
 
 export interface UserResponse {

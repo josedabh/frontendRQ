@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, FC, ReactNode, useEffect, useState } from 'react';
 
-import { Key } from '../shared/models/UserData';
-import { loginUser as loginService } from '../shared/services/UserService';
+import { Credentials, Register } from '../shared/models/UserData';
+import { loginUser as loginService, registerUser } from '../shared/services/UserService';
 
 //Importar bien para que no falle al usar el token
 interface AuthContextData {
@@ -11,6 +11,7 @@ interface AuthContextData {
     loading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
+    register: (userData: Register) => Promise<void>; // Añadir esta línea
 }
 
 export const AuthContext = createContext<AuthContextData>({
@@ -19,6 +20,7 @@ export const AuthContext = createContext<AuthContextData>({
     loading: true,
     login: async () => {},
     logout: async () => {},
+    register: async () => {},
 });
 
 interface AuthProviderProps {
@@ -61,11 +63,23 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const login = async (identifier: string, password: string) => {
         try {
-            const response: Key = await loginService({ identifier, password });
+            const response: Credentials = await loginService({ identifier, password });
             await saveToken(response.token);
             setUserToken(response.token);
         } catch (error) {
             console.error('Login fallido:', error);
+            throw error;
+        }
+    };
+
+    const register = async (userData: Register) => {
+        try {
+            // Usa registerUser en lugar de loginService
+            const response: Credentials = await registerUser(userData);
+            await saveToken(response.token);
+            setUserToken(response.token);
+        } catch (error) {
+            console.error('Error al registrar:', error);
             throw error;
         }
     };
@@ -87,6 +101,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
                 loading,
                 login,
                 logout,
+                register, // Añadir la función de registro aquí
             }}
         >
             {children}

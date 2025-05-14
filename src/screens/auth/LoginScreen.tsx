@@ -11,9 +11,9 @@ import globalStyles from '../../shared/themes/styles/globalStyles';
 import textStyles from '../../shared/themes/styles/textStyles';
 
 /**Para Ir a la pantralla de registro Cambiar props */
-type RegisterScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
+type LoginScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
 
-export function LoginScreen({ navigation }: RegisterScreenProps) {
+export function LoginScreen({ navigation }: LoginScreenProps) {
   const { login } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');

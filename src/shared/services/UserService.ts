@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { getToken } from '../../context/AuthContext';
-import { Key, Login, Register, UserProfile, UserResponse } from '../models/UserData';
+import { Credentials, Login, Register, UserProfile, UserResponse } from '../models/UserData';
 
 /** Url de la Api */
 const URL = "http://localhost:8080/api/v1";
@@ -17,7 +17,7 @@ const getAuthHeaders = async () => {
 /** Api Get que dice hola de prueba */
 export const prueba = async (): Promise<string> => {
     try {
-        const response = await axios.get<string>(`${URL}/user/auth/hello`);
+        const response = await axios.get<string>(`${URL}/auth/hello`);
         return response.data;
     } catch (error) {
         console.error("No funciona " + error);
@@ -40,9 +40,9 @@ export const getListUsers = async (): Promise<UserResponse[]> => {
 /** Api Post: Registra el usaurio al no estar logeado 
  * @returns token para validar la llamadas de la api
 */
-export const registerUser = async (): Promise<Register> => {
+export const registerUser = async (UserRegister:Register): Promise<Credentials> => {
     try {
-        const newUser = await axios.post<Register>(URL + "/auth/register");
+        const newUser = await axios.post<Credentials>(`${URL}/auth/register`, UserRegister);
         return newUser.data;
     } catch (error) {
         console.error(error);
@@ -53,9 +53,9 @@ export const registerUser = async (): Promise<Register> => {
 /** Api Post: Inicio de sesion del usuario 
  * @returns token para validar la llamadas de la api
 */
-export const loginUser = async (login: Login): Promise<Key> => {
+export const loginUser = async (login: Login): Promise<Credentials> => {
     try {
-        const token = await axios.post<Key>(`${URL}/auth/login`, login);
+        const token = await axios.post<Credentials>(`${URL}/auth/login`, login);
         return token.data;
     } catch (error) {
         console.error(error);
