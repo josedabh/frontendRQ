@@ -1,33 +1,49 @@
+import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Card from '../../components/shared/Card';
+import { getListProducts } from '../../shared/services/StoreService';
 import textStyles from '../../shared/themes/styles/textStyles';
+import { RewardResponse } from '../../shared/models/StoreData';
 
-const prueba = [
-    { id: 1, name: "Producto 1", price: "10" },
-    { id: 2, name: "Producto 2", price: "20" },
-    { id: 3, name: "Producto 3", price: "30" },
-    { id: 4, name: "Producto 4", price: "40" },
-    { id: 5, name: "Producto 5", price: "50" },
-]
+/** Cambiar para la url */
 export default function StoreScreen() {
+    const [rewardList, setRewardList] = useState<RewardResponse[]>([
+        {
+            id: 0,
+            name: '',
+            description: '',
+            points: 0,
+            image: '',
+            active: false,
+            stock: 0,
+        },
+    ]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getListProducts();
+                setRewardList(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchData();
+    }, []);
     return (
         <SafeAreaView style={{ padding: 16 }}>
             <View style={{ flex: 1, padding: 16 }}>
                 <Text style={textStyles.title}>Tienda</Text>
                 <ScrollView contentContainerStyle = {styles.horizontalScroll}>
-                    {prueba.map((item) => (
+                    {rewardList.map((item) => (
                         <Card
                             key = { item.id }
                             title = { item.name }
-                            desc = { item.price.concat("€") }
+                            desc = { Number.parseInt(item.points) + ' puntos' }
                         />
                     ))}
                 </ScrollView>
-                <Text style = { textStyles.normal }>
-                    Total: {prueba.reduce((acc, item) => acc + Number.parseInt(item.price), 0)} 
-                </Text>
             </View>
         </SafeAreaView>
     )
