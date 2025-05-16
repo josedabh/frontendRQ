@@ -1,16 +1,16 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { RootStackParamList } from "../../../../App";
-import HeaderNavigation from "../../../components/shared/HeaderNavigation";
-import { ChallengeResponse } from "../../../shared/models/ChallengeData";
-import { getChallengeById } from "../../../shared/services/ChallengeService";
-import colors from "../../../shared/themes/constants/colors";
-import textStyles from "../../../shared/themes/styles/textStyles";
-import { RootTabParamList } from "../../Layout";
+import { RootStackParamList } from '../../../../App';
+import HeaderNavigation from '../../../components/shared/HeaderNavigation';
+import { ChallengeResponse } from '../../../shared/models/ChallengeData';
+import { getChallengeById } from '../../../shared/services/ChallengeService';
+import colors from '../../../shared/themes/constants/colors';
+import textStyles from '../../../shared/themes/styles/textStyles';
+import { RootTabParamList } from '../../Layout';
 
 type ChallengeScreenNavigationProp = BottomTabNavigationProp<
   RootTabParamList,

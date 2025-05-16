@@ -1,10 +1,10 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
 
-import { RootStackParamList } from "../../../App";
-import { MyButton } from "../../components/shared/MyButton";
-import colors from "../../shared/themes/constants/colors";
+import { RootStackParamList } from '../../../App';
+import { MyButton } from '../../components/shared/MyButton';
+import colors from '../../shared/themes/constants/colors';
 
 export default function ManageUsersScreen() {
   const navigation =

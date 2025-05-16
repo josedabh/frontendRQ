@@ -1,24 +1,16 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Dimensions,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { RootStackParamList } from "../../../../App";
-import HeaderNavigation from "../../../components/shared/HeaderNavigation";
-import { MyButton } from "../../../components/shared/MyButton";
-import { RewardResponse } from "../../../shared/models/StoreData";
-import { getProductById } from "../../../shared/services/StoreService";
-import colors from "../../../shared/themes/constants/colors";
-import textStyles from "../../../shared/themes/styles/textStyles";
+import { RootStackParamList } from '../../../../App';
+import HeaderNavigation from '../../../components/shared/HeaderNavigation';
+import { MyButton } from '../../../components/shared/MyButton';
+import { RewardResponse } from '../../../shared/models/StoreData';
+import { getProductById } from '../../../shared/services/StoreService';
+import colors from '../../../shared/themes/constants/colors';
+import textStyles from '../../../shared/themes/styles/textStyles';
 
 type StoreScreenRouteProp = RouteProp<RootStackParamList, "Store">;
 type StoreScreenNavigationProp = BottomTabNavigationProp<

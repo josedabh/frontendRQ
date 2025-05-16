@@ -1,13 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { getToken } from "../../shared/utils/TokenStorage";
-import {
-  Credentials,
-  Login,
-  Register,
-  UserProfile,
-  UserResponse,
-} from "../models/UserData";
+import { getToken } from '../../shared/utils/TokenStorage';
+import { Credentials, Login, Register, UserProfile, UserResponse } from '../models/UserData';
 
 /** Url de la Api */
 const URL = "http://localhost:8080/api/v1";

@@ -1,20 +1,12 @@
-import {
-  Text,
-  View,
-  TextInput,
-  Modal,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { Alert, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { MyButton } from "../../../components/shared/MyButton";
-import { getMyUserInfo } from "../../../shared/services/UserService";
-import { UserProfile } from "../../../shared/models/UserData";
-import textStyles from "../../../shared/themes/styles/textStyles";
+import { MyButton } from '../../../components/shared/MyButton';
+import { UserProfile } from '../../../shared/models/UserData';
+import { getMyUserInfo } from '../../../shared/services/UserService';
+import textStyles from '../../../shared/themes/styles/textStyles';
 
 export default function Datauser() {
   const navigation = useNavigation();
