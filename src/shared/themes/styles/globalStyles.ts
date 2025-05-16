@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import colors from '../constants/colors';
+import { StyleSheet } from "react-native";
+import colors from "../constants/colors";
 
 const globalStyles = StyleSheet.create({
   container: {
@@ -10,16 +10,16 @@ const globalStyles = StyleSheet.create({
   card: {
     backgroundColor: colors.backgroundLight,
     borderRadius: 8,
-    overflow: 'hidden',
+    overflow: "hidden",
     margin: 16,
     padding: 16,
     // Sombra para iOS y Android
     elevation: 3,
     boxShadow: colors.shadow,
-    width: '90%',
+    width: "90%",
   },
   input: {
-    width: '100%',
+    width: "100%",
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderWidth: 1,
@@ -31,7 +31,7 @@ const globalStyles = StyleSheet.create({
     marginBottom: 12,
   },
   tabBar: {
-    position: 'absolute', // Posiciona el tab bar fijo en la parte inferior
+    position: "absolute", // Posiciona el tab bar fijo en la parte inferior
     bottom: 0,
     left: 0,
     right: 0,

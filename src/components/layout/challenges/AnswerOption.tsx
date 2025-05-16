@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface AnswerOptionProps {
   id: string;
@@ -25,13 +25,11 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
         isActive && styles.radioActive,
         isFirst && styles.radioFirst,
         isLast && styles.radioLast,
-      ]}>
+      ]}
+    >
       <TouchableOpacity onPress={onPress} style={styles.radio}>
         <View
-          style={[
-            styles.radioInput,
-            isActive && styles.radioInputActive,
-          ]}
+          style={[styles.radioInput, isActive && styles.radioInputActive]}
         />
         <Text style={styles.radioLabel}>{label}</Text>
       </TouchableOpacity>
@@ -41,13 +39,13 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
 
 const styles = StyleSheet.create({
   radioWrapper: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#e5e7e5',
+    borderColor: "#e5e7e5",
     marginTop: -2,
   },
   radioActive: {
-    backgroundColor: '#f1f4ff',
+    backgroundColor: "#f1f4ff",
   },
   radioFirst: {
     marginTop: 0,
@@ -61,25 +59,25 @@ const styles = StyleSheet.create({
   radio: {
     paddingVertical: 12,
     paddingHorizontal: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   radioInput: {
     width: 16,
     height: 16,
     borderRadius: 9999,
     borderWidth: 2,
-    borderColor: '#b0b0b0',
+    borderColor: "#b0b0b0",
     marginRight: 12,
   },
   radioInputActive: {
     borderWidth: 5,
-    borderColor: '#1d1d1d',
+    borderColor: "#1d1d1d",
   },
   radioLabel: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#1d1d1d',
+    fontWeight: "600",
+    color: "#1d1d1d",
   },
 });
 

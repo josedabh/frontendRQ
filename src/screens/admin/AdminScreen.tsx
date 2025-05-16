@@ -1,9 +1,15 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import colors from '../../shared/themes/constants/colors';
-import Card from '../../components/shared/Card';
+import React from "react";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import colors from "../../shared/themes/constants/colors";
+import Card from "../../components/shared/Card";
 
 type AdminStackParamList = {
   AdminHome: undefined;
@@ -13,7 +19,7 @@ type AdminStackParamList = {
   ManageUsers: undefined;
 };
 
-type AdminNavProp = NativeStackNavigationProp<AdminStackParamList, 'AdminHome'>;
+type AdminNavProp = NativeStackNavigationProp<AdminStackParamList, "AdminHome">;
 
 export default function AdminScreen() {
   const navigation = useNavigation<AdminNavProp>();
@@ -24,15 +30,15 @@ export default function AdminScreen() {
       <View style={styles.buttonsContainer}>
         <Card
           title="📝 Administrar Retos"
-          onPress={() => navigation.navigate('ManageChallenges')}
+          onPress={() => navigation.navigate("ManageChallenges")}
         />
         <Card
           title="📦 Administrar Productos"
-          onPress={() => navigation.navigate('ManageProducts')}
+          onPress={() => navigation.navigate("ManageProducts")}
         />
         <Card
           title="👥 Control de Usuarios"
-          onPress={() => navigation.navigate('ManageUsers')}
+          onPress={() => navigation.navigate("ManageUsers")}
         />
       </View>
     </SafeAreaView>
@@ -42,17 +48,17 @@ export default function AdminScreen() {
 const styles = StyleSheet.create({
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 24,
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonsContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     gap: 16, // si no lo soporta tu RN, usa marginBottom en cada botón
   },
   button: {
-    backgroundColor: '#4e91fc',
+    backgroundColor: "#4e91fc",
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderRadius: 12,
@@ -62,9 +68,9 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    textAlign: 'center',
-    fontWeight: '600',
+    textAlign: "center",
+    fontWeight: "600",
   },
 });

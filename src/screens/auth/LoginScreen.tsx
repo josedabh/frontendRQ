@@ -1,14 +1,14 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useContext, useEffect, useState } from 'react';
-import { Alert, Text, TextInput } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useContext, useEffect, useState } from "react";
+import { Alert, Text, TextInput } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { RootStackParamList } from '../../../App';
-import { AuthContext } from '../../context/AuthContext';
-import { MyButton } from '../../components/shared/MyButton';
-import { prueba } from '../../shared/services/UserService';
-import globalStyles from '../../shared/themes/styles/globalStyles';
-import textStyles from '../../shared/themes/styles/textStyles';
+import { RootStackParamList } from "../../../App";
+import { MyButton } from "../../components/shared/MyButton";
+import { AuthContext } from "../../context/AuthContext";
+import { prueba } from "../../shared/services/UserService";
+import globalStyles from "../../shared/themes/styles/globalStyles";
+import textStyles from "../../shared/themes/styles/textStyles";
 
 /**Para Ir a la pantralla de registro Cambiar props */
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
@@ -16,9 +16,9 @@ type LoginScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
 export function LoginScreen({ navigation }: LoginScreenProps) {
   const { login } = useContext(AuthContext);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [mensaje, setMensaje] = useState<string>('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [mensaje, setMensaje] = useState<string>("");
 
   useEffect(() => {
     const fetchMensaje = async () => {
@@ -26,7 +26,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
         const texto = await prueba();
         setMensaje(texto);
       } catch (error) {
-        setMensaje('Error al cargar el mensaje');
+        setMensaje("Error al cargar el mensaje");
       }
     };
 
@@ -36,10 +36,10 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
   const handleLogin = async () => {
     try {
       await login(email, password);
-      Alert.alert('Login correcto', 'Bienvenido a la app');
-      navigation.replace('Layout');
+      Alert.alert("Login correcto", "Bienvenido a la app");
+      navigation.replace("Layout");
     } catch (error: any) {
-      Alert.alert('Error', error.message || 'Error desconocido');
+      Alert.alert("Error", error.message || "Error desconocido");
     }
   };
 
@@ -60,8 +60,11 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
         secureTextEntry
         style={globalStyles.input}
       />
-      <MyButton onPress = { handleLogin } title="Iniciar sesión" />
-      <MyButton title="Crear cuenta" onPress={() => navigation.navigate('Register')} />
+      <MyButton onPress={handleLogin} title="Iniciar sesión" />
+      <MyButton
+        title="Crear cuenta"
+        onPress={() => navigation.navigate("Register")}
+      />
       <MyButton title="Volver" onPress={() => navigation.goBack()} />
     </SafeAreaView>
   );

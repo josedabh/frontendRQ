@@ -1,21 +1,32 @@
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { RootStackParamList } from '../../../../App';
-import HeaderNavigation from '../../../components/shared/HeaderNavigation';
-import { RewardResponse } from '../../../shared/models/StoreData';
-import { getProductById } from '../../../shared/services/StoreService';
-import colors from '../../../shared/themes/constants/colors';
-import textStyles from '../../../shared/themes/styles/textStyles';
-import { MyButton } from '../../../components/shared/MyButton';
+import { RootStackParamList } from "../../../../App";
+import HeaderNavigation from "../../../components/shared/HeaderNavigation";
+import { MyButton } from "../../../components/shared/MyButton";
+import { RewardResponse } from "../../../shared/models/StoreData";
+import { getProductById } from "../../../shared/services/StoreService";
+import colors from "../../../shared/themes/constants/colors";
+import textStyles from "../../../shared/themes/styles/textStyles";
 
-type StoreScreenRouteProp = RouteProp<RootStackParamList, 'Store'>;
-type StoreScreenNavigationProp = BottomTabNavigationProp<RootStackParamList, 'Store'>;
+type StoreScreenRouteProp = RouteProp<RootStackParamList, "Store">;
+type StoreScreenNavigationProp = BottomTabNavigationProp<
+  RootStackParamList,
+  "Store"
+>;
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 export default function StoreScreen() {
   const route = useRoute<StoreScreenRouteProp>();
@@ -91,26 +102,21 @@ export default function StoreScreen() {
           </View>
           <View style={styles.rightCol}>
             <View style={styles.box}>
-              <Text style={textStyles.normal}>
-                Puntos: {reward.points}
-              </Text>
+              <Text style={textStyles.normal}>Puntos: {reward.points}</Text>
             </View>
             <View style={styles.box}>
-              <Text style={textStyles.normal}>
-                Stock: {reward.stock}
-              </Text>
+              <Text style={textStyles.normal}>Stock: {reward.stock}</Text>
             </View>
           </View>
         </View>
 
         {/* Acción si está disponible */}
-        {isAvailable && (
-            <MyButton title='Reclamar'
-              style={textStyles.normal} />
-        )}
-        <MyButton title='Volver'
-            style={styles.btnCancel}
-            onPress={() => navigation.goBack()} />
+        {isAvailable && <MyButton title="Reclamar" style={textStyles.normal} />}
+        <MyButton
+          title="Volver"
+          style={styles.btnCancel}
+          onPress={() => navigation.goBack()}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -121,27 +127,27 @@ const baseFontSize = width < 400 ? 14 : 16;
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   centered: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   scrollContent: {
     padding: 16,
     paddingBottom: 32,
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: width * 0.6,
     borderRadius: 8,
-    backgroundColor: '#eee',
+    backgroundColor: "#eee",
     marginBottom: 16,
   },
   noImage: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   unavailable: {
     color: colors.danger,
@@ -150,7 +156,7 @@ const styles = StyleSheet.create({
     fontSize: baseFontSize,
   },
   detailsGrid: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 16,
   },
   leftCol: {
@@ -159,7 +165,7 @@ const styles = StyleSheet.create({
   },
   rightCol: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingLeft: 8,
   },
   box: {
@@ -173,9 +179,9 @@ const styles = StyleSheet.create({
     padding: 12,
     backgroundColor: colors.success,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   btnCancel: {
-    backgroundColor:colors.danger
-  }
+    backgroundColor: colors.danger,
+  },
 });

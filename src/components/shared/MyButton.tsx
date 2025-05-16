@@ -1,7 +1,7 @@
-import React from 'react';
-import { StyleProp, Text, TouchableOpacity, ViewStyle } from 'react-native';
+import React from "react";
+import { StyleProp, Text, TouchableOpacity, ViewStyle } from "react-native";
 
-import buttonStyles from '../../shared/themes/styles/buttonStyles';
+import buttonStyles from "../../shared/themes/styles/buttonStyles";
 
 /**Porpiedades a implementar el boton */
 interface MyButtonProps {

@@ -12,51 +12,58 @@ import { getUserChallengeCard } from '../../../shared/services/ChallengeService'
 import textStyles from '../../../shared/themes/styles/textStyles';
 
 export default function ListChallengesScreen() {
-    const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, 'ListChallenge'>>();
-    const [cardChallenge, setCardChallenge] = useState<ChallengeCard[]>([]);
-    const [input, setInput] = useState('');
+  const navigation =
+    useNavigation<
+      BottomTabNavigationProp<RootStackParamList, "ListChallenge">
+    >();
+  const [cardChallenge, setCardChallenge] = useState<ChallengeCard[]>([]);
+  const [input, setInput] = useState("");
 
-    useEffect(() => {
-        const fetchListChallenge = async () => {
-            try {
-                const listChallenge = await getUserChallengeCard();
-                setCardChallenge(listChallenge);
-            } catch (error) {
-                console.log(error)
-            }
-        };
-        fetchListChallenge();
-    }, []);
+  useEffect(() => {
+    const fetchListChallenge = async () => {
+      try {
+        const listChallenge = await getUserChallengeCard();
+        setCardChallenge(listChallenge);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchListChallenge();
+  }, []);
 
-    // Filtro de retos por título
-    const filteredChallenges = useMemo(() => {
-        const query = input.toLowerCase();
-        return cardChallenge.filter(ch => ch.title.toLowerCase().includes(query));
-    }, [input, cardChallenge]);
+  // Filtro de retos por título
+  const filteredChallenges = useMemo(() => {
+    const query = input.toLowerCase();
+    return cardChallenge.filter((ch) => ch.title.toLowerCase().includes(query));
+  }, [input, cardChallenge]);
 
-    return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={{ flex: 1, padding: 16 }}>
-                <Text style={textStyles.title}> Retos </Text>
-                <MySearchbar title="Buscar reto" value={input} onChangeText={setInput} />
-                <ScrollView contentContainerStyle={styles.horizontalScroll}>
-                    {filteredChallenges.map((ch, index) => (
-                        <Card
-                            key={index}
-                            title={ch.title}
-                            desc={ch.description}
-                            onPress={() => navigation.navigate("Challenge", { id: ch.id })}
-                        />
-                    ))}
-                </ScrollView>
-            </View>
-        </SafeAreaView>
-    )
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, padding: 16 }}>
+        <Text style={textStyles.title}> Retos </Text>
+        <MySearchbar
+          title="Buscar reto"
+          value={input}
+          onChangeText={setInput}
+        />
+        <ScrollView contentContainerStyle={styles.horizontalScroll}>
+          {filteredChallenges.map((ch, index) => (
+            <Card
+              key={index}
+              title={ch.title}
+              desc={ch.description}
+              onPress={() => navigation.navigate("Challenge", { id: ch.id })}
+            />
+          ))}
+        </ScrollView>
+      </View>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
-    horizontalScroll: {
-        paddingLeft: 24,
-        paddingBottom: 10,
-    },
+  horizontalScroll: {
+    paddingLeft: 24,
+    paddingBottom: 10,
+  },
 });
