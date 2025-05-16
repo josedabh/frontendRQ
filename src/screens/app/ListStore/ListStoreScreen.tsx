@@ -12,7 +12,7 @@ import textStyles from '../../../shared/themes/styles/textStyles';
 
 /** Pantalla de lista de productos */
 export default function ListStoreScreen() {
-     const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, 'ListStore'>>();
+    const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, 'ListStore'>>();
     const [rewardList, setRewardList] = useState<RewardResponse[]>([
         {
             id: 0,

@@ -12,8 +12,8 @@ import RegisterScreen from './src/screens/auth/RegisterScreen';
 import Layout from './src/screens/Layout';
 import StoreScreen from './src/screens/app/ListStore/StoreScreen';
 import AdminScreen from './src/screens/admin/AdminScreen';
-import AddChallengeScreen from './src/screens/admin/AddChallengeScreen';
-import ManageChallengesScreen from './src/screens/admin/ManageChallengesScreen';
+import AddChallengeScreen from './src/screens/admin/ManageChallenges/AddChallengeScreen';
+import ManageChallengesScreen from './src/screens/admin/ManageChallenges/ManageChallengesScreen';
 import ManageProductsScreen from './src/screens/admin/ManageProductsScreen';
 import ManageUsersScreen from './src/screens/admin/ManageUsersScreen';
 

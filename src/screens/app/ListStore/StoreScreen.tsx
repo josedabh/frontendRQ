@@ -106,8 +106,11 @@ export default function StoreScreen() {
         {/* Acción si está disponible */}
         {isAvailable && (
             <MyButton title='Reclamar'
-                style={textStyles.normal} />
+              style={textStyles.normal} />
         )}
+        <MyButton title='Volver'
+            style={styles.btnCancel}
+            onPress={() => navigation.goBack()} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -172,4 +175,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
   },
+  btnCancel: {
+    backgroundColor:colors.danger
+  }
 });

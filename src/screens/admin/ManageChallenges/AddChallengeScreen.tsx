@@ -1,14 +1,19 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { MyButton } from '../../components/shared/MyButton';
-import { ChallengeRequest } from '../../shared/models/ChallengeData';
-import { createChallenge } from '../../shared/services/ChallengeService';
+import { RootStackParamList } from '../../../../App';
+import { MyButton } from '../../../components/shared/MyButton';
+import { ChallengeRequest } from '../../../shared/models/ChallengeData';
+import { createChallenge } from '../../../shared/services/ChallengeService';
+import colors from '../../../shared/themes/constants/colors';
 
 /** Pantalla para crear nuevos retos */
 export default function AddChallengeScreen() {
+  const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, 'AddChallenge'>>();
   // Estado inicial del formulario con valores por defecto
   const [formData, setFormData] = useState<ChallengeRequest>({
     title: '',
@@ -156,7 +161,17 @@ export default function AddChallengeScreen() {
 
       {/* Botón de envío */}
       <View style={styles.buttonContainer}>
-        <MyButton title="Guardar Challenge" onPress={handleSubmit} />
+
+        {/** Boton guardar */}
+        <MyButton title="Guardar Challenge" 
+        style={styles.btnSave}
+        onPress={handleSubmit} />
+
+        {/** Boton volver */}
+        <MyButton title='Volver'
+        style={styles.btnCancel} 
+        onPress={() => navigation.goBack()} />
+        
       </View>
     </View>
   );
@@ -192,5 +207,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 20,
     marginBottom: 20,
+  },
+  btnSave: {
+    backgroundColor: colors.success
+  },
+  btnCancel: {
+    backgroundColor: colors.danger
   }
 });

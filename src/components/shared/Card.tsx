@@ -12,7 +12,7 @@ import textStyles from '../../shared/themes/styles/textStyles';
 
 interface CardProps {
   title: string;
-  desc: string;
+  desc?: string;
   imageUri?: string;
   onPress?: () => void;
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import globalStyles from '../shared/themes/styles/globalStyles';
-import AddChallengeScreen from './admin/AddChallengeScreen';
+import AddChallengeScreen from './admin/ManageChallenges/AddChallengeScreen';
 import HomeScreen from './app/HomeScreen';
 import ListChallengesScreen from './app/ListChallenge/ListChallengesScreen';
 import ListStoreScreen from './app/ListStore/ListStoreScreen';

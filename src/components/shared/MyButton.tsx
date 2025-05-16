@@ -1,23 +1,23 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { StyleProp, Text, TouchableOpacity, ViewStyle } from 'react-native';
 
 import buttonStyles from '../../shared/themes/styles/buttonStyles';
 
 /**Porpiedades a implementar el boton */
 interface MyButtonProps {
-  style?: object;
+  title: string;
   onPress?: () => void;
-  title: string
+  style?: StyleProp<ViewStyle>;
 }
 
 export function MyButton({ style, onPress, title }: MyButtonProps) {
-  const buttonStyle = style !== undefined ? [buttonStyles.button, style] : buttonStyles.button;
   return (
-    <TouchableOpacity 
-      style={buttonStyle}
+    <TouchableOpacity
+      style={[buttonStyles.button, style]}
       onPress={onPress}
+      activeOpacity={0.8}
     >
-      <Text style = { buttonStyles.buttonText }> { title } </Text>
+      <Text style={buttonStyles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
-};
+}
