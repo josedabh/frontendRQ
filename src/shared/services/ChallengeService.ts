@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { getToken } from '../../context/AuthContext';
 import { ChallengeCard, ChallengeRequest, ChallengeResponse } from '../models/ChallengeData';
+import { getToken } from '../../shared/utils/TokenStorage';
 
 /** Url de la Api */
 const URL = "http://localhost:8080/api/v1/challenge";

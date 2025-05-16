@@ -3,24 +3,24 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import globalStyles from '../shared/themes/styles/globalStyles';
+import AddChallengeScreen from './admin/AddChallengeScreen';
 import HomeScreen from './app/HomeScreen';
 import ListChallengesScreen from './app/ListChallenge/ListChallengesScreen';
-import ValidationQuestScreen from './app/ListChallenge/ValidationQuestScreen';
-import ProfileScreen from './app/ProfileScreen';
-import StoreScreen from './app/StoreScreen';
-import AddChallengeScreen from './admin/AddChallengeScreen';
+import ListStoreScreen from './app/ListStore/ListStoreScreen';
+import ProfileScreen from './app/Profile/ProfileScreen';
+import AdminScreen from './admin/AdminScreen';
 
 // 1. Define el tipo RootTabParamList
 export type RootTabParamList = {
   Home: undefined;
-  Store: undefined;
+  ListStore: undefined;
   Perfil: undefined;
   ListChallenge: undefined;
   Datauser:undefined;
   Challenge: undefined;
   Login: undefined;
   ValidationQuest: undefined;
-  AddChallenge: undefined;
+  AdminHome: undefined;
 };
 
 // 2. Crea el Tab con el tipo genérico
@@ -61,8 +61,16 @@ export default function Layout() {
         }}
       />
       <Tab.Screen
-        name = "Store"
-        component = { StoreScreen }
+        name = "AdminHome"
+        component = { AdminScreen }
+        options = {{
+          title: 'Panel de control',
+          tabBarIcon: ({ color }) => <Ionicons name="add" color={color} size={28} />,
+        }}
+      />
+      <Tab.Screen
+        name = "ListStore"
+        component = { ListStoreScreen }
         options = {{
           title: 'Tienda',
           tabBarIcon: ({ color }) => <Ionicons name="cart-outline" color={color} size={28} />,
@@ -74,14 +82,6 @@ export default function Layout() {
         options={{
           title: 'Perfil',
           tabBarIcon: ({ color }) => <Ionicons name="settings-outline" color={color} size={28} />,
-        }}
-      />
-      <Tab.Screen
-        name = "AddChallenge"
-        component = { AddChallengeScreen }
-        options = {{
-          title: 'Quest de preguntas',
-          tabBarIcon: ({ color }) => <Ionicons name="add" color={color} size={28} />,
         }}
       />
     </Tab.Navigator>

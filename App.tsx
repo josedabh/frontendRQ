@@ -5,11 +5,17 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { AuthContext, AuthProvider } from './src/context/AuthContext';
 import ChallengeScreen from './src/screens/app/ListChallenge/ChallengeScreen';
-import Datauser from './src/screens/app/DataUser';
+import Datauser from './src/screens/app/Profile/DataUser';
 import LoginScreen from './src/screens/auth/LoginScreen';
 import MainScreen from './src/screens/auth/MainScreen';
 import RegisterScreen from './src/screens/auth/RegisterScreen';
 import Layout from './src/screens/Layout';
+import StoreScreen from './src/screens/app/ListStore/StoreScreen';
+import AdminScreen from './src/screens/admin/AdminScreen';
+import AddChallengeScreen from './src/screens/admin/AddChallengeScreen';
+import ManageChallengesScreen from './src/screens/admin/ManageChallengesScreen';
+import ManageProductsScreen from './src/screens/admin/ManageProductsScreen';
+import ManageUsersScreen from './src/screens/admin/ManageUsersScreen';
 
 // Define los tipos para las rutas
 export type RootStackParamList = {
@@ -20,7 +26,14 @@ export type RootStackParamList = {
   Datauser: undefined;
   Perfil: undefined;
   ListChallenge: undefined;
+  ListStore:undefined;
   Challenge: {id:string};
+  Store: {id:number};
+  AdminHome: undefined;
+  ManageChallenges:undefined;
+  AddChallenge:undefined;
+  ManageProducts:undefined;
+  ManageUsers:undefined;
 };
 
 // Crea el navegador con los tipos
@@ -46,8 +59,13 @@ function AppNavigator() {
           <>
             <Stack.Screen name="Layout" component={Layout} />
             <Stack.Screen name="Datauser" component={Datauser} />
-            <Stack.Screen name="Challenge" 
+            <Stack.Screen name="Challenge"
               component={ChallengeScreen} />
+            <Stack.Screen name='Store' component={StoreScreen} />
+            <Stack.Screen name="AddChallenge" component={AddChallengeScreen} options={{ title: 'Crear Reto' }} />
+            <Stack.Screen name="ManageChallenges" component={ManageChallengesScreen} options={{ title: 'Administrar Retos' }} />
+            <Stack.Screen name="ManageProducts" component={ManageProductsScreen} options={{ title: 'Administrar Productos' }} />
+            <Stack.Screen name="ManageUsers" component={ManageUsersScreen} options={{ title: 'Control de Usuarios' }} />
           </>
         ) : (
           // Usuario no autenticado

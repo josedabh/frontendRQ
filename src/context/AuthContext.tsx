@@ -1,8 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, FC, ReactNode, useEffect, useState } from 'react';
 
 import { Credentials, Register } from '../shared/models/UserData';
 import { loginUser as loginService, registerUser } from '../shared/services/UserService';
+import { getToken, removeToken, saveToken } from '../shared/utils/TokenStorage';
 
 //Importar bien para que no falle al usar el token
 interface AuthContextData {
@@ -26,21 +26,6 @@ export const AuthContext = createContext<AuthContextData>({
 interface AuthProviderProps {
     children: ReactNode;
 }
-
-// Funciones auxiliares para manejar el token
-export const TOKEN_KEY = 'userToken';
-
-export const getToken = async (): Promise<string | null> => {
-    return await AsyncStorage.getItem(TOKEN_KEY);
-};
-
-const saveToken = async (token: string): Promise<void> => {
-    await AsyncStorage.setItem(TOKEN_KEY, token);
-};
-
-export const removeToken = async (): Promise<void> => {
-    await AsyncStorage.removeItem(TOKEN_KEY);
-};
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const [userToken, setUserToken] = useState<string | null>(null);

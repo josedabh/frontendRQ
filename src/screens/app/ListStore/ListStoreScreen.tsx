@@ -1,14 +1,18 @@
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Card from '../../components/shared/Card';
-import { getListProducts } from '../../shared/services/StoreService';
-import textStyles from '../../shared/themes/styles/textStyles';
-import { RewardResponse } from '../../shared/models/StoreData';
+import { RootStackParamList } from '../../../../App';
+import Card from '../../../components/shared/Card';
+import { RewardResponse } from '../../../shared/models/StoreData';
+import { getListProducts } from '../../../shared/services/StoreService';
+import textStyles from '../../../shared/themes/styles/textStyles';
 
-/** Cambiar para la url */
-export default function StoreScreen() {
+/** Pantalla de lista de productos */
+export default function ListStoreScreen() {
+     const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, 'ListStore'>>();
     const [rewardList, setRewardList] = useState<RewardResponse[]>([
         {
             id: 0,
@@ -40,7 +44,8 @@ export default function StoreScreen() {
                         <Card
                             key = { item.id }
                             title = { item.name }
-                            desc = { Number.parseInt(item.points) + ' puntos' }
+                            desc = { item.description }
+                            onPress={() => navigation.navigate("Store", { id: item.id })}
                         />
                     ))}
                 </ScrollView>

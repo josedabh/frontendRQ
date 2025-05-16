@@ -15,10 +15,7 @@ const globalStyles = StyleSheet.create({
     padding: 16,
     // Sombra para iOS y Android
     elevation: 3,
-    shadowColor: colors.shadow,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    boxShadow: colors.shadow,
     width: '90%',
   },
   input: {

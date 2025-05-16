@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getToken } from '../../context/AuthContext';
+import { getToken } from '../../shared/utils/TokenStorage';
 import { Credentials, Login, Register, UserProfile, UserResponse } from '../models/UserData';
 
 /** Url de la Api */

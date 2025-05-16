@@ -4,12 +4,12 @@ import { useContext, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Avatar } from '../../components/layout/profile/Avatar';
-import { MyModal } from '../../components/layout/profile/MyModal';
-import Option from '../../components/layout/profile/Option';
-import { AuthContext } from '../../context/AuthContext';
-import globalStyles from '../../shared/themes/styles/globalStyles';
-import { RootTabParamList } from '../Layout';
+import { Avatar } from '../../../components/layout/profile/Avatar';
+import { MyModal } from '../../../components/layout/profile/MyModal';
+import Option from '../../../components/layout/profile/Option';
+import { AuthContext } from '../../../context/AuthContext';
+import globalStyles from '../../../shared/themes/styles/globalStyles';
+import { RootTabParamList } from '../../Layout';
 
 // Define el tipo de navegación para esta pantalla
 type ProfileScreenNavigationProp = BottomTabNavigationProp<RootTabParamList, 'Perfil'>;

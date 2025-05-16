@@ -3,10 +3,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 
-import { MyButton } from '../../components/shared/MyButton';
-import { getMyUserInfo } from '../../shared/services/UserService';
-import { UserProfile } from '../../shared/models/UserData';
-import textStyles from '../../shared/themes/styles/textStyles';
+import { MyButton } from '../../../components/shared/MyButton';
+import { getMyUserInfo } from '../../../shared/services/UserService';
+import { UserProfile } from '../../../shared/models/UserData';
+import textStyles from '../../../shared/themes/styles/textStyles';
 
 export default function Datauser() {
     const navigation = useNavigation();
@@ -147,10 +147,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 10,
         padding: 16,
-        shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
+        boxShadow:'#000',
         elevation: 3,
     },
     label: {
