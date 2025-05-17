@@ -8,7 +8,7 @@ import { RootStackParamList } from '../../../../App';
 import HeaderNavigation from '../../../components/shared/HeaderNavigation';
 import { MyButton } from '../../../components/shared/MyButton';
 import { RewardResponse } from '../../../shared/models/StoreData';
-import { getProductById } from '../../../shared/services/StoreService';
+import { getRewardById } from '../../../shared/services/StoreService';
 import colors from '../../../shared/themes/constants/colors';
 import textStyles from '../../../shared/themes/styles/textStyles';
 
@@ -29,7 +29,7 @@ export default function StoreScreen() {
   useEffect(() => {
     const fetchReward = async () => {
       try {
-        const data = await getProductById(route.params.id);
+        const data = await getRewardById(route.params.id);
         setReward(data);
       } catch (e) {
         console.error(e);

@@ -3,7 +3,7 @@ import { Picker } from "@react-native-picker/picker";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 
 import { RootStackParamList } from "../../../../App";
 import { MyButton } from "../../../components/shared/MyButton";
@@ -13,10 +13,7 @@ import colors from "../../../shared/themes/constants/colors";
 
 /** Pantalla para crear nuevos retos */
 export default function AddChallengeScreen() {
-  const navigation =
-    useNavigation<
-      BottomTabNavigationProp<RootStackParamList, "AddChallenge">
-    >();
+  const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, "AddChallenge">>();
   // Estado inicial del formulario con valores por defecto
   const [formData, setFormData] = useState<ChallengeRequest>({
     title: "",
@@ -74,6 +71,7 @@ export default function AddChallengeScreen() {
 
       const response = await createChallenge(challenge);
       Alert.alert("Éxito", "Reto creado correctamente");
+      navigation.navigate("ManageChallenges");
     } catch (error: any) {
       Alert.alert(
         "Error",
@@ -83,108 +81,110 @@ export default function AddChallengeScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Título del Reto</Text>
-      {/* Campos del formulario */}
-      <TextInput
-        style={styles.input}
-        value={formData.title}
-        onChangeText={(text) => setFormData({ ...formData, title: text })}
-        placeholder="Añadir Reto (mínimo 10 caracteres)"
-      />
-
-      <Text style={styles.label}>Descripción</Text>
-      <TextInput
-        style={styles.input}
-        value={formData.description}
-        onChangeText={(text) => setFormData({ ...formData, description: text })}
-        placeholder="Descripción del reto (mínimo 10 caracteres)"
-        multiline
-      />
-
-      <Text style={styles.label}>Dificultad</Text>
-      <Picker
-        selectedValue={formData.difficulty}
-        onValueChange={(itemValue) =>
-          setFormData({ ...formData, difficulty: itemValue })
-        }
-        style={styles.picker}
-      >
-        <Picker.Item label="Fácil" value="easy" />
-        <Picker.Item label="Media" value="medium" />
-        <Picker.Item label="Difícil" value="hard" />
-      </Picker>
-
-      <Text style={styles.label}>Puntos</Text>
-      <TextInput
-        style={styles.input}
-        value={formData.points.toString()}
-        onChangeText={(text) =>
-          setFormData({ ...formData, points: parseInt(text) || 0 })
-        }
-        placeholder="0"
-        keyboardType="numeric"
-      />
-
-      <Text style={styles.label}>Fecha de inicio</Text>
-      <MyButton
-        title={new Date(formData.startDate).toLocaleDateString()}
-        onPress={() => setShowStartPicker(true)}
-      />
-      {showStartPicker && (
-        <DateTimePicker
-          value={new Date(formData.startDate)}
-          mode="datetime"
-          display="default"
-          onChange={(_, date) => {
-            if (date)
-              setFormData({
-                ...formData,
-                startDate: formatDate(date),
-              });
-            setShowStartPicker(false);
-          }}
+    <SafeAreaView style={{ padding: 16 }}>
+      <View style={styles.container}>
+        <Text style={styles.label}>Título del Reto</Text>
+        {/* Campos del formulario */}
+        <TextInput
+          style={styles.input}
+          value={formData.title}
+          onChangeText={(text) => setFormData({ ...formData, title: text })}
+          placeholder="Añadir Reto (mínimo 10 caracteres)"
         />
-      )}
 
-      <Text style={styles.label}>Fecha de fin</Text>
-      <MyButton
-        title={new Date(formData.endDate).toLocaleDateString()}
-        onPress={() => setShowEndPicker(true)}
-      />
-      {showEndPicker && (
-        <DateTimePicker
-          value={new Date(formData.endDate)}
-          mode="datetime"
-          display="default"
-          onChange={(_, date) => {
-            if (date)
-              setFormData({
-                ...formData,
-                endDate: formatDate(date),
-              });
-            setShowEndPicker(false);
-          }}
+        <Text style={styles.label}>Descripción</Text>
+        <TextInput
+          style={styles.input}
+          value={formData.description}
+          onChangeText={(text) => setFormData({ ...formData, description: text })}
+          placeholder="Descripción del reto (mínimo 10 caracteres)"
+          multiline
         />
-      )}
 
-      {/* Botón de envío */}
-      <View style={styles.buttonContainer}>
-        {/** Boton guardar */}
+        <Text style={styles.label}>Dificultad</Text>
+        <Picker
+          selectedValue={formData.difficulty}
+          onValueChange={(itemValue) =>
+            setFormData({ ...formData, difficulty: itemValue })
+          }
+          style={styles.picker}
+        >
+          <Picker.Item label="Fácil" value="easy" />
+          <Picker.Item label="Media" value="medium" />
+          <Picker.Item label="Difícil" value="hard" />
+        </Picker>
+
+        <Text style={styles.label}>Puntos</Text>
+        <TextInput
+          style={styles.input}
+          value={formData.points.toString()}
+          onChangeText={(text) =>
+            setFormData({ ...formData, points: parseInt(text) || 0 })
+          }
+          placeholder="0"
+          keyboardType="numeric"
+        />
+
+        <Text style={styles.label}>Fecha de inicio</Text>
         <MyButton
-          title="Guardar Challenge"
-          style={styles.btnSave}
-          onPress={handleSubmit}
+          title={new Date(formData.startDate).toLocaleDateString()}
+          onPress={() => setShowStartPicker(true)}
         />
+        {showStartPicker && (
+          <DateTimePicker
+            value={new Date(formData.startDate)}
+            mode="datetime"
+            display="default"
+            onChange={(_, date) => {
+              if (date)
+                setFormData({
+                  ...formData,
+                  startDate: formatDate(date),
+                });
+              setShowStartPicker(false);
+            }}
+          />
+        )}
 
-        {/** Boton volver */}
+        <Text style={styles.label}>Fecha de fin</Text>
         <MyButton
-          title="Volver"
-          style={styles.btnCancel}
-          onPress={() => navigation.goBack()}
+          title={new Date(formData.endDate).toLocaleDateString()}
+          onPress={() => setShowEndPicker(true)}
         />
+        {showEndPicker && (
+          <DateTimePicker
+            value={new Date(formData.endDate)}
+            mode="datetime"
+            display="default"
+            onChange={(_, date) => {
+              if (date)
+                setFormData({
+                  ...formData,
+                  endDate: formatDate(date),
+                });
+              setShowEndPicker(false);
+            }}
+          />
+        )}
+
+        {/* Botón de envío */}
+        <View style={styles.buttonContainer}>
+          {/** Boton guardar */}
+          <MyButton
+            title="Guardar Challenge"
+            style={styles.btnSave}
+            onPress={handleSubmit}
+          />
+
+          {/** Boton volver */}
+          <MyButton
+            title="Volver"
+            style={styles.btnCancel}
+            onPress={() => navigation.goBack()}
+          />
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -192,8 +192,9 @@ export default function AddChallengeScreen() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: colors.backgroundLight,
     flex: 1,
+    borderRadius: 8,
   },
   label: {
     fontWeight: "bold",

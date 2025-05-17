@@ -6,7 +6,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { AuthContext, AuthProvider } from './src/context/AuthContext';
 import AddChallengeScreen from './src/screens/admin/ManageChallenges/AddChallengeScreen';
 import ManageChallengesScreen from './src/screens/admin/ManageChallenges/ManageChallengesScreen';
-import ManageProductsScreen from './src/screens/admin/ManageProductsScreen';
+import ManageProductsScreen from './src/screens/admin/ManageProducts/ManageProductsScreen';
 import ManageUsersScreen from './src/screens/admin/ManageUsersScreen';
 import ChallengeScreen from './src/screens/app/ListChallenge/ChallengeScreen';
 import StoreScreen from './src/screens/app/ListStore/StoreScreen';
@@ -15,6 +15,8 @@ import LoginScreen from './src/screens/auth/LoginScreen';
 import MainScreen from './src/screens/auth/MainScreen';
 import RegisterScreen from './src/screens/auth/RegisterScreen';
 import Layout from './src/screens/Layout';
+import AddRewardScreen from './src/screens/admin/ManageProducts/AddRecompensaScreen';
+import AdminScreen from './src/screens/admin/AdminScreen';
 
 // Define los tipos para las rutas
 export type RootStackParamList = {
@@ -31,6 +33,7 @@ export type RootStackParamList = {
   AdminHome: undefined;
   ManageChallenges: undefined;
   AddChallenge: undefined;
+  AddReward: undefined;
   ManageProducts: undefined;
   ManageUsers: undefined;
 };
@@ -60,10 +63,16 @@ function AppNavigator() {
             <Stack.Screen name="Datauser" component={Datauser} />
             <Stack.Screen name="Challenge" component={ChallengeScreen} />
             <Stack.Screen name="Store" component={StoreScreen} />
+            <Stack.Screen name="AdminHome" component={AdminScreen} />
             <Stack.Screen
               name="AddChallenge"
               component={AddChallengeScreen}
               options={{ title: "Crear Reto" }}
+            />
+            <Stack.Screen
+              name="AddReward"
+              component={AddRewardScreen}
+              options={{ title: "Crear Recompensa" }}
             />
             <Stack.Screen
               name="ManageChallenges"

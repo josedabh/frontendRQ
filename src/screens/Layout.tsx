@@ -23,6 +23,11 @@ export type RootTabParamList = {
   Login: undefined;
   ValidationQuest: undefined;
   AdminHome: undefined;
+  ManageChallenges: undefined;
+  AddChallenge: undefined;
+  AddReward: undefined;
+  ManageProducts: undefined;
+  ManageUsers: undefined;
 };
 
 // 2. Crea el Tab con el tipo genérico

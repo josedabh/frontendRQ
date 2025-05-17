@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Alert,
   FlatList,
   SafeAreaView,
   StyleSheet,
@@ -8,7 +9,11 @@ import {
   View,
 } from "react-native";
 
-import colors from "../../shared/themes/constants/colors";
+import colors from "../../../shared/themes/constants/colors";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../../../App";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { deleteReward } from "../../../shared/services/StoreService";
 
 interface Product {
   id: number;
@@ -21,6 +26,7 @@ interface Product {
 }
 
 export default function ManageProductsScreen() {
+  const navigation = useNavigation< BottomTabNavigationProp<RootStackParamList, "ManageProducts"> >();
   const [products, setProducts] = useState<Product[]>([
     {
       id: 1,
@@ -42,8 +48,7 @@ export default function ManageProductsScreen() {
   ]);
 
   const onCreate = () => {
-    console.log("Crear producto");
-    // navigate a AddProduct o abrir modal
+    navigation.navigate("AddReward");
   };
 
   const onEdit = (item: Product) => {
@@ -51,9 +56,18 @@ export default function ManageProductsScreen() {
     // navigate a EditProduct con item
   };
 
+  /** TODO Arregla esto */
   const onDelete = (item: Product) => {
-    console.log("Borrar producto", item.id);
-    // Alert.alert('Confirmar', '¿Seguro que quieres borrar?', [{...}])
+    useEffect(() => {
+      const fetchDelete = async () => {
+        try {
+          deleteReward(item.id);
+        } catch (e) {
+          console.error(e);
+        }
+      };
+      fetchDelete();
+    }, []);
     setProducts(products.filter((p) => p.id !== item.id));
   };
 
@@ -100,6 +114,13 @@ export default function ManageProductsScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Header personalizado */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.navigate("AdminHome")}>
+          <Text style={styles.backText}>← Volver</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Administrar Recompensas</Text>
+      </View>
       <TouchableOpacity onPress={onCreate} style={styles.createBtn}>
         <Text style={styles.createText}>➕ Crear Producto</Text>
       </TouchableOpacity>
@@ -189,5 +210,22 @@ const styles = StyleSheet.create({
   actionText: {
     fontSize: 12,
     color: "#333",
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#fff',
+    elevation: 2,
+  },
+  backText: {
+    fontSize: 16,
+    color: colors.primary,
+  },
+  headerTitle: {
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });

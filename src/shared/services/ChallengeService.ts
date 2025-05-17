@@ -1,11 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
-import {
-  ChallengeCard,
-  ChallengeRequest,
-  ChallengeResponse,
-} from "../models/ChallengeData";
-import { getToken } from "../../shared/utils/TokenStorage";
+import { getToken } from '../../shared/utils/TokenStorage';
+import { ChallengeCard, ChallengeRequest, ChallengeResponse } from '../models/ChallengeData';
+import { RewardResponse } from '../models/StoreData';
 
 /** Url de la Api */
 const URL = "http://localhost:8080/api/v1/challenge";
@@ -67,3 +64,43 @@ export const createChallenge = async (
     throw error;
   }
 };
+
+export const deleteChallenge = async (id: string): Promise<void> => {
+  try {
+    const headers = await getAuthHeaders();
+    await axios.delete(`${URL}/delete-challenge/${id}`, { headers });
+  } catch (error) {
+    console.error("Error al eliminar el reto:", error);
+    throw error;
+  }
+}
+
+export const updateChallenge = async (
+  id: string,
+  challengeRequest: ChallengeRequest,
+): Promise<ChallengeRequest> => {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await axios.put<ChallengeRequest>(
+      `${URL}/update-challenge/${id}`,
+      challengeRequest,
+      { headers },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar el reto:", error);
+    throw error;
+  }
+};
+
+export const getAllChallenges = async (): Promise<ChallengeResponse[]> => {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await axios.get<ChallengeResponse[]>( `${URL}/admin/list-challenges`,
+      { headers });
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+    throw error;
+  }
+}
