@@ -1,16 +1,13 @@
-import {
-  BottomTabScreenProps,
-  createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
-import React from "react";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { BottomTabScreenProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import globalStyles from "../shared/themes/styles/globalStyles";
-import AdminScreen from "./admin/AdminScreen";
-import HomeScreen from "./app/HomeScreen";
-import ListChallengesScreen from "./app/ListChallenge/ListChallengesScreen";
-import ListStoreScreen from "./app/ListStore/ListStoreScreen";
-import ProfileScreen from "./app/Profile/ProfileScreen";
+import globalStyles from '../shared/themes/styles/globalStyles';
+import AdminStackScreen from './admin/AdminStackScreen';
+import HomeScreen from './app/HomeScreen';
+import ListChallengesScreen from './app/ListChallenge/ListChallengesScreen';
+import ListStoreScreen from './app/ListStore/ListStoreScreen';
+import ProfileScreen from './app/Profile/ProfileScreen';
 
 // 1. Define el tipo RootTabParamList
 export type RootTabParamList = {
@@ -73,7 +70,7 @@ export default function Layout() {
       />
       <Tab.Screen
         name="AdminHome"
-        component={AdminScreen}
+        component={AdminStackScreen}
         options={{
           title: "Panel de control",
           tabBarIcon: ({ color }) => (

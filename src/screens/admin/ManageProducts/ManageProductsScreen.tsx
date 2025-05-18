@@ -1,19 +1,11 @@
-import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import colors from "../../../shared/themes/constants/colors";
-import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../../../App";
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { deleteReward } from "../../../shared/services/StoreService";
+import { deleteReward } from '../../../shared/services/StoreService';
+import colors from '../../../shared/themes/constants/colors';
+import { AdminStackParamList } from '../AdminStackScreen';
 
 interface Product {
   id: number;
@@ -26,7 +18,7 @@ interface Product {
 }
 
 export default function ManageProductsScreen() {
-  const navigation = useNavigation< BottomTabNavigationProp<RootStackParamList, "ManageProducts"> >();
+  const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageProducts"> >();
   const [products, setProducts] = useState<Product[]>([
     {
       id: 1,

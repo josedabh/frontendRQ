@@ -2,11 +2,11 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { RootStackParamList } from '../../../App';
 import colors from '../../shared/themes/constants/colors';
+import { AdminStackParamList } from './AdminStackScreen';
 
 export default function ManageUsersScreen() {
-  const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, "ManageUsers">>();
+  const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageUsers">>();
 
   const onCreate = () => {
     navigation.navigate("AdminHome");

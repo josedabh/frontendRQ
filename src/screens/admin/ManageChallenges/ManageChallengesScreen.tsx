@@ -1,17 +1,10 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import {
-    FlatList,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { RootStackParamList } from "../../../../App";
-import colors from "../../../shared/themes/constants/colors";
+import colors from '../../../shared/themes/constants/colors';
+import { AdminStackParamList } from '../AdminStackScreen';
 
 interface Challenge {
     id: number;
@@ -25,7 +18,7 @@ interface Challenge {
 }
 
 export default function ManageChallengesScreen() {
-    const navigation = useNavigation< BottomTabNavigationProp<RootStackParamList, "ManageChallenges"> >();
+    const navigation = useNavigation< BottomTabNavigationProp<AdminStackParamList, "ManageChallenges"> >();
     const [challenges, setChallenges] = useState<Challenge[]>([
         {
             id: 1,

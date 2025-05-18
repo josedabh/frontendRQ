@@ -1,19 +1,19 @@
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Picker } from "@react-native-picker/picker";
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { Alert, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Picker } from '@react-native-picker/picker';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { Alert, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { RootStackParamList } from "../../../../App";
-import { MyButton } from "../../../components/shared/MyButton";
-import { ChallengeRequest } from "../../../shared/models/ChallengeData";
-import { createChallenge } from "../../../shared/services/ChallengeService";
-import colors from "../../../shared/themes/constants/colors";
+import { MyButton } from '../../../components/shared/MyButton';
+import { ChallengeRequest } from '../../../shared/models/ChallengeData';
+import { createChallenge } from '../../../shared/services/ChallengeService';
+import colors from '../../../shared/themes/constants/colors';
+import { AdminStackParamList } from '../AdminStackScreen';
 
 /** Pantalla para crear nuevos retos */
 export default function AddChallengeScreen() {
-  const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, "AddChallenge">>();
+  const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "AddChallenge">>();
   // Estado inicial del formulario con valores por defecto
   const [formData, setFormData] = useState<ChallengeRequest>({
     title: "",

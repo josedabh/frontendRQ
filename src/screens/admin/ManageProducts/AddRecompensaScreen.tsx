@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { Alert, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { RootStackParamList } from '../../../../App';
+import { MyButton } from '../../../components/shared/MyButton';
 import { RewardRequest } from '../../../shared/models/StoreData';
 import { createReward } from '../../../shared/services/StoreService';
-import { MyButton } from '../../../components/shared/MyButton';
 import colors from '../../../shared/themes/constants/colors';
+import { AdminStackParamList } from '../AdminStackScreen';
 
 export default function AddRewardScreen() {
-    const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, "AddReward">>();
+    const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "AddReward">>();
     // Estado inicial del formulario con valores por defecto
     const [formData, setFormData] = useState<RewardRequest>({
         name: "",
@@ -112,7 +112,7 @@ export default function AddRewardScreen() {
                 <View style={styles.buttonContainer}>
                     {/** Boton guardar */}
                     <MyButton
-                        title="Guardar Challenge"
+                        title="Guardar Recompensa"
                         style={styles.btnSave}
                         onPress={handleSubmit}
                     />
