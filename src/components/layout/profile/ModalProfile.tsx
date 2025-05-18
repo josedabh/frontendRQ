@@ -3,7 +3,7 @@ import { Modal, StyleSheet, Text, View } from "react-native";
 import colors from "../../../shared/themes/constants/colors";
 import { MyButton } from "../../shared/MyButton";
 
-interface MyModalProps {
+interface ModalProfileProps {
   title: string;
   visible: boolean;
   onClose: () => void;
@@ -12,14 +12,14 @@ interface MyModalProps {
   children?: React.ReactNode;
 }
 
-export function MyModal({
+export function ModalProfile({
   title,
   visible,
   onClose,
   children,
   onAction,
   onCancel,
-}: MyModalProps) {
+}: ModalProfileProps) {
   return (
     <Modal
       animationType="fade"

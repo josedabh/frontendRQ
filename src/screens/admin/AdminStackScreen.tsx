@@ -5,15 +5,15 @@ import React from 'react';
 import AdminScreen from './AdminScreen';
 import AddChallengeScreen from './ManageChallenges/AddChallengeScreen';
 import ManageChallengesScreen from './ManageChallenges/ManageChallengesScreen';
-import AddRewardScreen from './ManageProducts/AddRecompensaScreen';
-import ManageProductsScreen from './ManageProducts/ManageProductsScreen';
+import AddRewardScreen from './ManageProducts/AddRewardScreen';
+import ManageProductsScreen from './ManageProducts/ManageRewardsScreen';
 import ManageUsersScreen from './ManageUsersScreen';
 
 export type AdminStackParamList = {
     AdminHome: undefined;
     AddChallenge: undefined;
     ManageChallenges: undefined;
-    AddReward: undefined;
+    AddReward: {id: number} | undefined;
     ManageProducts: undefined;
     ManageUsers: undefined;
 };

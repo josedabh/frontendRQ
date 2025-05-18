@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
 import { deleteReward } from '../../../shared/services/StoreService';
 import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
@@ -17,7 +18,7 @@ interface Product {
   stock: number;
 }
 
-export default function ManageProductsScreen() {
+export default function ManageRewardsScreen() {
   const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageProducts"> >();
   const [products, setProducts] = useState<Product[]>([
     {
@@ -43,24 +44,32 @@ export default function ManageProductsScreen() {
     navigation.navigate("AddReward");
   };
 
-  const onEdit = (item: Product) => {
-    console.log("Editar producto", item.id);
-    // navigate a EditProduct con item
+ const onEdit = (item: Product) => {
+    // Con id: modo “editar”
+    navigation.navigate('AddReward', { id: item.id });
   };
 
-  /** TODO Arregla esto */
-  const onDelete = (item: Product) => {
-    useEffect(() => {
-      const fetchDelete = async () => {
-        try {
-          deleteReward(item.id);
-        } catch (e) {
-          console.error(e);
-        }
-      };
-      fetchDelete();
-    }, []);
-    setProducts(products.filter((p) => p.id !== item.id));
+  const [modalVisible, setModalVisible] = useState(false);
+  const [toDelete, setToDelete] = useState<Product | null>(null);
+
+  const onDeletePress = (item: Product) => {
+    setToDelete(item);
+    setModalVisible(true);
+  };
+
+   const handleConfirm = () => {
+    if (toDelete) {
+      deleteReward(toDelete.id)
+        .then(() => setProducts(ps => ps.filter(p => p.id !== toDelete.id)))
+        .catch(console.error);
+    }
+    setModalVisible(false);
+    setToDelete(null);
+  };
+
+  const handleCancel = () => {
+    setModalVisible(false);
+    setToDelete(null);
   };
 
   const onToggleActive = (item: Product) => {
@@ -87,7 +96,7 @@ export default function ManageProductsScreen() {
           <Text style={styles.actionText}>Editar</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => onDelete(item)}
+          onPress={() => onDeletePress(item)}
           style={styles.actionBtn}
         >
           <Text style={styles.actionText}>Borrar</Text>
@@ -124,6 +133,13 @@ export default function ManageProductsScreen() {
         contentContainerStyle={styles.list}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         ListEmptyComponent={<Text style={styles.empty}>No hay productos</Text>}
+      />
+      <ConfirmModal
+        visible={modalVisible}
+        title="Eliminar producto"
+        message={`¿Eliminar "${toDelete?.name}"?`}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
       />
     </SafeAreaView>
   );

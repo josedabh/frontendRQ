@@ -1,71 +1,63 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { ChallengeResponse } from '../../../shared/models/ChallengeData';
+import { getAllChallenges } from '../../../shared/services/ChallengeService';
 import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
 
-interface Challenge {
-    id: number;
-    title: string;
-    description: string;
-    difficulty: string;
-    startDate: string;
-    endDate: string;
-    points: number;
-    verified: boolean;
-}
-
 export default function ManageChallengesScreen() {
     const navigation = useNavigation< BottomTabNavigationProp<AdminStackParamList, "ManageChallenges"> >();
-    const [challenges, setChallenges] = useState<Challenge[]>([
+    const [challenges, setChallenges] = useState<ChallengeResponse[]>([
         {
-            id: 1,
+            id: "1",
             title: "Reto Saludable",
             description: "Camina 10,000 pasos al día",
             difficulty: "easy",
             startDate: "2025-05-01T00:00:00",
             endDate: "2025-05-07T23:59:59",
             points: 50,
-            verified: false,
-        },
-        {
-            id: 2,
-            title: "Reto Productividad",
-            description: "Termina 3 tareas importantes",
-            difficulty: "medium",
-            startDate: "2025-05-10T00:00:00",
-            endDate: "2025-05-12T23:59:59",
-            points: 100,
-            verified: true,
-        },
-        // ... más ejemplos
+            state: "active",
+        }
     ]);
 
+    useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            const data = await getAllChallenges();
+            setChallenges(data);
+          } catch (e) {
+            console.error(e);
+          }
+        };
+        fetchUsers();
+    }, []);
+    
     const onCreate = () => {
         navigation.navigate("AddChallenge");
     };
 
-    const onEdit = (item: Challenge) => {
+    const onEdit = (item: ChallengeResponse) => {
         console.log("Editar reto", item.id);
         // navegar a EditChallengeScreen con item
     };
 
-    const onDelete = (item: Challenge) => {
+    const onDelete = (item: ChallengeResponse) => {
         setChallenges(challenges.filter((c) => c.id !== item.id));
     };
 
-    const onVerify = (item: Challenge) => {
-        console.log("Toggle verificación", item.id);
-        setChallenges(
-            challenges.map((c) =>
-                c.id === item.id ? { ...c, verified: !c.verified } : c,
-            ),
-        );
-    };
+    // const onVerify = (item: ChallengeResponse) => {
+    //     console.log("Toggle verificación", item.id);
+    //     setChallenges(
+    //         challenges.map((c) =>
+    //             c.id === item.id ? { ...c, verified: !c.verified } : c,
+    //         ),
+    //     );
+    // };
 
-    const renderItem = ({ item }: { item: Challenge }) => (
+    const renderItem = ({ item }: { item: ChallengeResponse }) => (
         <View style={styles.card}>
             <View style={styles.info}>
                 <Text style={styles.title}>{item.title}</Text>
@@ -76,10 +68,10 @@ export default function ManageChallengesScreen() {
                 <Text
                     style={[
                         styles.small,
-                        item.verified ? styles.verified : styles.unverified,
+                        item.state == "PENDING" ? styles.verified : styles.unverified,
                     ]}
                 >
-                    {item.verified ? "Verificado" : "Pendiente verificación"}
+                    {item.state == "PENDING" ? "Verificado" : "Pendiente verificación"}
                 </Text>
             </View>
             <View style={styles.actions}>
@@ -92,14 +84,14 @@ export default function ManageChallengesScreen() {
                 >
                     <Text style={styles.actionText}>Borrar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     onPress={() => onVerify(item)}
                     style={styles.actionBtn}
                 >
                     <Text style={styles.actionText}>
                         {item.verified ? "Desmarcar" : "Verificar"}
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     );
@@ -150,8 +142,9 @@ const styles = StyleSheet.create({
         fontWeight: "600",
     },
     list: {
-        paddingHorizontal: 16,
-        paddingBottom: 20,
+        paddingHorizontal: -4,
+        padding: 20,
+        paddingEnd: 10,
     },
     separator: {
         height: 12,

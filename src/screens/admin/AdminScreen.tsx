@@ -1,23 +1,11 @@
-import React from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import colors from "../../shared/themes/constants/colors";
-import Card from "../../components/shared/Card";
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React from 'react';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
-type AdminStackParamList = {
-  AdminHome: undefined;
-  AddChallenge: undefined;
-  ManageChallenges: undefined;
-  ManageProducts: undefined;
-  ManageUsers: undefined;
-};
+import Card from '../../components/shared/Card';
+import colors from '../../shared/themes/constants/colors';
+import { AdminStackParamList } from './AdminStackScreen';
 
 type AdminNavProp = NativeStackNavigationProp<AdminStackParamList, "AdminHome">;
 

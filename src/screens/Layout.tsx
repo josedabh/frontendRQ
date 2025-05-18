@@ -43,9 +43,12 @@ export default function Layout() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        // Color del ícono activo, puedes cambiarlo a tu gusto
-        tabBarActiveTintColor: "#ff2058",
-        tabBarStyle: globalStyles.tabBar,
+        tabBarActiveTintColor: '#ff2058',
+        tabBarStyle: {
+          ...globalStyles.tabBar,
+          height: 64,
+          paddingBottom: 8,
+        },
       }}
     >
       <Tab.Screen
