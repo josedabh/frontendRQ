@@ -30,7 +30,7 @@ export const createReward = async (request: RewardRequest) => {
 };
 
 /** Api Get: lista de productos para cards */
-export const getListProducts = async () => {
+export const getListRewards = async () => {
   try {
     const headers = await getAuthHeaders();
     const response = await axios.get<RewardResponse[]>(`${URL}/list-products`, {
@@ -86,11 +86,11 @@ export const deleteReward = async (id: number): Promise<void> => {
   }
 }
 
-/** Api Put: Cambia la visibility de la recompensa */
+/** Api Patch: Cambia la visibility de la recompensa */
 export const changeVisbilityReward = async ( id: number): Promise<void> => {
   try {
     const headers = await getAuthHeaders();
-    await axios.put(`${URL}/change-visibility/${id}`, { headers });
+    await axios.patch(`${URL}/change-visibility/${id}`, { headers });
   } catch (error) {
     console.error("Error al cambiar la visibilidad del producto:", error);
     throw error;

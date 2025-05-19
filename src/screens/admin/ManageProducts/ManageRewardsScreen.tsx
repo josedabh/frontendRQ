@@ -1,66 +1,63 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
-import { deleteReward } from '../../../shared/services/StoreService';
+import { RewardResponse } from '../../../shared/models/StoreData';
+import { changeVisbilityReward, deleteReward, getListRewards } from '../../../shared/services/StoreService';
 import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  points: number;
-  image?: string;
-  active: boolean;
-  stock: number;
-}
-
 export default function ManageRewardsScreen() {
-  const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageProducts"> >();
-  const [products, setProducts] = useState<Product[]>([
+  const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageProducts">>();
+  const [rewards, setRewards] = useState<RewardResponse[]>([
     {
-      id: 1,
-      name: "Reward 1",
-      description: "Reward 1 description",
-      points: 100,
+      id: 0,
+      name: "",
+      description: "",
+      points: 0,
       active: true,
-      stock: 5,
-    },
-    {
-      id: 2,
-      name: "Reward 2",
-      description: "Reward 2 description",
-      points: 200,
-      active: false,
+      image: "",
       stock: 0,
     },
-    // ...más productos de ejemplo
   ]);
+
+  useEffect(() => {
+    const fetchRewards = async () => {
+      try {
+        const data = await getListRewards();
+        setRewards(data);
+      } catch (error) {
+        Alert.alert("Error", "No se pudieron cargar los productos");
+        console.error(error);
+      }
+    }
+    fetchRewards();
+  }
+    , []);
 
   const onCreate = () => {
     navigation.navigate("AddReward");
   };
 
- const onEdit = (item: Product) => {
+  const onEdit = (item: RewardResponse) => {
     // Con id: modo “editar”
     navigation.navigate('AddReward', { id: item.id });
   };
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [toDelete, setToDelete] = useState<Product | null>(null);
+  const [toDelete, setToDelete] = useState<RewardResponse | null>(null);
 
-  const onDeletePress = (item: Product) => {
+  const onDeletePress = (item: RewardResponse) => {
     setToDelete(item);
     setModalVisible(true);
   };
 
-   const handleConfirm = () => {
+  const handleConfirm = () => {
     if (toDelete) {
       deleteReward(toDelete.id)
-        .then(() => setProducts(ps => ps.filter(p => p.id !== toDelete.id)))
+        .then(() => setRewards(ps => ps.filter(p => p.id !== toDelete.id)))
         .catch(console.error);
     }
     setModalVisible(false);
@@ -72,14 +69,19 @@ export default function ManageRewardsScreen() {
     setToDelete(null);
   };
 
-  const onToggleActive = (item: Product) => {
-    console.log("Toggle active", item.id);
-    setProducts(
-      products.map((p) => (p.id === item.id ? { ...p, active: !p.active } : p)),
-    );
+  const onToggleActive = async (item: RewardResponse) => {
+    try {
+      await changeVisbilityReward(item.id);
+      setRewards(rs =>
+        rs.map(p => p.id === item.id ? { ...p, active: !p.active } : p)
+      );
+    } catch {
+      Alert.alert('Error', 'No se pudo cambiar la visibilidad');
+    }
   };
 
-  const renderItem = ({ item }: { item: Product }) => (
+
+  const renderItem = ({ item }: { item: RewardResponse }) => (
     <View style={styles.card}>
       <View style={styles.info}>
         <Text style={styles.title}>{item.name}</Text>
@@ -127,7 +129,7 @@ export default function ManageRewardsScreen() {
       </TouchableOpacity>
 
       <FlatList
-        data={products}
+        data={rewards}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         contentContainerStyle={styles.list}
