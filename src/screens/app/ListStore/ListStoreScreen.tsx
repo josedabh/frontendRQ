@@ -7,13 +7,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../../../../App';
 import Card from '../../../components/shared/Card';
 import { RewardResponse } from '../../../shared/models/StoreData';
-import { getListProducts } from '../../../shared/services/StoreService';
+import { getListRewardsUsers } from '../../../shared/services/StoreService';
 import textStyles from '../../../shared/themes/styles/textStyles';
 
 /** Pantalla de lista de productos */
 export default function ListStoreScreen() {
   const navigation =
-    useNavigation<BottomTabNavigationProp<RootStackParamList, "ListStore">>();
+    useNavigation<BottomTabNavigationProp<RootStackParamList, "Layout">>();
   const [rewardList, setRewardList] = useState<RewardResponse[]>([
     {
       id: 0,
@@ -28,7 +28,7 @@ export default function ListStoreScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getListProducts();
+        const data = await getListRewardsUsers();
         setRewardList(data);
       } catch (error) {
         console.error("Error fetching data:", error);

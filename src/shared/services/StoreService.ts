@@ -33,7 +33,22 @@ export const createReward = async (request: RewardRequest) => {
 export const getListRewards = async () => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.get<RewardResponse[]>(`${URL}/list-products`, {
+    const response = await axios.get<RewardResponse[]>(`${URL}/admin/list-rewards`, {
+      headers,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener los productos:", error);
+    throw error;
+  }
+};
+
+
+/** Api Get: lista de productos para cards */
+export const getListRewardsUsers = async () => {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await axios.get<RewardResponse[]>(`${URL}/users/list-rewards`, {
       headers,
     });
     return response.data;

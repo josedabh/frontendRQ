@@ -46,8 +46,7 @@ export default function Layout() {
         tabBarActiveTintColor: '#ff2058',
         tabBarStyle: {
           ...globalStyles.tabBar,
-          height: 64,
-          paddingBottom: 8,
+          
         },
       }}
     >

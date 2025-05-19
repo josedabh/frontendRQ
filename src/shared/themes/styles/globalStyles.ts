@@ -38,7 +38,8 @@ const globalStyles = StyleSheet.create({
     elevation: 0,
     borderTopWidth: 0,
     backgroundColor: colors.backgroundLight,
-    height: 60,
+    height: 64,
+    paddingBottom: 8,
   },
 });
 

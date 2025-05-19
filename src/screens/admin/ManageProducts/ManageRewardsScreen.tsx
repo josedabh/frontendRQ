@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingHorizontal: 16,
-    paddingBottom: 20,
+    paddingBottom: 75,
   },
   separator: {
     height: 12,

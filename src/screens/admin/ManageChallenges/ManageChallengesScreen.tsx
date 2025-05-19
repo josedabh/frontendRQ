@@ -142,9 +142,8 @@ const styles = StyleSheet.create({
         fontWeight: "600",
     },
     list: {
-        paddingHorizontal: -4,
-        padding: 20,
-        paddingEnd: 10,
+        paddingHorizontal: 16,
+        paddingBottom: 80,
     },
     separator: {
         height: 12,
