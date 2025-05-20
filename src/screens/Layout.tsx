@@ -19,7 +19,7 @@ export type RootTabParamList = {
   Challenge: undefined;
   Login: undefined;
   ValidationQuest: undefined;
-  AdminHome: undefined;
+  Admin: undefined;
   ManageChallenges: undefined;
   AddChallenge: undefined;
   AddReward: undefined;
@@ -71,7 +71,7 @@ export default function Layout() {
         }}
       />
       <Tab.Screen
-        name="AdminHome"
+        name="Admin"
         component={AdminStackScreen}
         options={{
           title: "Panel de control",

@@ -17,7 +17,7 @@ export default function ManageRewardsScreen() {
       name: "",
       description: "",
       points: 0,
-      active: true,
+      visible: true,
       image: "",
       stock: 0,
     },
@@ -73,7 +73,7 @@ export default function ManageRewardsScreen() {
     try {
       await changeVisbilityReward(item.id);
       setRewards(rs =>
-        rs.map(p => p.id === item.id ? { ...p, active: !p.active } : p)
+        rs.map(p => p.id === item.id ? { ...p, visible: !p.visible } : p)
       );
     } catch {
       Alert.alert('Error', 'No se pudo cambiar la visibilidad');
@@ -89,8 +89,8 @@ export default function ManageRewardsScreen() {
         <Text style={styles.small}>
           Puntos: {item.points} · Stock: {item.stock}
         </Text>
-        <Text style={[styles.small, !item.active && styles.inactive]}>
-          {item.active ? "Activo" : "Inactivo"}
+        <Text style={[styles.small, !item.visible && styles.inactive]}>
+          {item.visible ? "Activo" : "Inactivo"}
         </Text>
       </View>
       <View style={styles.actions}>
@@ -108,7 +108,7 @@ export default function ManageRewardsScreen() {
           style={styles.actionBtn}
         >
           <Text style={styles.actionText}>
-            {item.active ? "Desactivar" : "Activar"}
+            {item.visible ? "Desactivar" : "Activar"}
           </Text>
         </TouchableOpacity>
       </View>

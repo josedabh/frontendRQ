@@ -21,7 +21,7 @@ export default function ListStoreScreen() {
       description: "",
       points: 0,
       image: "",
-      active: false,
+      visible: false,
       stock: 0,
     },
   ]);

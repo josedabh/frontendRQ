@@ -1,9 +1,9 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Alert, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { MyButton } from '../../../components/shared/MyButton';
 import { ChallengeRequest } from '../../../shared/models/ChallengeData';
@@ -11,9 +11,14 @@ import { createChallenge } from '../../../shared/services/ChallengeService';
 import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
 
+type RouteProps = RouteProp<AdminStackParamList, 'AddChallenge'>;
+type NavProps   = BottomTabNavigationProp<AdminStackParamList, 'AddChallenge'>;
+
 /** Pantalla para crear nuevos retos */
 export default function AddChallengeScreen() {
-  const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "AddChallenge">>();
+  const navigation = useNavigation<NavProps>();
+  const route = useRoute<RouteProps>();
+  const editId = route.params?.id;
   // Estado inicial del formulario con valores por defecto
   const [formData, setFormData] = useState<ChallengeRequest>({
     title: "",
@@ -81,10 +86,23 @@ export default function AddChallengeScreen() {
   };
 
   return (
-    <SafeAreaView style={{ padding: 16 }}>
-      <View style={styles.container}>
-        <Text style={styles.label}>Título del Reto</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.backText}>← Volver</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>
+          {editId ? 'Editar Retos' : 'Crear Retos'}
+        </Text>
+      </View>
+      {/* ScrollView para todo el formulario */}
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled"
+      >
         {/* Campos del formulario */}
+        <Text style={styles.label}>Titulo</Text>
         <TextInput
           style={styles.input}
           value={formData.title}
@@ -183,7 +201,7 @@ export default function AddChallengeScreen() {
             onPress={() => navigation.goBack()}
           />
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -196,18 +214,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 8,
   },
-  label: {
-    fontWeight: "bold",
-    marginTop: 12,
-    fontSize: 16,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    borderRadius: 6,
-    marginTop: 4,
-  },
   picker: {
     marginTop: 4,
     height: 40,
@@ -216,14 +222,61 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: colors.backgroundLight,
+  },
+  backText: {
+    fontSize: 16,
+    color: colors.primary,
+  },
+  headerTitle: {
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    padding: 16,
+    paddingBottom: 80,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginTop: 12,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 6,
+    marginTop: 4,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+  },
+  status: {
+    marginLeft: 8,
+    fontSize: 16,
+  },
   buttonContainer: {
-    marginTop: 20,
-    marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 24,
   },
   btnSave: {
     backgroundColor: colors.success,
+    flex: 1,
+    marginRight: 8,
   },
   btnCancel: {
     backgroundColor: colors.danger,
+    flex: 1,
+    marginLeft: 8,
   },
 });

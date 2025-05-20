@@ -56,7 +56,7 @@ export default function StoreScreen() {
     );
   }
 
-  const isAvailable = reward.active && reward.stock > 0;
+  const isAvailable = reward.visible && reward.stock > 0;
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -78,10 +78,7 @@ export default function StoreScreen() {
 
         {/* Nombre y estado */}
         <Text style={textStyles.title}>{reward.name}</Text>
-        {!reward.active && (
-          <Text style={styles.unavailable}>Recompensa inactiva</Text>
-        )}
-        {reward.active && reward.stock === 0 && (
+        {reward.stock === 0 && (
           <Text style={styles.unavailable}>Agotado</Text>
         )}
 
@@ -131,7 +128,7 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   image: {
-    width: "100%",
+    width: "80%",
     height: width * 0.6,
     borderRadius: 8,
     backgroundColor: "#eee",

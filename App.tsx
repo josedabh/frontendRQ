@@ -50,7 +50,10 @@ function AppStack() {
 
 function AppNavigator() {
   const { isAuthenticated, loading } = useContext(AuthContext);
-
+  const Navigator = useMemo(
+    () => (isAuthenticated ? AppStack : AuthStack),
+    [isAuthenticated]
+  );
   if (loading) {
     return (
       <View style={styles.loader}>
@@ -58,13 +61,6 @@ function AppNavigator() {
       </View>
     );
   }
-
-  // Memoizamos los stacks para que no se vuelvan a crear en cada render
-  const Navigator = useMemo(
-    () => (isAuthenticated ? AppStack : AuthStack),
-    [isAuthenticated]
-  );
-
   return <Navigator />;
 }
 

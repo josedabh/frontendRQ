@@ -23,7 +23,7 @@ export default function AddRewardScreen() {
     description: '',
     points: 0,
     image: '',
-    active: true,
+    visible: true,
     stock: 0,
   });
 
@@ -37,7 +37,7 @@ export default function AddRewardScreen() {
             description: data.description,
             points: data.points,
             image: data.image,
-            active: data.active,
+            visible: data.visible,
             stock: data.stock,
           });
         } catch (e) {
@@ -140,11 +140,11 @@ export default function AddRewardScreen() {
         <View style={styles.switchContainer}>
           <Text style={styles.label}>Visibilidad:</Text>
           <Switch
-            value={formData.active}
-            onValueChange={(v) => setFormData({ ...formData, active: v })}
+            value={formData.visible}
+            onValueChange={(v) => setFormData({ ...formData, visible: v })}
           />
-          <Text style={[styles.status, { color: formData.active ? 'green' : 'gray' }]}>
-            {formData.active ? 'Activo' : 'Inactivo'}
+          <Text style={[styles.status, { color: formData.visible ? 'green' : 'gray' }]}>
+            {formData.visible ? 'Activo' : 'Inactivo'}
           </Text>
         </View>
 
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1, 
     padding: 16,
-    paddingBottom: 32,
+    paddingBottom: 80,
   },
   label: {
     fontSize: 16,

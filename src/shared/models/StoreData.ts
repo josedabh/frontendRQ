@@ -3,7 +3,7 @@ export interface RewardRequest {
   description: string;
   points: number;
   image: string;
-  active: boolean;
+  visible: boolean;
   stock: number;
 }
 
@@ -13,6 +13,6 @@ export interface RewardResponse {
   description: string;
   points: number;
   image: string;
-  active: boolean;
+  visible: boolean;
   stock: number;
 }

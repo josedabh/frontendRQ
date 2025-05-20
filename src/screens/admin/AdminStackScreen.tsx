@@ -11,7 +11,7 @@ import ManageUsersScreen from './ManageUsersScreen';
 
 export type AdminStackParamList = {
     AdminHome: undefined;
-    AddChallenge: undefined;
+    AddChallenge: { id: number } | undefined;
     ManageChallenges: undefined;
     AddReward: {id: number} | undefined;
     ManageProducts: undefined;
