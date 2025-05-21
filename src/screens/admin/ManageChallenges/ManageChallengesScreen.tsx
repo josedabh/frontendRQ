@@ -4,12 +4,15 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ChallengeResponse } from '../../../shared/models/ChallengeData';
-import { getAllChallenges } from '../../../shared/services/ChallengeService';
+import { deleteChallenge, getAllChallenges } from '../../../shared/services/ChallengeService';
 import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
+import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
+import ButtonGeneric from '../../../components/layout/admin/ButtonGeneric';
+import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
 
 export default function ManageChallengesScreen() {
-    const navigation = useNavigation< BottomTabNavigationProp<AdminStackParamList, "ManageChallenges"> >();
+    const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageChallenges">>();
     const [challenges, setChallenges] = useState<ChallengeResponse[]>([
         {
             id: "1",
@@ -25,37 +28,46 @@ export default function ManageChallengesScreen() {
 
     useEffect(() => {
         const fetchUsers = async () => {
-          try {
-            const data = await getAllChallenges();
-            setChallenges(data);
-          } catch (e) {
-            console.error(e);
-          }
+            try {
+                const data = await getAllChallenges();
+                setChallenges(data);
+            } catch (e) {
+                console.error(e);
+            }
         };
         fetchUsers();
     }, []);
-    
+
     const onCreate = () => {
         navigation.navigate("AddChallenge");
     };
 
     const onEdit = (item: ChallengeResponse) => {
-        console.log("Editar reto", item.id);
-        // navegar a EditChallengeScreen con item
+        navigation.navigate('AddChallenge', { id: item.id });
     };
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [toDelete, setToDelete] = useState<ChallengeResponse | null>(null);
 
     const onDelete = (item: ChallengeResponse) => {
-        setChallenges(challenges.filter((c) => c.id !== item.id));
+        setToDelete(item);
+        setModalVisible(true);
     };
 
-    // const onVerify = (item: ChallengeResponse) => {
-    //     console.log("Toggle verificación", item.id);
-    //     setChallenges(
-    //         challenges.map((c) =>
-    //             c.id === item.id ? { ...c, verified: !c.verified } : c,
-    //         ),
-    //     );
-    // };
+    const handleConfirm = () => {
+        if (toDelete) {
+            deleteChallenge(toDelete.id)
+                .then(() => setChallenges(ps => ps.filter(p => p.id !== toDelete.id)))
+                .catch(console.error);
+        }
+        setModalVisible(false);
+        setToDelete(null);
+    };
+
+    const handleCancel = () => {
+        setModalVisible(false);
+        setToDelete(null);
+    };
 
     const renderItem = ({ item }: { item: ChallengeResponse }) => (
         <View style={styles.card}>
@@ -99,17 +111,19 @@ export default function ManageChallengesScreen() {
     return (
         <SafeAreaView style={styles.container}>
             {/* Header personalizado */}
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.navigate("AdminHome")}>
-                    <Text style={styles.backText}>← Volver</Text>
-                </TouchableOpacity>
-                <Text style={styles.headerTitle}>Administrar Retos</Text>
-            </View>
+            <ScreenHeader
+                title="Administrar Retos"
+                onLeftPress={() => navigation.navigate('AdminHome')}
+                leftLabel="← Volver"
+            />
 
             {/* Botón Crear */}
-            <TouchableOpacity onPress={onCreate} style={styles.createBtn}>
-                <Text style={styles.createText}>➕ Crear Reto</Text>
-            </TouchableOpacity>
+            <ButtonGeneric
+                label="Crear Retos"
+                onPress={onCreate}
+                prefix="➕"
+                containerStyle={{ margin: 16 }}
+            />
 
             {/* Lista de retos */}
             <FlatList
@@ -119,6 +133,15 @@ export default function ManageChallengesScreen() {
                 contentContainerStyle={styles.list}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
                 ListEmptyComponent={<Text style={styles.empty}>No hay retos</Text>}
+            />
+
+            {/* Modal de confirmación para eliminar un producto */}
+            <ConfirmModal
+                visible={modalVisible}
+                title="Eliminar reto"
+                message={`¿Eliminar "${toDelete?.title}"?`}
+                onConfirm={handleConfirm}
+                onCancel={handleCancel}
             />
         </SafeAreaView>
     );

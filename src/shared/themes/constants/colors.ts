@@ -11,6 +11,7 @@ const colors = {
   success: "#10B981", // Green 500
   info: "#3B82F6", // Blue 500
   shadow: "#000000", // Black
+  warning: "#FBBF24", // Amber 400
 };
 
 export default colors;
