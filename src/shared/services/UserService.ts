@@ -4,7 +4,7 @@ import { getToken } from '../../shared/utils/TokenStorage';
 import { Credentials, Login, Register, UserProfile, UserResponse } from '../models/UserData';
 
 /** Url de la Api */
-const URL = "http://localhost:8080/api/v1";
+const URL = "http://localhost:8080/api/v1/auth";
 
 const getAuthHeaders = async () => {
   const token = await getToken();
@@ -17,7 +17,7 @@ const getAuthHeaders = async () => {
 /** Api Get que dice hola de prueba */
 export const prueba = async (): Promise<string> => {
   try {
-    const response = await axios.get<string>(`${URL}/auth/hello`);
+    const response = await axios.get<string>(`${URL}/hello`);
     return response.data;
   } catch (error) {
     console.error("No funciona " + error);
@@ -29,8 +29,9 @@ export const prueba = async (): Promise<string> => {
 export const getListUsers = async (): Promise<UserResponse[]> => {
   try {
     const headers = await getAuthHeaders();
+    const URL2 = URL.replace("auth", "admin");
     const response = await axios.get<UserResponse[]>(
-      `${URL}/admin/list-users`,
+      `${URL2}/list-users`,
       { headers },
     );
     return response.data;
@@ -48,7 +49,7 @@ export const registerUser = async (
 ): Promise<Credentials> => {
   try {
     const newUser = await axios.post<Credentials>(
-      `${URL}/auth/register`,
+      `${URL}/register`,
       UserRegister,
     );
     return newUser.data;
@@ -63,7 +64,7 @@ export const registerUser = async (
  */
 export const loginUser = async (login: Login): Promise<Credentials> => {
   try {
-    const token = await axios.post<Credentials>(`${URL}/auth/login`, login);
+    const token = await axios.post<Credentials>(`${URL}/login`, login);
     return token.data;
   } catch (error) {
     console.error(error);
@@ -74,7 +75,7 @@ export const loginUser = async (login: Login): Promise<Credentials> => {
 export const getMyUserInfo = async (): Promise<UserProfile> => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.get<UserProfile>(`${URL}/auth/info-user`, {
+    const response = await axios.get<UserProfile>(`${URL}/info-user`, {
       headers,
     });
     return response.data;

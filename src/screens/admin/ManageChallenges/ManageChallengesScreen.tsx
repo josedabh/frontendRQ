@@ -1,6 +1,6 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ChallengeResponse } from '../../../shared/models/ChallengeData';
@@ -10,9 +10,11 @@ import { AdminStackParamList } from '../AdminStackScreen';
 import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import ButtonGeneric from '../../../components/layout/admin/ButtonGeneric';
 import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
+import MySearchBar from '../../../components/shared/MySearchBar';
 
 export default function ManageChallengesScreen() {
     const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageChallenges">>();
+    const [input, setInput] = useState("");
     const [challenges, setChallenges] = useState<ChallengeResponse[]>([
         {
             id: "1",
@@ -25,6 +27,12 @@ export default function ManageChallengesScreen() {
             state: "active",
         }
     ]);
+
+    // Filtro de retos por título
+    const filteredChallenges = useMemo(() => {
+        const query = input.toLowerCase();
+        return challenges.filter((ch) => ch.title.toLowerCase().includes(query));
+    }, [input, challenges]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -116,6 +124,12 @@ export default function ManageChallengesScreen() {
                 onLeftPress={() => navigation.navigate('AdminHome')}
                 leftLabel="← Volver"
             />
+            {/* Barra de búsqueda */}
+            <MySearchBar
+                title="Buscar reto"
+                value={input}
+                onChangeText={setInput}
+            />
 
             {/* Botón Crear */}
             <ButtonGeneric
@@ -127,7 +141,7 @@ export default function ManageChallengesScreen() {
 
             {/* Lista de retos */}
             <FlatList
-                data={challenges}
+                data={filteredChallenges}
                 keyExtractor={item => item.id.toString()}
                 renderItem={renderItem}
                 contentContainerStyle={styles.list}

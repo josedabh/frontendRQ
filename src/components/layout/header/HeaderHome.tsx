@@ -11,7 +11,7 @@ interface HeaderProps {
 const HeaderHome: React.FC<HeaderProps> = ({ person }) => {
   return (
     <View style={[globalStyles.card, { display: "flex" }]}>
-      <Text style={textStyles.title}> Hola , {person} </Text>
+      <Text style={textStyles.title}> Hola, {person} </Text>
     </View>
   );
 };

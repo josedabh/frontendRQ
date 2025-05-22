@@ -19,8 +19,6 @@ export default function CardChallenge({
   points,
   onPress,
 }: ChallengeCardProps) {
-  const { width } = useWindowDimensions();
-  const cardWidth = width > 600 ? (width - 48) / 2 : width - 32;
 
   // Colorea la etiqueta según dificultad
   const diffColor =
@@ -32,7 +30,7 @@ export default function CardChallenge({
 
   return (
     <TouchableOpacity
-      style={[styles.card, { width: cardWidth }]}
+      style={[styles.card]}
       activeOpacity={0.8}
       onPress={onPress}
     >

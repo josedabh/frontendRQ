@@ -1,7 +1,7 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useMemo, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 import { RootStackParamList } from '../../../../App';
 import CardChallenge from '../../../components/layout/challenges/CardChallenge';
@@ -17,9 +17,6 @@ export default function ListChallengesScreen() {
         >();
     const [cardChallenge, setCardChallenge] = useState<ChallengeCard[]>([]);
     const [input, setInput] = useState("");
-
-    const { width } = useWindowDimensions();
-    const numCols = width > 600 ? 2 : 1;
 
     useEffect(() => {
         const fetchListChallenge = async () => {
@@ -45,7 +42,7 @@ export default function ListChallengesScreen() {
             description={item.description}
             difficulty="easy"
             points={1}
-            onPress={() => console.log('Pulso el reto')}
+            onPress={() => navigation.navigate('Challenge', { id: item.id })}
         />
     );
 
@@ -60,11 +57,10 @@ export default function ListChallengesScreen() {
                 />
 
                 <FlatList
-                    data={cardChallenge}
+                    data={filteredChallenges}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={renderItem}
-                    numColumns={numCols}
-                    columnWrapperStyle={numCols > 1 && styles.columnWrapper}
+                    ItemSeparatorComponent={() => <View style={styles.separator} />}
                     contentContainerStyle={styles.list}
                     ListEmptyComponent={<View style={styles.empty} />}
                 />
@@ -76,7 +72,6 @@ export default function ListChallengesScreen() {
 const styles = StyleSheet.create({
     list: {
         paddingLeft: 16,
-        paddingRight: 24,
         paddingBottom: 80,
     },
     columnWrapper: {
@@ -84,5 +79,8 @@ const styles = StyleSheet.create({
     },
     empty: {
         height: 200, // espacio cuando no hay resultados
+    },
+    separator: {
+        height: 12,
     },
 });

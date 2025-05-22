@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   box: {
-    backgroundColor: colors.secondary,
     borderRadius: 10,
     padding: 12,
     marginBottom: 12,

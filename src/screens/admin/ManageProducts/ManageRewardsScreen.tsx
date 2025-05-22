@@ -1,6 +1,6 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
@@ -10,9 +10,11 @@ import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
 import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import ButtonGeneric from '../../../components/layout/admin/ButtonGeneric';
+import MySearchBar from '../../../components/shared/MySearchBar';
 
 export default function ManageRewardsScreen() {
     const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageProducts">>();
+    const [input, setInput] = useState("");
     const [rewards, setRewards] = useState<RewardResponse[]>([
         {
             id: 0,
@@ -24,6 +26,12 @@ export default function ManageRewardsScreen() {
             stock: 0,
         },
     ]);
+
+    // Filtro de retos por título
+    const filteredChallenges = useMemo(() => {
+        const query = input.toLowerCase();
+        return rewards.filter((rew) => rew.name.toLowerCase().includes(query));
+    }, [input, rewards]);
 
     useEffect(() => {
         const fetchRewards = async () => {
@@ -131,10 +139,16 @@ export default function ManageRewardsScreen() {
                 prefix="➕"
                 containerStyle={{ margin: 16 }}
             />
+            {/* Barra de búsqueda */}
+            <MySearchBar
+                title="Buscar Recompensa"
+                value={input}
+                onChangeText={setInput}
+            />
 
             {/* Lista de recompensas */}
             <FlatList
-                data={rewards}
+                data={filteredChallenges}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={renderItem}
                 contentContainerStyle={styles.list}

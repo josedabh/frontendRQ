@@ -2,15 +2,15 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { Alert, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
+import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import { MyButton } from '../../../components/shared/MyButton';
-import { ChallengeRequest } from '../../../shared/models/ChallengeData';
-import { createChallenge } from '../../../shared/services/ChallengeService';
+import { ChallengeRequest, ChallengeResponse } from '../../../shared/models/ChallengeData';
+import { createChallenge, getChallengeById, updateChallenge } from '../../../shared/services/ChallengeService';
 import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
-import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 
 type RouteProps = RouteProp<AdminStackParamList, 'AddChallenge'>;
 type NavProps = BottomTabNavigationProp<AdminStackParamList, 'AddChallenge'>;
@@ -20,6 +20,27 @@ export default function AddChallengeScreen() {
     const navigation = useNavigation<NavProps>();
     const route = useRoute<RouteProps>();
     const editId = route.params?.id;
+
+    useEffect(() => {
+        if (editId != null) {
+            (async () => {
+                try {
+                    const data: ChallengeResponse = await getChallengeById(editId);
+                    setFormData({
+                        title: data.title,
+                        description: data.description,
+                        difficulty: data.difficulty,
+                        startDate: data.startDate,
+                        endDate: data.endDate,
+                        points: data.points,
+                    });
+                } catch (e) {
+                    console.error(e);
+                }
+            })();
+        }
+    }, [editId]);
+
     // Estado inicial del formulario con valores por defecto
     const [formData, setFormData] = useState<ChallengeRequest>({
         title: "",
@@ -75,8 +96,14 @@ export default function AddChallengeScreen() {
                 throw new Error("createChallenge no está definido correctamente");
             }
 
-            const response = await createChallenge(challenge);
-            Alert.alert("Éxito", "Reto creado correctamente");
+            if (editId != null) {
+                // Si editId está definido, actualiza el reto
+                await updateChallenge(editId, challenge);
+                Alert.alert("Éxito", "Reto actualizado correctamente");
+            } else {
+                await createChallenge(challenge);
+                Alert.alert("Éxito", "Reto creado correctamente");
+            }
             navigation.navigate("ManageChallenges");
         } catch (error: any) {
             Alert.alert(
