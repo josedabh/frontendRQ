@@ -6,6 +6,7 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import Card from '../../components/shared/Card';
 import colors from '../../shared/themes/constants/colors';
 import { AdminStackParamList } from './AdminStackScreen';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type AdminNavProp = NativeStackNavigationProp<AdminStackParamList, "AdminHome">;
 
@@ -15,7 +16,11 @@ export default function AdminScreen() {
     return (
         <SafeAreaView style={{ padding: 16 }}>
             <Text style={styles.title}>Panel de Control</Text>
-            <View style={styles.buttonsContainer}>
+            {/* ScrollView para todo el formulario */}
+            <ScrollView
+                contentContainerStyle={styles.scrollContainer}
+                keyboardShouldPersistTaps="handled"
+            >
                 <Card
                     title="📝 Administrar Retos"
                     onPress={() => navigation.navigate("ManageChallenges")}
@@ -28,7 +33,11 @@ export default function AdminScreen() {
                     title="👥 Control de Usuarios"
                     onPress={() => navigation.navigate("ManageUsers")}
                 />
-            </View>
+                <Card
+                    title="🛒 Administrar Historial"
+                    onPress={() => navigation.navigate("ManageUsers")}
+                />
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -60,5 +69,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: "center",
         fontWeight: "600",
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        padding: 16,
+        paddingBottom: 80,
     },
 });

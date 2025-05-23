@@ -25,6 +25,7 @@ export default function HomeScreen() {
             <StatusBar barStyle="dark-content" backgroundColor="#fff" />
             <Text style={textStyles.title}> Routine Quest </Text>
             <HeaderHome person={fullName != undefined ? fullName : "Brad Pitt"} />
+            <Text style={textStyles.subtitle}> Tienes {user?.points} puntos</Text>
             <Text style={textStyles.subtitle}> Top Retos </Text>
             <Text style={textStyles.subtitle}> Retos Actuales </Text>
             <Text style={textStyles.subtitle}> * Ver Recompensas Populares </Text>

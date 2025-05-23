@@ -1,14 +1,14 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../../App';
 import HeaderNavigation from '../../../components/shared/HeaderNavigation';
 import { MyButton } from '../../../components/shared/MyButton';
 import { RewardResponse } from '../../../shared/models/StoreData';
-import { getRewardById } from '../../../shared/services/StoreService';
+import { buyReward, getRewardById } from '../../../shared/services/StoreService';
 import colors from '../../../shared/themes/constants/colors';
 import textStyles from '../../../shared/themes/styles/textStyles';
 
@@ -40,6 +40,20 @@ export default function StoreScreen() {
     fetchReward();
   }, []);
 
+  const handleBuyReward = () => {
+    try {
+      buyReward(route.params.id);
+      // if (data) {
+      //   Alert.alert("Éxito", "Recompensa comprada con éxito");
+      //   navigation.goBack();
+      // } else {
+      //   Alert.alert("Error", "No se pudo comprar la recompensa");
+      // }
+    } catch (error) {
+      console.error("Error al comprar la recompensa:", error);
+      Alert.alert("Error", "No se pudo comprar la recompensa");
+    }
+  }
   if (loading) {
     return (
       <SafeAreaView style={styles.centered}>
@@ -100,7 +114,13 @@ export default function StoreScreen() {
         </View>
 
         {/* Acción si está disponible */}
-        {isAvailable && <MyButton title="Reclamar" style={textStyles.normal} />}
+        {isAvailable &&
+          <MyButton
+            title="Reclamar"
+            style={textStyles.normal}
+            onPress={handleBuyReward}
+          />}
+        {/* Botón de volver */}
         <MyButton
           title="Volver"
           style={styles.btnCancel}
@@ -110,6 +130,7 @@ export default function StoreScreen() {
     </SafeAreaView>
   );
 }
+
 
 const baseFontSize = width < 400 ? 14 : 16;
 

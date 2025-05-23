@@ -28,7 +28,7 @@ export default function ManageRewardsScreen() {
     ]);
 
     // Filtro de retos por título
-    const filteredChallenges = useMemo(() => {
+    const filteredRewards = useMemo(() => {
         const query = input.toLowerCase();
         return rewards.filter((rew) => rew.name.toLowerCase().includes(query));
     }, [input, rewards]);
@@ -148,7 +148,7 @@ export default function ManageRewardsScreen() {
 
             {/* Lista de recompensas */}
             <FlatList
-                data={filteredChallenges}
+                data={filteredRewards}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={renderItem}
                 contentContainerStyle={styles.list}
