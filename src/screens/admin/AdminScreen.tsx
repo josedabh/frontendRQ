@@ -35,7 +35,7 @@ export default function AdminScreen() {
                 />
                 <Card
                     title="🛒 Administrar Historial"
-                    onPress={() => navigation.navigate("ManageUsers")}
+                    onPress={() => navigation.navigate("HistoryRewards")}
                 />
             </ScrollView>
         </SafeAreaView>

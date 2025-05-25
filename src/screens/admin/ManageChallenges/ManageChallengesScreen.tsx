@@ -124,6 +124,7 @@ export default function ManageChallengesScreen() {
                 onLeftPress={() => navigation.navigate('AdminHome')}
                 leftLabel="← Volver"
             />
+            
             {/* Barra de búsqueda */}
             <MySearchBar
                 title="Buscar reto"

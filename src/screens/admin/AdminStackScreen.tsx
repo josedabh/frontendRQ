@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
 import AdminScreen from './AdminScreen';
+import HistoryRewardsScreen from './HistoryRewards/HistoryRewardsScreen';
 import AddChallengeScreen from './ManageChallenges/AddChallengeScreen';
 import ManageChallengesScreen from './ManageChallenges/ManageChallengesScreen';
 import AddRewardScreen from './ManageProducts/AddRewardScreen';
@@ -16,6 +17,7 @@ export type AdminStackParamList = {
     AddReward: {id: number} | undefined;
     ManageProducts: undefined;
     ManageUsers: undefined;
+    HistoryRewards: undefined;
 };
 
 const Stack = createNativeStackNavigator<AdminStackParamList>();
@@ -48,6 +50,11 @@ export default function AdminStackScreen() {
                 name="ManageUsers"
                 component={ManageUsersScreen}
                 options={{ title: 'Control de Usuarios' }}
+            />
+            <Stack.Screen
+                name="HistoryRewards"
+                component={HistoryRewardsScreen} 
+                options={{ title: 'Historial de Control' }}
             />
         </Stack.Navigator>
     );

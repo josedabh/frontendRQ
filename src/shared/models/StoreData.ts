@@ -16,3 +16,18 @@ export interface RewardResponse {
   visible: boolean;
   stock: number;
 }
+
+export interface HistoryShopping {
+  transactionId: number;
+  userId: string;
+  userName: string;
+  userLastname: string;
+  userApodo: string;
+  userNumPhone: string;
+  userPoints: number;
+  transactionPurchaseDate: Date;
+  rewardId: number;
+  rewardName: string;
+  rewardDescription: string;
+  rewardPoints: number;
+}

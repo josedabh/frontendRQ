@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { getToken } from "../../shared/utils/TokenStorage";
-import { RewardRequest, RewardResponse } from "../models/StoreData";
+import { HistoryShopping, RewardRequest, RewardResponse } from "../models/StoreData";
 
 /** Url de la Api */
 const URL = "http://localhost:8080/api/v1/store";
@@ -119,6 +119,20 @@ export const buyReward = async (id: number): Promise<void> => {
         await axios.post(`${URL}/buy-reward/${id}`, { headers });
     } catch (error) {
         console.error("Error al comprar la recompensa:", error);
+        throw error;
+    }
+}
+
+/** Api Get: Lista de recompensas compradas por el usuario */
+export const getListHistoryRewards = async () => {
+    try {
+        const headers = await getAuthHeaders();
+        const response = await axios.get<HistoryShopping[]>(`${URL}/admin/purchase-history`, {
+            headers,
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener el historial de recompensas:", error);
         throw error;
     }
 }
