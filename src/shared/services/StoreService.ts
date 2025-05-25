@@ -116,7 +116,7 @@ export const changeVisbilityReward = async (id: number): Promise<void> => {
 export const buyReward = async (id: number): Promise<void> => {
     try {
         const headers = await getAuthHeaders();
-        await axios.post(`${URL}/buy-reward/${id}`, { headers });
+        await axios.post(`${URL}/buy-reward/${id}`,{}, { headers });
     } catch (error) {
         console.error("Error al comprar la recompensa:", error);
         throw error;

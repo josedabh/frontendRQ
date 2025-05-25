@@ -19,15 +19,7 @@ export default function ListStoreScreen() {
         useNavigation<BottomTabNavigationProp<RootStackParamList, "Layout">>();
     const [input, setInput] = useState("");
     const [rewardList, setRewardList] = useState<RewardResponse[]>([
-        {
-            id: 0,
-            name: "",
-            description: "",
-            points: 0,
-            image: "",
-            visible: false,
-            stock: 0,
-        },
+        
     ]);
 
     // Filtro de retos por título

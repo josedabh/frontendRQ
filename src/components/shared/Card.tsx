@@ -9,6 +9,7 @@ import {
 } from "react-native";
 
 import textStyles from "../../shared/themes/styles/textStyles";
+import colors from "../../shared/themes/constants/colors";
 
 interface CardProps {
   title: string;
@@ -50,10 +51,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
 
     // Sombra iOS
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    boxShadow: colors.shadow,
 
     // Elevación Android
     elevation: 4,

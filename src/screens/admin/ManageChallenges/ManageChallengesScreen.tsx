@@ -15,18 +15,7 @@ import MySearchBar from '../../../components/shared/MySearchBar';
 export default function ManageChallengesScreen() {
     const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageChallenges">>();
     const [input, setInput] = useState("");
-    const [challenges, setChallenges] = useState<ChallengeResponse[]>([
-        {
-            id: "1",
-            title: "Reto Saludable",
-            description: "Camina 10,000 pasos al día",
-            difficulty: "easy",
-            startDate: "2025-05-01T00:00:00",
-            endDate: "2025-05-07T23:59:59",
-            points: 50,
-            state: "active",
-        }
-    ]);
+    const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
 
     // Filtro de retos por título
     const filteredChallenges = useMemo(() => {

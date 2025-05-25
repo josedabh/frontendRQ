@@ -3,6 +3,7 @@ export interface ChallengeResponse {
   title: string;
   description: string;
   difficulty: string;
+  category: string;
   state: string;
   startDate: string;
   endDate: string;
@@ -13,13 +14,8 @@ export interface ChallengeRequest {
   title: string;
   description: string;
   difficulty: string;
+  category: string;
   startDate: string;
   endDate: string;
   points: number;
-}
-
-export interface ChallengeCard {
-  id: string;
-  title: string;
-  description: string;
 }

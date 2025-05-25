@@ -6,8 +6,8 @@ import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { RootStackParamList } from '../../../../App';
 import CardChallenge from '../../../components/layout/challenges/CardChallenge';
 import MySearchbar from '../../../components/shared/MySearchBar';
-import { ChallengeCard } from '../../../shared/models/ChallengeData';
-import { getUserChallengeCard } from '../../../shared/services/ChallengeService';
+import { ChallengeResponse } from '../../../shared/models/ChallengeData';
+import { getAllChallenges } from '../../../shared/services/ChallengeService';
 import textStyles from '../../../shared/themes/styles/textStyles';
 
 export default function ListChallengesScreen() {
@@ -15,13 +15,13 @@ export default function ListChallengesScreen() {
         useNavigation<
             BottomTabNavigationProp<RootStackParamList, 'Layout'>
         >();
-    const [cardChallenge, setCardChallenge] = useState<ChallengeCard[]>([]);
+    const [cardChallenge, setCardChallenge] = useState<ChallengeResponse[]>([]);
     const [input, setInput] = useState("");
 
     useEffect(() => {
         const fetchListChallenge = async () => {
             try {
-                const listChallenge = await getUserChallengeCard();
+                const listChallenge = await getAllChallenges();
                 setCardChallenge(listChallenge);
             } catch (error) {
                 console.log(error);
@@ -36,12 +36,12 @@ export default function ListChallengesScreen() {
         return cardChallenge.filter((ch) => ch.title.toLowerCase().includes(query));
     }, [input, cardChallenge]);
 
-    const renderItem = ({ item }: { item: ChallengeCard }) => (
+    const renderItem = ({ item }: { item: ChallengeResponse }) => (
         <CardChallenge
             title={item.title}
             description={item.description}
-            difficulty="easy"
-            points={1}
+            difficulty={item.difficulty}
+            points={item.points}
             onPress={() => navigation.navigate('Challenge', { id: item.id })}
         />
     );
@@ -50,12 +50,14 @@ export default function ListChallengesScreen() {
         <SafeAreaView style={{ flex: 1 }}>
             <View style={{ flex: 1, padding: 16 }}>
                 <Text style={textStyles.title}>Retos</Text>
+                {/** Barra de busqueda */}
                 <MySearchbar
                     title="Buscar reto"
                     value={input}
                     onChangeText={setInput}
                 />
 
+                {/** Lista de retos */}
                 <FlatList
                     data={filteredChallenges}
                     keyExtractor={(item) => item.id.toString()}

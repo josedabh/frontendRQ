@@ -43,12 +43,7 @@ export default function StoreScreen() {
   const handleBuyReward = () => {
     try {
       buyReward(route.params.id);
-      // if (data) {
-      //   Alert.alert("Éxito", "Recompensa comprada con éxito");
-      //   navigation.goBack();
-      // } else {
-      //   Alert.alert("Error", "No se pudo comprar la recompensa");
-      // }
+      navigation.goBack();
     } catch (error) {
       console.error("Error al comprar la recompensa:", error);
       Alert.alert("Error", "No se pudo comprar la recompensa");

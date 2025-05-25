@@ -1,13 +1,12 @@
-// src/components/shared/ChallengeCard.tsx
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import colors from '../../../shared/themes/constants/colors';
 
 export interface ChallengeCardProps {
   title: string;
   description: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: string;
   points: number;
   onPress?: () => void;
 }
