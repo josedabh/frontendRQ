@@ -64,7 +64,7 @@ export default function ListChallengesScreen() {
                     renderItem={renderItem}
                     ItemSeparatorComponent={() => <View style={styles.separator} />}
                     contentContainerStyle={styles.list}
-                    ListEmptyComponent={<View style={styles.empty} />}
+                    ListEmptyComponent={<Text style={styles.empty}>No hay retos</Text>}
                 />
             </View>
         </SafeAreaView>
@@ -80,7 +80,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     empty: {
-        height: 200, // espacio cuando no hay resultados
+        textAlign: "center",
+        marginTop: 40,
+        color: "#888",
+        fontSize: 16,
     },
     separator: {
         height: 12,

@@ -76,7 +76,7 @@ export default function ListStoreScreen() {
                     renderItem={renderItem}
                     contentContainerStyle={styles.list}
                     ItemSeparatorComponent={() => <View style={styles.separator} />}
-                    ListEmptyComponent={<Text style={styles.empty}>No hay productos</Text>}
+                    ListEmptyComponent={<Text style={styles.empty}>No hay recompensas</Text>}
                 />
             </View>
         </SafeAreaView>
@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
         marginTop: 40,
         color: "#888",
         fontSize: 16,
-    }, cardTitle: {
+    }, 
+    cardTitle: {
         fontSize: 16,
         fontWeight: '700',
         color: '#333',
