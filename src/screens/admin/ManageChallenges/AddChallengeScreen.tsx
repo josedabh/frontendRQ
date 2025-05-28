@@ -30,6 +30,7 @@ export default function AddChallengeScreen() {
                         title: data.title,
                         description: data.description,
                         difficulty: data.difficulty,
+                        category: data.category,
                         startDate: data.startDate,
                         endDate: data.endDate,
                         points: data.points,
@@ -45,7 +46,8 @@ export default function AddChallengeScreen() {
     const [formData, setFormData] = useState<ChallengeRequest>({
         title: "",
         description: "",
-        difficulty: "easy",
+        difficulty: 'easy',
+        category: 'DEFAULT',
         startDate: new Date().toISOString().split(".")[0],
         endDate: new Date().toISOString().split(".")[0],
         points: 1,
