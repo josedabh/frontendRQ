@@ -88,3 +88,23 @@ export const getAllChallenges = async (): Promise<ChallengeResponse[]> => {
     throw error;
   }
 }
+
+/**Quitaar este interface y servicio para despues */
+interface CompleteChallengeParams {
+  challengeId: string;
+  type: string;
+  distance: number;
+}
+
+export const completeChallenge = async (params: CompleteChallengeParams) => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_API_URL}/challenges/verify`,
+    params,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  return response.data;
+};
