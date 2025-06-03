@@ -9,6 +9,7 @@ import ManageChallengesScreen from './ManageChallenges/ManageChallengesScreen';
 import AddRewardScreen from './ManageProducts/AddRewardScreen';
 import ManageProductsScreen from './ManageProducts/ManageRewardsScreen';
 import ManageUsersScreen from './ManageUsersScreen';
+import AddQuizValidationScreen from './ManageChallenges/AddQuizValidationScreen';
 
 export type AdminStackParamList = {
     AdminHome: undefined;
@@ -18,6 +19,7 @@ export type AdminStackParamList = {
     ManageProducts: undefined;
     ManageUsers: undefined;
     HistoryRewards: undefined;
+    AddQuizValidation: { challengeId: string } | undefined;
 };
 
 const Stack = createNativeStackNavigator<AdminStackParamList>();
@@ -55,6 +57,11 @@ export default function AdminStackScreen() {
                 name="HistoryRewards"
                 component={HistoryRewardsScreen} 
                 options={{ title: 'Historial de Control' }}
+            />
+            <Stack.Screen
+                name="AddQuizValidation"
+                component={AddQuizValidationScreen}
+                options={{ title: 'Crear Quiz de Verificación' }}
             />
         </Stack.Navigator>
     );

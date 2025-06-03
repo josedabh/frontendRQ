@@ -66,6 +66,10 @@ export default function ManageChallengesScreen() {
         setToDelete(null);
     };
 
+    const onVerify = (item: ChallengeResponse) => {
+        navigation.navigate('AddQuizValidation', { challengeId: item.id });
+    };
+
     const renderItem = ({ item }: { item: ChallengeResponse }) => (
         <View style={styles.card}>
             <View style={styles.info}>
@@ -93,14 +97,14 @@ export default function ManageChallengesScreen() {
                 >
                     <Text style={styles.actionText}>Borrar</Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity
+                <TouchableOpacity
                     onPress={() => onVerify(item)}
                     style={styles.actionBtn}
                 >
                     <Text style={styles.actionText}>
-                        {item.verified ? "Desmarcar" : "Verificar"}
+                        {item.verificationType != null ? "Desmarcar" : "Verificar"}
                     </Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity> 
             </View>
         </View>
     );

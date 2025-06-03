@@ -8,6 +8,8 @@ export interface ChallengeResponse {
   startDate: string;
   endDate: string;
   points: number;
+  verificationType: string;
+  verificationNumber: string;
 }
 
 export interface ChallengeRequest {

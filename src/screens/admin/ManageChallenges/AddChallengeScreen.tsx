@@ -20,7 +20,6 @@ export default function AddChallengeScreen() {
     const navigation = useNavigation<NavProps>();
     const route = useRoute<RouteProps>();
     const editId = route.params?.id;
-
     useEffect(() => {
         if (editId != null) {
             (async () => {
@@ -30,6 +29,7 @@ export default function AddChallengeScreen() {
                         title: data.title,
                         description: data.description,
                         difficulty: data.difficulty,
+                        category: data.category,
                         startDate: data.startDate,
                         endDate: data.endDate,
                         points: data.points,
@@ -46,6 +46,7 @@ export default function AddChallengeScreen() {
         title: "",
         description: "",
         difficulty: "easy",
+        category: "general",
         startDate: new Date().toISOString().split(".")[0],
         endDate: new Date().toISOString().split(".")[0],
         points: 1,
