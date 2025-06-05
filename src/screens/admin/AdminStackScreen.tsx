@@ -8,7 +8,6 @@ import AddChallengeScreen from './ManageChallenges/AddChallengeScreen';
 import ManageChallengesScreen from './ManageChallenges/ManageChallengesScreen';
 import AddRewardScreen from './ManageProducts/AddRewardScreen';
 import ManageProductsScreen from './ManageProducts/ManageRewardsScreen';
-import ManageUsersScreen from './ManageUsersScreen';
 import AddQuizValidationScreen from './ManageChallenges/AddQuizValidationScreen';
 
 export type AdminStackParamList = {
@@ -17,7 +16,6 @@ export type AdminStackParamList = {
     ManageChallenges: undefined;
     AddReward: {id: number} | undefined;
     ManageProducts: undefined;
-    ManageUsers: undefined;
     HistoryRewards: undefined;
     AddQuizValidation: { challengeId: string } | undefined;
 };
@@ -47,11 +45,6 @@ export default function AdminStackScreen() {
                 name="ManageProducts"
                 component={ManageProductsScreen}
                 options={{ title: 'Administrar Productos' }}
-            />
-            <Stack.Screen
-                name="ManageUsers"
-                component={ManageUsersScreen}
-                options={{ title: 'Control de Usuarios' }}
             />
             <Stack.Screen
                 name="HistoryRewards"

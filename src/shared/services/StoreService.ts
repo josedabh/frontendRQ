@@ -136,3 +136,17 @@ export const getListHistoryRewards = async () => {
         throw error;
     }
 }
+
+/** Api Get: Lista de recompensas compradas por el usuario */
+export const getListHistoryRewardsUser = async () => {
+    try {
+        const headers = await getAuthHeaders();
+        const response = await axios.get<HistoryShopping[]>(`${URL}/users/purchase-history`, {
+            headers,
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener el historial de recompensas del usuario:", error);
+        throw error;
+    }
+}

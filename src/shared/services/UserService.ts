@@ -12,7 +12,6 @@ const getAuthHeaders = async () => {
     Authorization: `Bearer ${token}`,
   };
 };
-// const TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlcGVyZXoiLCJpYXQiOjE3NDU3NzgxMjQsImV4cCI6MTc2MTMzMDEyNH0.F0-YrNxLSBDixzlv3EWn9GTq_BVuzD-i431GZHG-JaRhAQKNStYbrUoTQJuhphV9XnZh5MUBvQ-1JxzHn73_GQ";
 
 /** Api Get que dice hola de prueba */
 export const prueba = async (): Promise<string> => {

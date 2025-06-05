@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { getDifficultyLabel } from '../../../shared/models/ChallengeData';
 import colors from '../../../shared/themes/constants/colors';
 
 export interface ChallengeCardProps {
@@ -21,9 +22,9 @@ export default function CardChallenge({
 
   // Colorea la etiqueta según dificultad
   const diffColor =
-    difficulty === 'easy'
+    difficulty.toLowerCase() === 'easy'
       ? colors.success
-      : difficulty === 'medium'
+      : difficulty.toLowerCase() === 'medium'
       ? colors.warning
       : colors.danger;
 
@@ -41,7 +42,9 @@ export default function CardChallenge({
       </Text>
       <View style={styles.footer}>
         <View style={[styles.badge, { backgroundColor: diffColor }]}>
-          <Text style={styles.badgeText}>{difficulty.toUpperCase()}</Text>
+          <Text style={styles.badgeText}>
+            {getDifficultyLabel(difficulty)}
+          </Text>
         </View>
         <Text style={styles.points}>{points} pt{points !== 1 ? 's' : ''}</Text>
       </View>

@@ -57,10 +57,15 @@ export default function ManageRewardsScreen() {
     };
 
     const [modalVisible, setModalVisible] = useState(false);
+    // Para el modal de confirmación de eliminación
     const [toDelete, setToDelete] = useState<RewardResponse | null>(null);
+    // Para el nombre de la recompensa a eliminar
+    const [rewardToDeleteName, setRewardToDeleteName] = useState<string>('');
+
 
     const onDeletePress = (item: RewardResponse) => {
         setToDelete(item);
+        setRewardToDeleteName(item.name);
         setModalVisible(true);
     };
 
@@ -160,7 +165,7 @@ export default function ManageRewardsScreen() {
             <ConfirmModal
                 visible={modalVisible}
                 title="Eliminar recompensa"
-                message={`¿Eliminar "${toDelete?.name}"?`}
+                message={`¿Eliminar "${rewardToDeleteName}"?`}
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
             />

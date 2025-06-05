@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         flexGrow: 1, // Permite que el contenido interno empuje el scroll
-        padding: 16, // Tu padding general
+        padding: 16,
+        paddingBottom: 64, // Tu padding general
     },
 });

@@ -30,10 +30,6 @@ export default function AdminScreen() {
                     onPress={() => navigation.navigate("ManageProducts")}
                 />
                 <Card
-                    title="👥 Control de Usuarios"
-                    onPress={() => navigation.navigate("ManageUsers")}
-                />
-                <Card
                     title="🛒 Administrar Historial"
                     onPress={() => navigation.navigate("HistoryRewards")}
                 />

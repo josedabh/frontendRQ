@@ -1,15 +1,16 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../../App';
 import HeaderNavigation from '../../../components/shared/HeaderNavigation';
-import { ChallengeResponse } from '../../../shared/models/ChallengeData';
+import { ChallengeResponse, getDifficultyLabel } from '../../../shared/models/ChallengeData';
 import { getChallengeById } from '../../../shared/services/ChallengeService';
 import colors from '../../../shared/themes/constants/colors';
 import textStyles from '../../../shared/themes/styles/textStyles';
+import { getCategoryLabel } from '../../../shared/utils/Utils';
 
 type ChallengeRouteProp = RouteProp<RootStackParamList, 'Challenge'>;
 type ChallengeNavProp = BottomTabNavigationProp<RootStackParamList, 'Challenge'>;
@@ -19,13 +20,6 @@ export default function ChallengeScreen() {
     const navigation = useNavigation<ChallengeNavProp>();
     const [challenge, setChallenge] = useState<ChallengeResponse | null>(null);
     const [joined, setJoined] = useState(false);
-    const [answers, setAnswers] = useState<{ [key: number]: string }>({});
-
-    const questions = [
-        '¿Cuál es el principal alimento de este dinosaurio?',
-        '¿En qué región vivió originalmente?',
-        '¿Hace cuántos millones de años se extinguió?',
-    ];
 
     useEffect(() => {
         (async () => {
@@ -33,6 +27,30 @@ export default function ChallengeScreen() {
             setChallenge(data);
         })();
     }, [route.params.id]);
+
+    // When joined changes to true, navigate to verification screen
+    useEffect(() => {
+        if (joined && challenge) {
+            const vType = challenge.verificationType;
+            const vNumber = challenge.verificationNumber;
+
+            if (!vType || !vNumber) {
+                Alert.alert('Información', 'No hay datos de verificación para este reto.');
+                return;
+            }
+
+            const verificationId = `${vType}-${vNumber}`;
+            if (vType === 'Q') {
+                navigation.navigate('ValidationQuest', { verificationId });
+            } else {
+                Alert.alert('Verificación', `Tipo '${vType}' no está implementado aún.`);
+            }
+        }
+    }, [joined, challenge, navigation]);
+
+    const handleJoin = () => {
+        setJoined(true);
+    };
 
     if (!challenge) {
         return (
@@ -56,11 +74,13 @@ export default function ChallengeScreen() {
                     <View style={styles.row}>
                         <View style={styles.detailBox}>
                             <Text style={textStyles.normal}>Dificultad</Text>
-                            <Text style={styles.detailValue}>{challenge.difficulty}</Text>
+                            <Text style={styles.detailValue}>
+                                {getDifficultyLabel(challenge.difficulty)}
+                            </Text>
                         </View>
                         <View style={styles.detailBox}>
                             <Text style={textStyles.normal}>Categoría</Text>
-                            <Text style={styles.detailValue}>{challenge.category}</Text>
+                            <Text style={styles.detailValue}>{getCategoryLabel(challenge.category)}</Text>
                         </View>
                     </View>
 
@@ -77,39 +97,14 @@ export default function ChallengeScreen() {
                     {!joined ? (
                         <TouchableOpacity
                             style={styles.joinButton}
-                            onPress={() => setJoined(true)}
+                            onPress={handleJoin}
                         >
                             <Text style={styles.joinText}>Unirme</Text>
                         </TouchableOpacity>
                     ) : (
-                        <>
-                            <Text style={[textStyles.normal, styles.marginTop]}>
-                                Para validar el reto, responde a estas preguntas:
-                            </Text>
-                            {questions.map((q, idx) => (
-                                <View key={idx} style={styles.questionBox}>
-                                    <Text style={styles.questionText}>{q}</Text>
-                                    <TextInput
-                                        style={styles.input}
-                                        value={answers[idx] || ''}
-                                        onChangeText={(t) =>
-                                            setAnswers((a) => ({ ...a, [idx]: t }))
-                                        }
-                                        placeholder="Tu respuesta..."
-                                    />
-                                </View>
-                            ))}
-                            <TouchableOpacity
-                                style={styles.submitButton}
-                                onPress={() => {
-                                    // aquí podrías validar respuestas
-                                    alert('¡Respuestas enviadas!');
-                                    navigation.goBack();
-                                }}
-                            >
-                                <Text style={styles.submitText}>Enviar respuestas</Text>
-                            </TouchableOpacity>
-                        </>
+                        <Text style={[textStyles.normal, styles.marginTop]}>
+                            Estás unido al reto. Redirigiendo a la verificación...
+                        </Text>
                     )}
                 </View>
             </ScrollView>
@@ -178,30 +173,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
     },
-    questionBox: {
-        marginTop: 12,
-    },
-    questionText: {
-        fontSize: 14,
-        fontWeight: '500',
-        marginBottom: 6,
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 8,
-        padding: 10,
-    },
-    submitButton: {
-        backgroundColor: colors.success,
-        borderRadius: 24,
-        paddingVertical: 12,
-        marginTop: 20,
-        alignItems: 'center',
-    },
-    submitText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: '600',
-    },
 });
+

@@ -8,9 +8,22 @@ export interface ChallengeResponse {
   startDate: string;
   endDate: string;
   points: number;
-  verificationType: string;
-  verificationNumber: string;
+  verificationType: string | null;
+  verificationNumber: string | null;
 }
+
+export const getDifficultyLabel = (difficulty: string): string => {
+  switch (difficulty.toLowerCase()) {
+    case 'easy':
+      return 'Fácil';
+    case 'medium':
+      return 'Medio';
+    case 'hard':
+      return 'Difícil';
+    default:
+      return difficulty;
+  }
+};
 
 export interface ChallengeRequest {
   title: string;

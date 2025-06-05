@@ -25,7 +25,7 @@ export interface HistoryShopping {
   userApodo: string;
   userNumPhone: string;
   userPoints: number;
-  transactionPurchaseDate: Date;
+  transactionPurchaseDate: string;
   rewardId: number;
   rewardName: string;
   rewardDescription: string;

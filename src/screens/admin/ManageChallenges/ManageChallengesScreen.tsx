@@ -4,13 +4,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ChallengeResponse } from '../../../shared/models/ChallengeData';
-import { deleteChallenge, getAllChallenges } from '../../../shared/services/ChallengeService';
+import { assignVerificationType, deleteChallenge, deleteVerificationType, getAllChallenges } from '../../../shared/services/ChallengeService';
 import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
 import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import ButtonGeneric from '../../../components/layout/admin/ButtonGeneric';
 import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
 import MySearchBar from '../../../components/shared/MySearchBar';
+import AssignVerificationModal from '../../../components/layout/admin/AssignVerificationModal';
 
 export default function ManageChallengesScreen() {
     const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageChallenges">>();
@@ -66,9 +67,66 @@ export default function ManageChallengesScreen() {
         setToDelete(null);
     };
 
+    const [verificationModalVisible, setVerificationModalVisible] = useState(false);
+    const [removeVerificationModalVisible, setRemoveVerificationModalVisible] = useState(false);
+    const [selectedChallenge, setSelectedChallenge] = useState<ChallengeResponse | null>(null);
+
     const onVerify = (item: ChallengeResponse) => {
-        navigation.navigate('AddQuizValidation', { challengeId: item.id });
+        setSelectedChallenge(item);
+        if (item.verificationType != null) {
+            setRemoveVerificationModalVisible(true);
+        } else {
+            setVerificationModalVisible(true);
+        }
     };
+
+    const handleAssignVerification = async (type: string) => {
+        if (selectedChallenge) {
+            try {
+                if (type === 'Q') {
+                    // Si es verificación por cuestionario, navegar a la pantalla de creación
+                    navigation.navigate('AddQuizValidation', {
+                        challengeId: selectedChallenge.id
+                    });
+                    setVerificationModalVisible(false);
+                    return;
+                }
+
+                // Para otros tipos de verificación, continuar con el proceso normal
+                await assignVerificationType(selectedChallenge.id, type);
+                setChallenges(chs =>
+                    chs.map(ch =>
+                        ch.id === selectedChallenge.id
+                            ? { ...ch, verificationType: type }
+                            : ch
+                    )
+                );
+                setVerificationModalVisible(false);
+            } catch (error) {
+                console.error("Error al asignar verificación:", error);
+            }
+        }
+    };
+
+    const handleRemoveVerification = async () => {
+        if (selectedChallenge) {
+            try {
+                await deleteVerificationType(selectedChallenge.id);
+                setChallenges(chs =>
+                    chs.map(ch =>
+                        ch.id === selectedChallenge.id
+                            ? { ...ch, verificationType: null }
+                            : ch
+                    )
+                );
+                setRemoveVerificationModalVisible(false);
+            } catch (error) {
+                console.error("Error al quitar verificación:", error);
+            }
+        }
+        setSelectedChallenge(null);
+    };
+
 
     const renderItem = ({ item }: { item: ChallengeResponse }) => (
         <View style={styles.card}>
@@ -102,15 +160,45 @@ export default function ManageChallengesScreen() {
                     style={styles.actionBtn}
                 >
                     <Text style={styles.actionText}>
-                        {item.verificationType != null ? "Desmarcar" : "Verificar"}
+                        {item.verificationType != null
+                            ? "Quitar tipo verificación"
+                            : "Asignar tipo verificación"}
                     </Text>
-                </TouchableOpacity> 
+                </TouchableOpacity>
             </View>
         </View>
     );
 
     return (
         <SafeAreaView style={styles.container}>
+            {/* Modal de confirmación para eliminar */}
+            <ConfirmModal
+                visible={modalVisible}
+                title="Eliminar reto"
+                message={`¿Eliminar "${toDelete?.title}"?`}
+                onConfirm={handleConfirm}
+                onCancel={handleCancel}
+            />
+
+            {/* Modal para asignar tipo de verificación */}
+            <AssignVerificationModal
+                visible={verificationModalVisible}
+                onClose={() => setVerificationModalVisible(false)}
+                onAssign={handleAssignVerification} // Pasar la función para asignar
+            />
+
+            {/* Modal para quitar verificación */}
+            <ConfirmModal
+                visible={removeVerificationModalVisible}
+                title="Quitar verificación"
+                message="¿Estás seguro de que quieres quitar el tipo de verificación?"
+                onConfirm={handleRemoveVerification}
+                onCancel={() => {
+                    setRemoveVerificationModalVisible(false);
+                    setSelectedChallenge(null);
+                }}
+            />
+
             {/* Header personalizado */}
             <ScreenHeader
                 title="Administrar Retos"

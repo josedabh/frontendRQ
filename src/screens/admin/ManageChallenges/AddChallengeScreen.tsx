@@ -46,7 +46,7 @@ export default function AddChallengeScreen() {
         title: "",
         description: "",
         difficulty: "easy",
-        category: "general",
+        category: "LECTURA",
         startDate: new Date().toISOString().split(".")[0],
         endDate: new Date().toISOString().split(".")[0],
         points: 1,
@@ -156,6 +156,21 @@ export default function AddChallengeScreen() {
                     <Picker.Item label="Fácil" value="easy" />
                     <Picker.Item label="Media" value="medium" />
                     <Picker.Item label="Difícil" value="hard" />
+                </Picker>
+
+                <Text style={styles.label}>Categoría</Text>
+                <Picker
+                    selectedValue={formData.category}
+                    onValueChange={(itemValue) =>
+                        setFormData({ ...formData, category: itemValue })
+                    }
+                    style={styles.picker}
+                >
+                    <Picker.Item label="Lectura" value="LECTURA" />
+                    <Picker.Item label="Deporte" value="DEPORTE" />
+                    <Picker.Item label="Salud" value="SALUD" />
+                    <Picker.Item label="Aprendizaje" value="APRENDIZAJE" />
+                    <Picker.Item label="Hobby" value="HOBBY" />
                 </Picker>
 
                 <Text style={styles.label}>Puntos</Text>

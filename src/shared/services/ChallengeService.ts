@@ -12,7 +12,6 @@ const getAuthHeaders = async () => {
     Authorization: `Bearer ${token}`,
   };
 };
-// const TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJleGFtcGxlcGVyZXoiLCJpYXQiOjE3NDU3NzgxMjQsImV4cCI6MTc2MTMzMDEyNH0.F0-YrNxLSBDixzlv3EWn9GTq_BVuzD-i431GZHG-JaRhAQKNStYbrUoTQJuhphV9XnZh5MUBvQ-1JxzHn73_GQ";
 
 /**Api Get: Consigue el reto por id */
 export const getChallengeById = async (
@@ -85,6 +84,32 @@ export const getAllChallenges = async (): Promise<ChallengeResponse[]> => {
     return response.data;
   } catch (error) {
     console.error("Error al obtener usuarios:", error);
+    throw error;
+  }
+}
+
+/**Api Post: Asigna un tipo de verificación a un reto */
+export const assignVerificationType = async (challengeId: string, type: string) => {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await axios.post<String>( `${URL}/${challengeId}/assign-verification/${type}`,
+     { headers });
+    return response.data;
+  } catch (error) {
+    console.error("Error al asignar el tipo de verificación:", error);
+    throw error;
+  }
+}
+
+/**Api Delete: Elimina el tipo de verificación de un reto */
+export const deleteVerificationType = async (challengeId: string) => {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await axios.delete<void>( `${URL}/verification/${challengeId}`,
+      { headers });
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener la verification:", error);
     throw error;
   }
 }
