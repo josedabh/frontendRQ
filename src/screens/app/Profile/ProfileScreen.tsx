@@ -70,7 +70,9 @@ export default function ProfileScreen() {
                         onPress={() => navigation.navigate("Datauser")}
                     />
                     <Option title="Historial de retos cumplidos" />
-                    <Option title="Historial de Recompensas" />
+                    <Option 
+                        title="Historial de Recompensas" 
+                        onPress={() => navigation.navigate("HistoryShopping")}/>
                     <Option title="Cerrar Sesión" onPress={() => setModalLogout(true)} />
                     <Option title="Cambiar tema" />
                     {/* Imagina muchas más opciones aquí... */}

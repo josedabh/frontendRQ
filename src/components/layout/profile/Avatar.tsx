@@ -14,7 +14,7 @@ export function Avatar({ textAvatar, imageAvatar }: AvatarProps) {
   //Si no se pasa la imagen, se usa la imagen por defecto
   const imageSource = imageAvatar
     ? { uri: imageAvatar }
-    : require("../../../../assets/Brad-Pitt.jpg");
+    : require("../../../../assets/avatar.png");
   return (
     <View style={globalStyles.card}>
       <Image source={imageSource} style={styles.avatarImage} />

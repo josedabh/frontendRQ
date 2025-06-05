@@ -25,6 +25,7 @@ export type RootTabParamList = {
   AddReward: undefined;
   ManageProducts: undefined;
   ManageUsers: undefined;
+  HistoryShopping: undefined;
 };
 
 // 2. Crea el Tab con el tipo genérico

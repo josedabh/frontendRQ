@@ -141,7 +141,7 @@ export const getListHistoryRewards = async () => {
 export const getListHistoryRewardsUser = async () => {
     try {
         const headers = await getAuthHeaders();
-        const response = await axios.get<HistoryShopping[]>(`${URL}/users/purchase-history`, {
+        const response = await axios.get<HistoryShopping[]>(`${URL}/user/purchase-history`, {
             headers,
         });
         return response.data;
