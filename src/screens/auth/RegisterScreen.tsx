@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useContext, useState } from "react";
-import { Alert, Text, TextInput } from "react-native";
+import { Alert, StyleSheet, Text, TextInput, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { RootStackParamList } from "../../../App";
 import { MyButton } from "../../components/shared/MyButton";
 import { AuthContext } from "../../context/AuthContext";
-import globalStyles from "../../shared/themes/styles/globalStyles";
+import colors from "../../shared/themes/constants/colors";
 import textStyles from "../../shared/themes/styles/textStyles";
 
 // Definir el tipo de navegación
@@ -64,62 +64,112 @@ export function RegisterScreen() {
     }
   };
   return (
-    <SafeAreaView style={{ padding: 16 }}>
-      <Text style={textStyles.title}>Registrarse</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Text style={[textStyles.title, styles.title]}>Crear Cuenta</Text>
 
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Nombre"
-        value={formData.name}
-        onChangeText={(text) => setFormData({ ...formData, name: text })}
-      />
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Apellidos"
-        value={formData.lastname}
-        onChangeText={(text) => setFormData({ ...formData, lastname: text })}
-      />
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Nombre de usuario"
-        value={formData.username}
-        onChangeText={(text) => setFormData({ ...formData, username: text })}
-      />
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Teléfono"
-        value={formData.phone}
-        onChangeText={(text) => setFormData({ ...formData, phone: text })}
-      />
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Email"
-        value={formData.email}
-        onChangeText={(text) => setFormData({ ...formData, email: text })}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Contraseña"
-        value={formData.password}
-        onChangeText={(text) => setFormData({ ...formData, password: text })}
-        secureTextEntry
-      />
-      <TextInput
-        style={globalStyles.input}
-        placeholder="Validar contraseña"
-        value={formData.confirmPassword}
-        onChangeText={(text) =>
-          setFormData({ ...formData, confirmPassword: text })
-        }
-        secureTextEntry
-      />
+        <View style={styles.form}>
+          <TextInput
+            style={styles.input}
+            placeholder="Nombre"
+            value={formData.name}
+            onChangeText={(text) => setFormData({ ...formData, name: text })}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Apellidos"
+            value={formData.lastname}
+            onChangeText={(text) => setFormData({ ...formData, lastname: text })}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Nombre de usuario"
+            value={formData.username}
+            onChangeText={(text) => setFormData({ ...formData, username: text })}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Teléfono"
+            value={formData.phone}
+            onChangeText={(text) => setFormData({ ...formData, phone: text })}
+            keyboardType="phone-pad"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={formData.email}
+            onChangeText={(text) => setFormData({ ...formData, email: text })}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Contraseña"
+            value={formData.password}
+            onChangeText={(text) => setFormData({ ...formData, password: text })}
+            secureTextEntry
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Confirmar contraseña"
+            value={formData.confirmPassword}
+            onChangeText={(text) => setFormData({ ...formData, confirmPassword: text })}
+            secureTextEntry
+          />
 
-      <MyButton title="Crear cuenta" onPress={handleRegister} />
-      <MyButton title="Volver atrás" onPress={() => navigation.goBack()} />
+          <View style={styles.buttonContainer}>
+            <MyButton 
+              title="Crear cuenta" 
+              onPress={handleRegister}
+              style={styles.registerButton}
+            />
+            <MyButton 
+              title="Volver" 
+              onPress={() => navigation.goBack()}
+              style={styles.backButton}
+            />
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.backgroundLight,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    padding: 24,
+  },
+  title: {
+    textAlign: 'center',
+    marginBottom: 32,
+    color: colors.primary,
+  },
+  form: {
+    gap: 16,
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: colors.backgroundDark,
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+  },
+  buttonContainer: {
+    gap: 12,
+    marginTop: 24,
+  },
+  registerButton: {
+    backgroundColor: colors.primary,
+  },
+  backButton: {
+    backgroundColor: colors.danger,
+  },
+});
 
 export default RegisterScreen;

@@ -1,10 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { Image, Text } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { RootStackParamList } from "../../../App";
 import { MyButton } from "../../components/shared/MyButton";
+import colors from "../../shared/themes/constants/colors";
+import textStyles from "../../shared/themes/styles/textStyles";
 
 // Define las props del componente
 type MainScreenProps = NativeStackScreenProps<RootStackParamList, "Main">;
@@ -14,19 +16,76 @@ type MainScreenProps = NativeStackScreenProps<RootStackParamList, "Main">;
  */
 export function MainScreen({ navigation }: MainScreenProps) {
   return (
-    <SafeAreaView style={{ padding: 16 }}>
-      {/**El safeAreaView para que respete tambien iPhone */}
-      <Text>MainScreen</Text>
-      <Image
-        source={require("../../../assets/portada_rq.png")}
-        style={{ width: 300, height: 300 }}
-      />
-      <MyButton
-        title="Iniciar sesión"
-        onPress={() => navigation.navigate("Login")}
-      />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={[textStyles.title, styles.mainTitle]}>
+          Bienvenido a Routine Quest
+        </Text>
+
+        <Text style={[textStyles.subtitle, styles.subtitle]}>
+          Tu aventura hacia mejores hábitos comienza aquí
+        </Text>
+
+        <Image
+          source={require("../../../assets/portada_rq.png")}
+          style={styles.image}
+          resizeMode="contain"
+        />
+
+        <View style={styles.buttonContainer}>
+          <MyButton
+            title="Iniciar sesión"
+            onPress={() => navigation.navigate("Login")}
+            style={styles.loginButton}
+          />
+          <MyButton
+            title="Crear cuenta"
+            onPress={() => navigation.navigate("Register")}
+            style={styles.registerButton}
+          />
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.backgroundLight,
+  },
+  content: {
+    flex: 1,
+    padding: 24,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  mainTitle: {
+    fontSize: 32,
+    textAlign: "center",
+    marginBottom: 12,
+    color: colors.primary,
+  },
+  subtitle: {
+    textAlign: "center",
+    marginBottom: 32,
+    color: colors.textSecondary,
+  },
+  image: {
+    width: "100%",
+    height: 300,
+    marginBottom: 40,
+  },
+  buttonContainer: {
+    width: "100%",
+    gap: 16,
+  },
+  loginButton: {
+    backgroundColor: colors.primary,
+  },
+  registerButton: {
+    backgroundColor: colors.success,
+  },
+});
 
 export default MainScreen;
