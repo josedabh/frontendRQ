@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { MyButton } from '../../../components/shared/MyButton';
 import { UserProfile } from '../../../shared/models/UserData';
-import { getMyUserInfo } from '../../../shared/services/UserService';
+import { changePassword, getMyUserInfo } from '../../../shared/services/UserService';
 import textStyles from '../../../shared/themes/styles/textStyles';
 
 export default function Datauser() {
@@ -44,14 +44,42 @@ export default function Datauser() {
     setEditName(false);
   };
 
-  const handleChangePassword = () => {
-    if (newPwd !== repeatPwd) {
-      Alert.alert("Error", "Las contraseñas no coinciden.");
-      return;
+  const handleChangePassword = async () => {
+    try {
+      // Validaciones básicas
+      if (!currentPwd || !newPwd || !repeatPwd) {
+        Alert.alert("Error", "Por favor, rellena todos los campos");
+        return;
+      }
+
+      if (newPwd !== repeatPwd) {
+        Alert.alert("Error", "Las contraseñas nuevas no coinciden");
+        return;
+      }
+
+      // Crear objeto con el formato requerido por la API
+      const formPassword = {
+        oldPassword: currentPwd,
+        newPassword: newPwd,
+        verifyNewPassword: repeatPwd
+      };
+
+      // Llamar a la API
+      await changePassword(formPassword);
+      
+      // Limpiar campos y cerrar modal
+      setCurrentPwd("");
+      setNewPwd("");
+      setRepeatPwd("");
+      setModalVisible(false);
+      
+      Alert.alert("Éxito", "Contraseña actualizada correctamente");
+    } catch (error: any) {
+      Alert.alert(
+        "Error", 
+        error.response?.data?.message || "Error al actualizar la contraseña"
+      );
     }
-    // Aquí llamarías al servicio de actualización de contraseña
-    Alert.alert("Contraseña actualizada");
-    setModalVisible(false);
   };
 
   return (

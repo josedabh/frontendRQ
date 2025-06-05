@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { getToken } from '../../shared/utils/TokenStorage';
-import { Credentials, Login, Register, UserProfile, UserResponse } from '../models/UserData';
+import { Credentials, FormPassword, Login, Register, UserProfile, UserResponse } from '../models/UserData';
 
 /** Url de la Api */
 const URL = "http://localhost:8080/api/v1/auth";
@@ -71,6 +71,7 @@ export const loginUser = async (login: Login): Promise<Credentials> => {
   }
 };
 
+/** Api Get: Muestra la informacion del usuario actual */
 export const getMyUserInfo = async (): Promise<UserProfile> => {
   try {
     const headers = await getAuthHeaders();
@@ -80,6 +81,19 @@ export const getMyUserInfo = async (): Promise<UserProfile> => {
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error;
+  }
+};
+
+/**Api Put: Cambia la contraseña */
+export const changePassword = async (
+  formPassword: FormPassword): Promise<void> => {
+  try {
+    const headers = await getAuthHeaders();
+    await axios.put( `${URL}/change-password`, { formPassword },
+      { headers });
+  } catch (error) {
+    console.error("Error al cambiar la contraseña:", error);
     throw error;
   }
 };

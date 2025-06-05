@@ -37,3 +37,9 @@ export interface UserProfile {
   numPhone: string;
   points: number;
 }
+
+export interface FormPassword {
+  oldPassword: string;
+  newPassword: string;
+  verifyNewPassword: string;
+}
