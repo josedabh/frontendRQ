@@ -4,7 +4,7 @@ import { Alert, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } fro
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { MyButton } from '../../../components/shared/MyButton';
-import { UserProfile } from '../../../shared/models/UserData';
+import { FormPassword, UserProfile } from '../../../shared/models/UserData';
 import { changePassword, getMyUserInfo } from '../../../shared/services/UserService';
 import textStyles from '../../../shared/themes/styles/textStyles';
 
@@ -58,12 +58,13 @@ export default function Datauser() {
       }
 
       // Crear objeto con el formato requerido por la API
-      const formPassword = {
+      const formPassword: FormPassword = {
         oldPassword: currentPwd,
         newPassword: newPwd,
         verifyNewPassword: repeatPwd
       };
 
+      console.log(formPassword);
       // Llamar a la API
       await changePassword(formPassword);
       

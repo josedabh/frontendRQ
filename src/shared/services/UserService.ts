@@ -90,7 +90,7 @@ export const changePassword = async (
   formPassword: FormPassword): Promise<void> => {
   try {
     const headers = await getAuthHeaders();
-    await axios.put( `${URL}/change-password`, { formPassword },
+    await axios.put( `${URL}/change-password`, formPassword ,
       { headers });
   } catch (error) {
     console.error("Error al cambiar la contraseña:", error);

@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { RootStackParamList } from "../../../App";
@@ -17,34 +17,39 @@ type MainScreenProps = NativeStackScreenProps<RootStackParamList, "Main">;
 export function MainScreen({ navigation }: MainScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={[textStyles.title, styles.mainTitle]}>
-          Bienvenido a Routine Quest
-        </Text>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.content}>
+          <Text style={[textStyles.title, styles.mainTitle]}>
+            Bienvenido a Routine Quest
+          </Text>
 
-        <Text style={[textStyles.subtitle, styles.subtitle]}>
-          Tu aventura hacia mejores hábitos comienza aquí
-        </Text>
+          <Text style={[textStyles.subtitle, styles.subtitle]}>
+            Tu aventura hacia mejores hábitos comienza aquí
+          </Text>
 
-        <Image
-          source={require("../../../assets/portada_rq.png")}
-          style={styles.image}
-          resizeMode="contain"
-        />
-
-        <View style={styles.buttonContainer}>
-          <MyButton
-            title="Iniciar sesión"
-            onPress={() => navigation.navigate("Login")}
-            style={styles.loginButton}
+          <Image
+            source={require("../../../assets/portada_rq.png")}
+            style={styles.image}
+            resizeMode="contain"
           />
-          <MyButton
-            title="Crear cuenta"
-            onPress={() => navigation.navigate("Register")}
-            style={styles.registerButton}
-          />
+
+          <View style={styles.buttonContainer}>
+            <MyButton
+              title="Iniciar sesión"
+              onPress={() => navigation.navigate("Login")}
+              style={styles.loginButton}
+            />
+            <MyButton
+              title="Crear cuenta"
+              onPress={() => navigation.navigate("Register")}
+              style={styles.registerButton}
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -54,11 +59,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.backgroundLight,
   },
+  scrollContainer: {
+    flexGrow: 1,
+    padding: 24,
+  },
   content: {
     flex: 1,
-    padding: 24,
     justifyContent: "center",
     alignItems: "center",
+    minHeight: "100%",
   },
   mainTitle: {
     fontSize: 32,

@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useContext, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../App';
@@ -30,45 +30,50 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={[textStyles.title, styles.title]}>Iniciar sesión</Text>
-        
-        <View style={styles.form}>
-          <TextInput
-            placeholder="Correo electrónico"
-            value={email}
-            onChangeText={setEmail}
-            style={[globalStyles.input, styles.input]}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-          <TextInput
-            placeholder="Contraseña"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={[globalStyles.input, styles.input]}
-          />
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.content}>
+          <Text style={[textStyles.title, styles.title]}>Iniciar sesión</Text>
+          
+          <View style={styles.form}>
+            <TextInput
+              placeholder="Correo electrónico"
+              value={email}
+              onChangeText={setEmail}
+              style={[globalStyles.input, styles.input]}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <TextInput
+              placeholder="Contraseña"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              style={[globalStyles.input, styles.input]}
+            />
 
-          <View style={styles.buttonContainer}>
-            <MyButton 
-              onPress={handleLogin} 
-              title="Iniciar sesión"
-              style={styles.loginButton}
-            />
-            <MyButton
-              title="Crear cuenta"
-              onPress={() => navigation.navigate("Register")}
-              style={styles.registerButton}
-            />
-            <MyButton 
-              title="Volver" 
-              onPress={() => navigation.goBack()}
-              style={styles.backButton} 
-            />
+            <View style={styles.buttonContainer}>
+              <MyButton 
+                onPress={handleLogin} 
+                title="Iniciar sesión"
+                style={styles.loginButton}
+              />
+              <MyButton
+                title="Crear cuenta"
+                onPress={() => navigation.navigate("Register")}
+                style={styles.registerButton}
+              />
+              <MyButton 
+                title="Volver" 
+                onPress={() => navigation.goBack()}
+                style={styles.backButton} 
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -78,10 +83,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.backgroundLight,
   },
+  scrollContainer: {
+    flexGrow: 1,
+  },
   content: {
     flex: 1,
     padding: 24,
     justifyContent: 'center',
+    minHeight: '100%',
   },
   title: {
     textAlign: 'center',
