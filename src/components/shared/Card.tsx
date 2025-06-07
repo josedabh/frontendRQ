@@ -10,6 +10,8 @@ import {
 
 import textStyles from "../../shared/themes/styles/textStyles";
 import colors from "../../shared/themes/constants/colors";
+import { useTheme } from "../../context/ThemeContext";
+import createTextStyles from "../../shared/themes/styles/textStyles";
 
 interface CardProps {
   title: string;
@@ -19,6 +21,10 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ title, desc, imageUri, onPress }) => {
+  // Acceso a los estilos de texto
+  const { theme } = useTheme();
+  const textStyles = createTextStyles(theme);
+  // Obtener el ancho de la ventana para hacer el card responsivo
   const { width } = useWindowDimensions();
   const cardWidth = width * 0.9; // 90% del ancho de pantalla
 

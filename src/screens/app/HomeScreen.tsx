@@ -6,14 +6,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import HeaderHome from '../../components/layout/header/HeaderHome';
 import { MyButton } from '../../components/shared/MyButton';
+import { useTheme } from '../../context/ThemeContext';
 import { UserProfile } from '../../shared/models/UserData';
 import { getMyUserInfo } from '../../shared/services/UserService';
 import colors from '../../shared/themes/constants/colors';
-import textStyles from '../../shared/themes/styles/textStyles';
+import createTextStyles from '../../shared/themes/styles/textStyles';
 import { RootTabParamList } from '../Layout';
 
 /** Pagina main que sale al principio cuadno ya estas logeado */
 export default function HomeScreen() {
+    const { theme } = useTheme();
+    const textStyles = createTextStyles(theme);
+
     const navigation = useNavigation<BottomTabNavigationProp<RootTabParamList>>();
     const [user, setUser] = useState<UserProfile | null>();
 

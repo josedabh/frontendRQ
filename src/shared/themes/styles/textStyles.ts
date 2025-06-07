@@ -1,12 +1,14 @@
-import { StyleSheet } from "react-native";
-import colors from "../constants/colors";
+import { StyleSheet } from 'react-native';
+
+import colors from '../constants/colors';
+import { Theme } from '../themes';
 
 /** Estilos para los textos */
-const textStyles = StyleSheet.create({
+const createTextStyles = (theme: Theme) => StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: colors.textPrimary,
+    color: theme.textTitle,
     marginBottom: 12,
     //Centra el texto
     textAlign: "center",
@@ -14,14 +16,14 @@ const textStyles = StyleSheet.create({
   subtitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: colors.textSecondary,
+    color: theme.textSubtitle,
     margin: 6,
   },
   normal: {
     fontSize: 16,
     margin: 3,
-    color: colors.textSecondary,
+    color: theme.text,
   },
 });
 
-export default textStyles;
+export default createTextStyles;

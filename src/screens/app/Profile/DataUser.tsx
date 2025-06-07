@@ -4,11 +4,19 @@ import { Alert, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } fro
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { MyButton } from '../../../components/shared/MyButton';
+import { useTheme } from '../../../context/ThemeContext';
 import { FormPassword, UserProfile } from '../../../shared/models/UserData';
 import { changePassword, getMyUserInfo } from '../../../shared/services/UserService';
 import textStyles from '../../../shared/themes/styles/textStyles';
+import { Theme } from '../../../shared/themes/themes';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 export default function Datauser() {
+  // Acceso al tema y estilos personalizados
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
+  const textStyles = createTextStyles(theme);
+
   const navigation = useNavigation();
   const [myUser, setMyUser] = useState<UserProfile>({
     email: "",
@@ -180,13 +188,13 @@ export default function Datauser() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   container: {
     padding: 16,
     flex: 1,
   },
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: theme.card,
     borderRadius: 10,
     padding: 16,
     boxShadow: "#000",
@@ -201,7 +209,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   input: {
-    borderColor: "#ccc",
+    borderColor: theme.accent,
     borderWidth: 1,
     borderRadius: 8,
     padding: 8,
@@ -213,7 +221,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   editText: {
-    color: "#007bff",
+    color: theme.primary,
     marginLeft: 10,
   },
   buttonRow: {
@@ -224,12 +232,12 @@ const styles = StyleSheet.create({
   },
   modalBackground: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: theme.background,
     justifyContent: "center",
     padding: 20,
   },
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: theme.background,
     padding: 20,
     borderRadius: 12,
   },

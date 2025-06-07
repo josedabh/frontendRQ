@@ -12,6 +12,8 @@ import globalStyles from '../../../shared/themes/styles/globalStyles';
 import { RootTabParamList } from '../../Layout';
 import { UserProfile } from '../../../shared/models/UserData';
 import { getMyUserInfo } from '../../../shared/services/UserService';
+import createGlobalStyles from '../../../shared/themes/styles/globalStyles';
+import { useTheme } from '../../../context/ThemeContext';
 
 // Define el tipo de navegación para esta pantalla
 type ProfileScreenNavigationProp = BottomTabNavigationProp<
@@ -20,6 +22,9 @@ type ProfileScreenNavigationProp = BottomTabNavigationProp<
 >;
 
 export default function ProfileScreen() {
+    const { theme } = useTheme();
+    const globalStyles = createGlobalStyles(theme);
+
     const navigation = useNavigation<ProfileScreenNavigationProp>();
     const [modalLogout, setModalLogout] = useState(false);
     const { logout } = useContext(AuthContext);
@@ -74,7 +79,7 @@ export default function ProfileScreen() {
                         title="Historial de Recompensas" 
                         onPress={() => navigation.navigate("HistoryShopping")}/>
                     <Option title="Cerrar Sesión" onPress={() => setModalLogout(true)} />
-                    <Option title="Cambiar tema" />
+                    <Option title="Cambiar tema" onPress={() => navigation.navigate("Theme")}/>
                     {/* Imagina muchas más opciones aquí... */}
                 </View>
             </ScrollView>

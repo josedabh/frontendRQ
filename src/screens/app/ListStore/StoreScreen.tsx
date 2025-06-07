@@ -7,10 +7,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../../../../App';
 import HeaderNavigation from '../../../components/shared/HeaderNavigation';
 import { MyButton } from '../../../components/shared/MyButton';
+import { useTheme } from '../../../context/ThemeContext';
 import { RewardResponse } from '../../../shared/models/StoreData';
 import { buyReward, getRewardById } from '../../../shared/services/StoreService';
 import colors from '../../../shared/themes/constants/colors';
-import textStyles from '../../../shared/themes/styles/textStyles';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 type StoreScreenRouteProp = RouteProp<RootStackParamList, "Store">;
 type StoreScreenNavigationProp = BottomTabNavigationProp<
@@ -21,8 +22,14 @@ type StoreScreenNavigationProp = BottomTabNavigationProp<
 const { width } = Dimensions.get("window");
 
 export default function StoreScreen() {
+  // Aplicamos estilos de texto personalizados
+  const { theme } = useTheme();
+  const textStyles = createTextStyles(theme);
+
+  // Acceso a la ruta y navegación
   const route = useRoute<StoreScreenRouteProp>();
   const navigation = useNavigation<StoreScreenNavigationProp>();
+  // Estados para manejar la recompensa y su carga
   const [reward, setReward] = useState<RewardResponse | null>(null);
   const [loading, setLoading] = useState(true);
 

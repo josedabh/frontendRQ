@@ -2,6 +2,8 @@ import React from "react";
 import { StyleProp, Text, TouchableOpacity, ViewStyle } from "react-native";
 
 import buttonStyles from "../../shared/themes/styles/buttonStyles";
+import { useTheme } from "../../context/ThemeContext";
+import createButtonStyles from "../../shared/themes/styles/buttonStyles";
 
 /**Porpiedades a implementar el boton */
 interface MyButtonProps {
@@ -11,6 +13,8 @@ interface MyButtonProps {
 }
 
 export function MyButton({ style, onPress, title }: MyButtonProps) {
+  const { theme } = useTheme();
+  const buttonStyles = createButtonStyles(theme);
   return (
     <TouchableOpacity
       style={[buttonStyles.button, style]}

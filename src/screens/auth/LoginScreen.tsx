@@ -9,11 +9,18 @@ import { AuthContext } from '../../context/AuthContext';
 import colors from '../../shared/themes/constants/colors';
 import globalStyles from '../../shared/themes/styles/globalStyles';
 import textStyles from '../../shared/themes/styles/textStyles';
+import createGlobalStyles from '../../shared/themes/styles/globalStyles';
+import { useTheme } from '../../context/ThemeContext';
+import createTextStyles from '../../shared/themes/styles/textStyles';
 
 /**Para Ir a la pantralla de registro Cambiar props */
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
 
 export function LoginScreen({ navigation }: LoginScreenProps) {
+  const { theme } = useTheme();
+  const textStyles = createTextStyles(theme);
+  const globalStyles = createGlobalStyles(theme);
+
   const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

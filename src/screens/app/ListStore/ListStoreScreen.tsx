@@ -1,20 +1,22 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useMemo, useState } from 'react';
-import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../../App';
-import Card from '../../../components/shared/Card';
+import MySearchBar from '../../../components/shared/MySearchBar';
+import { useTheme } from '../../../context/ThemeContext';
 import { RewardResponse } from '../../../shared/models/StoreData';
 import { getListRewardsUsers } from '../../../shared/services/StoreService';
-import textStyles from '../../../shared/themes/styles/textStyles';
-import MySearchBar from '../../../components/shared/MySearchBar';
-import { TouchableOpacity } from 'react-native';
 import colors from '../../../shared/themes/constants/colors';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 /** Pantalla de lista de productos */
 export default function ListStoreScreen() {
+    const { theme } = useTheme();
+    const textStyles = createTextStyles(theme);
+
     const navigation =
         useNavigation<BottomTabNavigationProp<RootStackParamList, "Layout">>();
     const [input, setInput] = useState("");

@@ -9,10 +9,15 @@ import { HistoryShopping } from '../../../shared/models/StoreData';
 import { getListHistoryRewardsUser } from '../../../shared/services/StoreService';
 import colors from '../../../shared/themes/constants/colors';
 import textStyles from '../../../shared/themes/styles/textStyles';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { useTheme } from '../../../context/ThemeContext';
 
 type NavProps = BottomTabNavigationProp<RootStackParamList, 'HistoryShopping'>;
 
 export default function HistoryShoppingScreen() {
+    const { theme } = useTheme();
+    const textStyles = createTextStyles(theme);
+
     const [purchases, setPurchases] = useState<HistoryShopping[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

@@ -8,6 +8,8 @@ import HomeScreen from './app/HomeScreen';
 import ListChallengesScreen from './app/ListChallenge/ListChallengesScreen';
 import ListStoreScreen from './app/ListStore/ListStoreScreen';
 import ProfileScreen from './app/Profile/ProfileScreen';
+import createGlobalStyles from '../shared/themes/styles/globalStyles';
+import { useTheme } from '../context/ThemeContext';
 
 // 1. Define el tipo RootTabParamList
 export type RootTabParamList = {
@@ -26,6 +28,7 @@ export type RootTabParamList = {
   ManageProducts: undefined;
   ManageUsers: undefined;
   HistoryShopping: undefined;
+  Theme: undefined;
 };
 
 // 2. Crea el Tab con el tipo genérico
@@ -40,6 +43,9 @@ function ProfileScreenWrapper({ navigation, route }: ProfileScreenProps) {
 
 // 4. Implementa el Layout con el Tab.Navigator tipado
 export default function Layout() {
+  const { theme } = useTheme();
+  const globalStyles = createGlobalStyles(theme);
+
   return (
     <Tab.Navigator
       screenOptions={{

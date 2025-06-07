@@ -3,6 +3,9 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import colors from "../../../shared/themes/constants/colors";
 import globalStyles from "../../../shared/themes/styles/globalStyles";
 import textStyles from "../../../shared/themes/styles/textStyles";
+import createGlobalStyles from "../../../shared/themes/styles/globalStyles";
+import { useTheme } from "../../../context/ThemeContext";
+import createTextStyles from "../../../shared/themes/styles/textStyles";
 
 interface AvatarProps {
   textAvatar?: string;
@@ -11,6 +14,10 @@ interface AvatarProps {
 
 /**Componente que muestra la imagen de perfil del usuario */
 export function Avatar({ textAvatar, imageAvatar }: AvatarProps) {
+  const { theme } = useTheme();
+  const globalStyles = createGlobalStyles(theme);
+  const textStyles = createTextStyles(theme);
+
   //Si no se pasa la imagen, se usa la imagen por defecto
   const imageSource = imageAvatar
     ? { uri: imageAvatar }

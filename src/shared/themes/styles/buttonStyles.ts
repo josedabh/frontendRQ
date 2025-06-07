@@ -1,9 +1,11 @@
-import { StyleSheet } from "react-native";
-import colors from "../constants/colors";
+import { StyleSheet } from 'react-native';
 
-const buttonStyles = StyleSheet.create({
+import colors from '../constants/colors';
+import { Theme } from '../themes';
+
+const createButtonStyles = (theme: Theme) => StyleSheet.create({
   button: {
-    backgroundColor: colors.primary,
+    backgroundColor: theme.primary,
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 8,
@@ -14,16 +16,16 @@ const buttonStyles = StyleSheet.create({
     marginRight: 15,
   },
   buttonPrimary: {
-    backgroundColor: colors.primary,
+    backgroundColor: theme.primary,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
   },
   buttonText: {
-    color: colors.backgroundLight,
+    color: theme.buttonText,
     textAlign: "center",
     fontWeight: "600",
   },
 });
 
-export default buttonStyles;
+export default createButtonStyles;

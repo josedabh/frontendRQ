@@ -11,13 +11,24 @@ import { getChallengeById } from '../../../shared/services/ChallengeService';
 import colors from '../../../shared/themes/constants/colors';
 import textStyles from '../../../shared/themes/styles/textStyles';
 import { getCategoryLabel } from '../../../shared/utils/Utils';
+import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 type ChallengeRouteProp = RouteProp<RootStackParamList, 'Challenge'>;
 type ChallengeNavProp = BottomTabNavigationProp<RootStackParamList, 'Challenge'>;
 
 export default function ChallengeScreen() {
+    // Acceso al tema y estilos personalizados
+    const { theme } = useTheme();
+    const styles = createStyles(theme);
+    const textStyles = createTextStyles(theme);
+
+    // Acceso a la ruta y navegación
     const route = useRoute<ChallengeRouteProp>();
     const navigation = useNavigation<ChallengeNavProp>();
+
+    // Estado para almacenar los datos del reto
     const [challenge, setChallenge] = useState<ChallengeResponse | null>(null);
     const [joined, setJoined] = useState(false);
 
@@ -112,8 +123,11 @@ export default function ChallengeScreen() {
     );
 }
 
-const styles = StyleSheet.create({
-    safe: { flex: 1, backgroundColor: colors.backgroundLight },
+const createStyles = (theme: Theme) => StyleSheet.create({
+    safe: {
+        flex: 1,
+        backgroundColor: theme.background
+    },
     centered: {
         flex: 1,
         justifyContent: 'center',
@@ -124,10 +138,10 @@ const styles = StyleSheet.create({
         paddingBottom: 32,
     },
     card: {
-        backgroundColor: '#fff',
+        backgroundColor: theme.card,
         borderRadius: 16,
         padding: 20,
-        shadowColor: '#000',
+        shadowColor: theme.text,
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.1,
         shadowRadius: 6,
@@ -143,7 +157,7 @@ const styles = StyleSheet.create({
     },
     detailBox: {
         flex: 1,
-        backgroundColor: colors.backgroundLight,
+        backgroundColor: theme.background,
         borderRadius: 8,
         padding: 12,
         marginHorizontal: 4,
@@ -152,6 +166,7 @@ const styles = StyleSheet.create({
     detailValue: {
         fontWeight: '600',
         marginTop: 4,
+        color: theme.text,
     },
     bulletList: {
         marginTop: 8,
@@ -162,14 +177,14 @@ const styles = StyleSheet.create({
         marginVertical: 2,
     },
     joinButton: {
-        backgroundColor: colors.primary,
+        backgroundColor: theme.primary,
         borderRadius: 24,
         paddingVertical: 12,
         marginTop: 20,
         alignItems: 'center',
     },
     joinText: {
-        color: '#fff',
+        color: theme.text,
         fontSize: 16,
         fontWeight: '600',
     },

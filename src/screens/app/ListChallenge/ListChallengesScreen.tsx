@@ -9,8 +9,16 @@ import MySearchbar from '../../../components/shared/MySearchBar';
 import { ChallengeResponse } from '../../../shared/models/ChallengeData';
 import { getAllChallenges } from '../../../shared/services/ChallengeService';
 import textStyles from '../../../shared/themes/styles/textStyles';
+import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 export default function ListChallengesScreen() {
+    // Acceso al tema y estilos personalizados
+    const { theme } = useTheme();
+    const styles = createStyles(theme);
+    const textStyles = createTextStyles(theme);
+
     const navigation =
         useNavigation<
             BottomTabNavigationProp<RootStackParamList, 'Layout'>
@@ -71,7 +79,7 @@ export default function ListChallengesScreen() {
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     list: {
         paddingLeft: 16,
         paddingBottom: 80,
@@ -82,7 +90,7 @@ const styles = StyleSheet.create({
     empty: {
         textAlign: "center",
         marginTop: 40,
-        color: "#888",
+        color: theme.empty,
         fontSize: 16,
     },
     separator: {

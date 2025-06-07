@@ -4,6 +4,7 @@ import React, { useContext, useMemo } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { AuthContext, AuthProvider } from './src/context/AuthContext';
+import { ThemeProvider } from './src/context/ThemeContext';
 import AdminStackScreen from './src/screens/admin/AdminStackScreen';
 import ChallengeScreen from './src/screens/app/ListChallenge/ChallengeScreen';
 import StoreScreen from './src/screens/app/ListStore/StoreScreen';
@@ -13,6 +14,7 @@ import MainScreen from './src/screens/auth/MainScreen';
 import RegisterScreen from './src/screens/auth/RegisterScreen';
 import Layout from './src/screens/Layout';
 import HistoryShoppingScreen from './src/screens/app/Profile/HistoryShoppingScreen';
+import ThemeScreen from './src/screens/app/Profile/ThemeScreen';
 
 export type RootStackParamList = {
   Main: undefined;
@@ -20,6 +22,7 @@ export type RootStackParamList = {
   Register: undefined;
   Layout: undefined;
   Datauser: undefined;
+  Theme: undefined;
   Challenge: { id: string };
   Store: { id: number };
   Admin: undefined;
@@ -44,6 +47,7 @@ function AppStack() {
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
       <RootStack.Screen name="Layout" component={Layout} />
       <RootStack.Screen name="Datauser" component={Datauser} />
+      <RootStack.Screen name="Theme" component={ThemeScreen} />
       <RootStack.Screen name="Challenge" component={ChallengeScreen} />
       <RootStack.Screen
         name="ValidationQuest"
@@ -74,11 +78,13 @@ function AppNavigator() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <NavigationContainer>
-        <AppNavigator />
-      </NavigationContainer>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

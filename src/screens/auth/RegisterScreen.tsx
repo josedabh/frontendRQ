@@ -1,14 +1,15 @@
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useContext, useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, View, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useContext, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { RootStackParamList } from "../../../App";
-import { MyButton } from "../../components/shared/MyButton";
-import { AuthContext } from "../../context/AuthContext";
-import colors from "../../shared/themes/constants/colors";
-import textStyles from "../../shared/themes/styles/textStyles";
+import { RootStackParamList } from '../../../App';
+import { MyButton } from '../../components/shared/MyButton';
+import { AuthContext } from '../../context/AuthContext';
+import colors from '../../shared/themes/constants/colors';
+import createTextStyles from '../../shared/themes/styles/textStyles';
+import { useTheme } from '../../context/ThemeContext';
 
 // Definir el tipo de navegación
 type RegisterScreenNavigationProp = NativeStackNavigationProp<
@@ -18,6 +19,9 @@ type RegisterScreenNavigationProp = NativeStackNavigationProp<
 
 /** Pantalla de registro de usuario */
 export function RegisterScreen() {
+  const { theme } = useTheme();
+  const textStyles = createTextStyles(theme);
+
   const navigation = useNavigation<RegisterScreenNavigationProp>();
   const { register } = useContext(AuthContext);
 
