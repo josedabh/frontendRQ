@@ -1,8 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FeatherIcon from "react-native-vector-icons/Feather";
-
-import colors from "../../../shared/themes/constants/colors";
+import { useTheme } from "../../../context/ThemeContext";
+import { Theme } from "../../../shared/themes/themes";
+import createTextStyles from "../../../shared/themes/styles/textStyles";
 
 interface OptionProps {
   title: string;
@@ -10,17 +11,21 @@ interface OptionProps {
 }
 
 const Option: React.FC<OptionProps> = ({ title, onPress }) => {
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
+  const textStyles = createTextStyles(theme);
+
   return (
     <View style={styles.cardWrapper}>
       <TouchableOpacity onPress={onPress}>
         <View style={styles.card}>
           <View style={styles.cardBody}>
-            <Text style={styles.cardTitle}> {title}</Text>
+            <Text style={styles.cardTitle}>{title}</Text>
           </View>
 
           <View style={styles.cardAction}>
             <FeatherIcon
-              color={colors.success}
+              color={theme.success}
               name="chevron-right"
               size={22}
             />
@@ -31,33 +36,16 @@ const Option: React.FC<OptionProps> = ({ title, onPress }) => {
   );
 };
 
-// Ejemplo de estilos básicos (debes completarlos según tu necesidad)
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   cardWrapper: {
     borderBottomWidth: 1,
-    borderColor: "#d6d6d6",
+    borderColor: theme.border,
   },
   card: {
     paddingVertical: 14,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-  },
-  cardImg: {
-    width: 42,
-    height: 42,
-    borderRadius: 12,
-  },
-  cardAvatar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#9ca1ac",
-  },
-  cardAvatarText: {
-    fontSize: 19,
-    fontWeight: "bold",
-    color: "#fff",
   },
   cardBody: {
     marginRight: "auto",
@@ -66,7 +54,7 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 16,
     fontWeight: "700",
-    color: "#000",
+    color: theme.textTitle,
   },
   cardAction: {
     paddingRight: 16,

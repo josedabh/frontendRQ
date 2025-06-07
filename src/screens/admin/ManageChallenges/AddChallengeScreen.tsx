@@ -10,6 +10,9 @@ import { MyButton } from '../../../components/shared/MyButton';
 import { ChallengeRequest, ChallengeResponse } from '../../../shared/models/ChallengeData';
 import { createChallenge, getChallengeById, updateChallenge } from '../../../shared/services/ChallengeService';
 import colors from '../../../shared/themes/constants/colors';
+import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 import { AdminStackParamList } from '../AdminStackScreen';
 
 type RouteProps = RouteProp<AdminStackParamList, 'AddChallenge'>;
@@ -17,9 +20,14 @@ type NavProps = BottomTabNavigationProp<AdminStackParamList, 'AddChallenge'>;
 
 /** Pantalla para crear nuevos retos */
 export default function AddChallengeScreen() {
+    // Acceso al tema y estilos personalizados
+    const { theme } = useTheme();
+    const styles = createStyles(theme);
+    // Navegación al stack de administración
     const navigation = useNavigation<NavProps>();
     const route = useRoute<RouteProps>();
     const editId = route.params?.id;
+    
     useEffect(() => {
         if (editId != null) {
             (async () => {
@@ -248,10 +256,10 @@ export default function AddChallengeScreen() {
 }
 
 /** Estilos para los componentes de la pantalla */
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         padding: 16,
-        backgroundColor: colors.backgroundLight,
+        backgroundColor: theme.background,
         flex: 1,
         borderRadius: 8,
     },
@@ -261,23 +269,26 @@ const styles = StyleSheet.create({
         padding: 5,
         borderRadius: 6,
         borderWidth: 1,
-        borderColor: "#ccc",
+        borderColor: theme.border,
+        backgroundColor: theme.backgroundCard,
+        color: theme.text,
     },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: colors.backgroundLight,
+        backgroundColor: theme.backgroundCard,
     },
     backText: {
         fontSize: 16,
-        color: colors.primary,
+        color: theme.primary,
     },
     headerTitle: {
         flex: 1,
         textAlign: 'center',
         fontSize: 18,
         fontWeight: '600',
+        color: theme.textTitle,
     },
     scrollContainer: {
         flexGrow: 1,
@@ -288,13 +299,16 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         marginTop: 12,
+        color: theme.textSubtitle,
     },
     input: {
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: theme.border,
         padding: 10,
         borderRadius: 6,
         marginTop: 4,
+        backgroundColor: theme.backgroundCard,
+        color: theme.text,
     },
     switchContainer: {
         flexDirection: 'row',
@@ -304,6 +318,7 @@ const styles = StyleSheet.create({
     status: {
         marginLeft: 8,
         fontSize: 16,
+        color: theme.text,
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -311,12 +326,12 @@ const styles = StyleSheet.create({
         marginTop: 24,
     },
     btnSave: {
-        backgroundColor: colors.success,
+        backgroundColor: theme.success,
         flex: 1,
         marginRight: 8,
     },
     btnCancel: {
-        backgroundColor: colors.danger,
+        backgroundColor: theme.error,
         flex: 1,
         marginLeft: 8,
     },

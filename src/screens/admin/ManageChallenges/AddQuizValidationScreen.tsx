@@ -10,6 +10,9 @@ import { MyButton } from '../../../components/shared/MyButton';
 import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 interface Answer {
   text: string;
@@ -25,6 +28,10 @@ type RouteProps = RouteProp<AdminStackParamList, 'AddChallenge'>;
 type NavProps = BottomTabNavigationProp<AdminStackParamList, 'AddChallenge'>;
 
 export default function AddQuizValidationScreen() {
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
+  const textStyles = createTextStyles(theme);
+
   const navigation = useNavigation<NavProps>();
   const route = useRoute<RouteProps>();
   const challengeId = route.params!.id;
@@ -195,7 +202,7 @@ export default function AddQuizValidationScreen() {
                   }}
                   fillColor={colors.primary}
                 />
-                <Text>¿Es correcta?</Text>
+                <Text style={textStyles.normal}>¿Es correcta?</Text>
               </View>
               <MyButton
                 title="Borrar Respuesta"
@@ -231,33 +238,37 @@ export default function AddQuizValidationScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: theme.background,
     flex: 1,
     borderRadius: 8,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: theme.border,
     padding: 10,
     borderRadius: 6,
     marginTop: 4,
     marginBottom: 10,
+    backgroundColor: theme.backgroundCard,
+    color: theme.text,
   },
   questionContainer: {
     marginBottom: 20,
     padding: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: theme.border,
     borderRadius: 6,
+    backgroundColor: theme.card,
   },
   answerContainer: {
     marginBottom: 10,
     padding: 10,
     borderLeftWidth: 2,
-    borderLeftColor: colors.primary,
+    borderLeftColor: theme.primary,
+    backgroundColor: theme.backgroundAlt,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -265,14 +276,35 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 24,
     flexWrap: 'wrap',
+    gap: 8,
   },
   navigationContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 16,
+    paddingHorizontal: 16,
   },
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginVertical: 8,
   },
+  checkboxLabel: {
+    color: theme.text,
+    marginLeft: 8,
+  },
+  deleteButton: {
+    backgroundColor: theme.error,
+  },
+  primaryButton: {
+    backgroundColor: theme.buttonPrimary,
+  },
+  secondaryButton: {
+    backgroundColor: theme.buttonSecondary,
+  },
+  buttonText: {
+    color: theme.buttonText,
+    fontSize: 14,
+    fontWeight: '600',
+  }
 });

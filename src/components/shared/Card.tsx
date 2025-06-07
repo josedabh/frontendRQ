@@ -7,10 +7,8 @@ import {
   Image,
   useWindowDimensions,
 } from "react-native";
-
-import textStyles from "../../shared/themes/styles/textStyles";
-import colors from "../../shared/themes/constants/colors";
 import { useTheme } from "../../context/ThemeContext";
+import { Theme } from "../../shared/themes/themes";
 import createTextStyles from "../../shared/themes/styles/textStyles";
 
 interface CardProps {
@@ -21,10 +19,11 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ title, desc, imageUri, onPress }) => {
-  // Acceso a los estilos de texto
+  // Acceso al tema y estilos personalizados
   const { theme } = useTheme();
+  const styles = createStyles(theme);
   const textStyles = createTextStyles(theme);
-  // Obtener el ancho de la ventana para hacer el card responsivo
+  // Obtener dimensiones de la ventana para hacer el card responsivo
   const { width } = useWindowDimensions();
   const cardWidth = width * 0.9; // 90% del ancho de pantalla
 
@@ -49,38 +48,43 @@ const Card: React.FC<CardProps> = ({ title, desc, imageUri, onPress }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: "#ffffff",
-    borderRadius: 16,
-    marginVertical: 12,
-    alignSelf: "center",
+const createStyles = (theme: Theme) =>
+  StyleSheet.create({
+    card: {
+      backgroundColor: theme.card,
+      borderRadius: 16,
+      marginVertical: 12,
+      alignSelf: "center",
 
-    // Sombra iOS
-    boxShadow: colors.shadow,
+      // Sombra iOS
+      shadowColor: theme.shadowColor,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
 
-    // Elevación Android
-    elevation: 4,
-  },
-  image: {
-    width: "100%",
-    height: 160,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    backgroundColor: "#eee",
-  },
-  content: {
-    padding: 16,
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-  },
-  desc: {
-    fontSize: 14,
-    color: "#555",
-    lineHeight: 20,
-  },
-});
+      // Elevación Android
+      elevation: 4,
+    },
+    image: {
+      width: "100%",
+      height: 160,
+      borderTopLeftRadius: 16,
+      borderTopRightRadius: 16,
+      backgroundColor: theme.backgroundAlt,
+    },
+    content: {
+      padding: 16,
+    },
+    title: {
+      fontSize: 20,
+      marginBottom: 8,
+      color: theme.textTitle,
+    },
+    desc: {
+      fontSize: 14,
+      color: theme.textSubtitle,
+      lineHeight: 20,
+    },
+  });
 
 export default Card;

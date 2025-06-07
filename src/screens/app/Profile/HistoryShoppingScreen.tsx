@@ -11,11 +11,13 @@ import colors from '../../../shared/themes/constants/colors';
 import textStyles from '../../../shared/themes/styles/textStyles';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
 import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
 
 type NavProps = BottomTabNavigationProp<RootStackParamList, 'HistoryShopping'>;
 
 export default function HistoryShoppingScreen() {
     const { theme } = useTheme();
+    const styles = createStyles(theme);
     const textStyles = createTextStyles(theme);
 
     const [purchases, setPurchases] = useState<HistoryShopping[]>([]);
@@ -112,10 +114,10 @@ export default function HistoryShoppingScreen() {
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.backgroundLight,
+        backgroundColor: theme.background,
     },
     list: {
         paddingHorizontal: 16,
@@ -123,10 +125,10 @@ const styles = StyleSheet.create({
         paddingBottom: 80,
     },
     card: {
-        backgroundColor: '#fff',
+        backgroundColor: theme.card,
         borderRadius: 12,
         padding: 16,
-        shadowColor: '#000',
+        shadowColor: theme.shadowColor,
         shadowOpacity: 0.05,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
@@ -136,23 +138,23 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         paddingBottom: 12,
         borderBottomWidth: 1,
-        borderBottomColor: colors.backgroundLight,
+        borderBottomColor: theme.border,
     },
     rewardName: {
         fontSize: 18,
         fontWeight: '600',
-        color: colors.textPrimary,
+        color: theme.text,
         marginBottom: 4,
     },
     description: {
         fontSize: 14,
-        color: colors.textSecondary,
+        color: theme.secondary,
         marginBottom: 8,
     },
     points: {
         fontSize: 16,
         fontWeight: '600',
-        color: colors.primary,
+        color: theme.primary,
     },
     userHeader: {
         flexDirection: 'row',
@@ -162,17 +164,17 @@ const styles = StyleSheet.create({
     userName: {
         fontSize: 16,
         fontWeight: '500',
-        color: colors.textPrimary,
+        color: theme.text,
         marginRight: 8,
     },
     userNick: {
         fontSize: 14,
-        color: colors.primary,
+        color: theme.primary,
         fontStyle: 'italic',
     },
     userInfo: {
         fontSize: 14,
-        color: colors.textSecondary,
+        color: theme.secondary,
         marginTop: 2,
     },
     footer: {
@@ -180,7 +182,7 @@ const styles = StyleSheet.create({
     },
     date: {
         fontSize: 12,
-        color: colors.textSecondary,
+        color: theme.secondary,
         fontStyle: 'italic',
     },
     separator: {
@@ -190,17 +192,17 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.backgroundLight,
+        backgroundColor: theme.backgroundAlt,
     },
     errorText: {
-        color: colors.danger,
+        color: theme.error,
         fontSize: 16,
         textAlign: 'center',
     },
     emptyText: {
         textAlign: 'center',
         marginTop: 40,
-        color: colors.textSecondary,
+        color: theme.empty,
         fontSize: 16,
     },
 });

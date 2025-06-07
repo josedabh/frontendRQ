@@ -12,6 +12,7 @@ import { RewardResponse } from '../../../shared/models/StoreData';
 import { buyReward, getRewardById } from '../../../shared/services/StoreService';
 import colors from '../../../shared/themes/constants/colors';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { Theme } from '../../../shared/themes/themes';
 
 type StoreScreenRouteProp = RouteProp<RootStackParamList, "Store">;
 type StoreScreenNavigationProp = BottomTabNavigationProp<
@@ -24,6 +25,7 @@ const { width } = Dimensions.get("window");
 export default function StoreScreen() {
   // Aplicamos estilos de texto personalizados
   const { theme } = useTheme();
+  const styles = createStyles(theme);
   const textStyles = createTextStyles(theme);
 
   // Acceso a la ruta y navegación
@@ -136,10 +138,10 @@ export default function StoreScreen() {
 
 const baseFontSize = width < 400 ? 14 : 16;
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: theme.background,
   },
   centered: {
     flex: 1,
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: width * 0.6,
     borderRadius: 8,
-    backgroundColor: "#eee",
+    backgroundColor: theme.backgroundAlt,
     marginBottom: 16,
   },
   noImage: {
@@ -162,7 +164,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   unavailable: {
-    color: colors.danger,
+    color: theme.error,
     marginTop: 4,
     marginBottom: 8,
     fontSize: baseFontSize,
@@ -188,11 +190,11 @@ const styles = StyleSheet.create({
   actionBox: {
     marginTop: 20,
     padding: 12,
-    backgroundColor: colors.success,
+    backgroundColor: theme.success,
     borderRadius: 8,
     alignItems: "center",
   },
   btnCancel: {
-    backgroundColor: colors.danger,
+    backgroundColor: theme.error,
   },
 });

@@ -55,7 +55,7 @@ export default function ListChallengesScreen() {
     );
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style= {styles.container}>
             <View style={{ flex: 1, padding: 16 }}>
                 <Text style={textStyles.title}>Retos</Text>
                 {/** Barra de busqueda */}
@@ -80,6 +80,12 @@ export default function ListChallengesScreen() {
 }
 
 const createStyles = (theme: Theme) => StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: theme.background,
+        padding: 16,
+        paddingBottom: 70,
+    },
     list: {
         paddingLeft: 16,
         paddingBottom: 80,

@@ -192,6 +192,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
   container: {
     padding: 16,
     flex: 1,
+    backgroundColor: theme.background,
   },
   card: {
     backgroundColor: theme.card,

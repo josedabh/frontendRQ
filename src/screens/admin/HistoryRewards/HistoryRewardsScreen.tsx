@@ -8,11 +8,18 @@ import MySearchBar from '../../../components/shared/MySearchBar';
 import { AdminStackParamList } from '../AdminStackScreen';
 import { HistoryShopping } from '../../../shared/models/StoreData';
 import { getListHistoryRewards } from '../../../shared/services/StoreService';
-import colors from '../../../shared/themes/constants/colors';
+import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 export default function HistoryRewardsScreen() {
+    // Acceso al tema y estilos personalizados
+    const { theme } = useTheme();
+    const styles = createStyles(theme);
+    //Navegación al stack de administración
     const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "HistoryRewards">>();
     const [input, setInput] = useState("");
+    // Estado para almacenar la lista de recompensas históricas
     const [historyRewards, setHistoryRewards] = useState<HistoryShopping[]>([]);
 
     // Filtro de retos por título
@@ -60,7 +67,7 @@ export default function HistoryRewardsScreen() {
     if (loading) {
         return (
             <SafeAreaView style={styles.centered}>
-                <ActivityIndicator size="large" color={colors.primary} />
+                <ActivityIndicator size="large" color={theme.primary} />
             </SafeAreaView>
         );
     }
@@ -98,10 +105,10 @@ export default function HistoryRewardsScreen() {
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#f7f8fa",
+        backgroundColor: theme.background,
     },
     centered: {
         flex: 1,
@@ -111,37 +118,37 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         paddingVertical: 12,
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
     },
     headerRow: {
-        backgroundColor: colors.backgroundLight
+        backgroundColor: theme.backgroundAlt,
     },
     cell: {
         fontSize: 14,
-        color: '#333'
+        color: theme.text,
     },
     headerText: {
         fontWeight: '700',
-        color: colors.primary
+        color: theme.textTitle,
     },
     id: {
-        flex: 1
+        flex: 1,
     },
     user: {
         flex: 3,
-        paddingHorizontal: 8
+        paddingHorizontal: 8,
     },
     reward: {
         flex: 3,
-        paddingHorizontal: 8
+        paddingHorizontal: 8,
     },
     date: {
         flex: 2,
-        textAlign: 'right'
+        textAlign: 'right',
     },
     separator: {
         height: 1,
-        backgroundColor: '#eee',
-        marginHorizontal: 16
+        backgroundColor: theme.divider,
+        marginHorizontal: 16,
     },
 });

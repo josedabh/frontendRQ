@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import { useTheme } from '../../../context/ThemeContext';
 import { getDifficultyLabel } from '../../../shared/models/ChallengeData';
-import colors from '../../../shared/themes/constants/colors';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { Theme } from '../../../shared/themes/themes';
 
 export interface ChallengeCardProps {
   title: string;
@@ -19,14 +21,17 @@ export default function CardChallenge({
   points,
   onPress,
 }: ChallengeCardProps) {
+  // Acceso al tema y estilos personalizados
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
 
   // Colorea la etiqueta según dificultad
   const diffColor =
     difficulty.toLowerCase() === 'easy'
-      ? colors.success
+      ? theme.success
       : difficulty.toLowerCase() === 'medium'
-      ? colors.warning
-      : colors.danger;
+      ? theme.warning
+      : theme.error;
 
   return (
     <TouchableOpacity
@@ -52,29 +57,27 @@ export default function CardChallenge({
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.card,
     borderRadius: 12,
     padding: 16,
     margin: 8,
-    // Sombra iOS
-    shadowColor: '#000',
+    shadowColor: theme.shadowColor,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
     shadowRadius: 4,
-    // Elevación Android
     elevation: 2,
   },
   title: {
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 6,
-    color: '#333',
+    color: theme.textTitle,
   },
   desc: {
     fontSize: 14,
-    color: '#666',
+    color: theme.textSubtitle,
     marginBottom: 12,
     lineHeight: 20,
   },
@@ -91,11 +94,11 @@ const styles = StyleSheet.create({
   badgeText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#fff',
+    color: theme.buttonText,
   },
   points: {
     fontSize: 14,
     fontWeight: '600',
-    color: colors.primary,
+    color: theme.primary,
   },
 });

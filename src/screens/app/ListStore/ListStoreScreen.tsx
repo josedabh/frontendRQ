@@ -11,10 +11,12 @@ import { RewardResponse } from '../../../shared/models/StoreData';
 import { getListRewardsUsers } from '../../../shared/services/StoreService';
 import colors from '../../../shared/themes/constants/colors';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { Theme } from '../../../shared/themes/themes';
 
 /** Pantalla de lista de productos */
 export default function ListStoreScreen() {
     const { theme } = useTheme();
+    const styles = createStyles(theme);
     const textStyles = createTextStyles(theme);
 
     const navigation =
@@ -64,7 +66,7 @@ export default function ListStoreScreen() {
     );
 
     return (
-        <SafeAreaView style={{ padding: 16 }}>
+        <SafeAreaView style={styles.container}>
             <View style={{ flex: 1, padding: 16 }}>
                 <Text style={textStyles.title}>Tienda</Text>
                 <MySearchBar
@@ -85,33 +87,46 @@ export default function ListStoreScreen() {
     );
 }
 
-const styles = StyleSheet.create({
-    horizontalScroll: {
-        paddingLeft: 24,
-        paddingBottom: 10,
+const createStyles = (theme: Theme) => StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: theme.background,
+        padding: 16,
+        paddingBottom: 70,
     },
     list: {
-        paddingHorizontal: 16,
-        paddingBottom: 75,
-    },
-    separator: {
-        height: 12,
+        paddingLeft: 16,
+        paddingBottom: 80,
     },
     empty: {
         textAlign: "center",
         marginTop: 40,
-        color: "#888",
+        color: theme.empty,
         fontSize: 16,
-    }, 
+    },
+    separator: {
+        height: 12,
+    },
+    card: {
+        backgroundColor: theme.card,
+        borderRadius: 12,
+        padding: 16,
+        margin: 8,
+        shadowColor: theme.shadowColor,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+        elevation: 2,
+    },
     cardTitle: {
         fontSize: 16,
         fontWeight: '700',
-        color: '#333',
+        color: theme.textTitle,
         marginBottom: 4,
     },
     cardDesc: {
         fontSize: 14,
-        color: '#666',
+        color: theme.text,
         marginBottom: 8,
         lineHeight: 20,
     },
@@ -123,21 +138,14 @@ const styles = StyleSheet.create({
     points: {
         fontSize: 14,
         fontWeight: '600',
-        color: colors.primary,
+        color: theme.primary,
     },
     stock: {
         fontSize: 12,
-        color: '#555',
+        color: theme.secondary,
     },
     outOfStock: {
-        color: colors.danger,
-    },
-    card: {
-        backgroundColor: '#fff',
-        borderRadius: 12,
-        padding: 12,
-        elevation: 2,
-        boxShadow: colors.backgroundDark,
+        color: theme.error,
     },
     image: {
         width: '100%',

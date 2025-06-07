@@ -8,12 +8,12 @@ import { Avatar } from '../../../components/layout/profile/Avatar';
 import { ModalProfile } from '../../../components/layout/profile/ModalProfile';
 import Option from '../../../components/layout/profile/Option';
 import { AuthContext } from '../../../context/AuthContext';
-import globalStyles from '../../../shared/themes/styles/globalStyles';
-import { RootTabParamList } from '../../Layout';
+import { useTheme } from '../../../context/ThemeContext';
 import { UserProfile } from '../../../shared/models/UserData';
 import { getMyUserInfo } from '../../../shared/services/UserService';
 import createGlobalStyles from '../../../shared/themes/styles/globalStyles';
-import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
+import { RootTabParamList } from '../../Layout';
 
 // Define el tipo de navegación para esta pantalla
 type ProfileScreenNavigationProp = BottomTabNavigationProp<
@@ -23,6 +23,7 @@ type ProfileScreenNavigationProp = BottomTabNavigationProp<
 
 export default function ProfileScreen() {
     const { theme } = useTheme();
+    const styles = createStyles(theme);
     const globalStyles = createGlobalStyles(theme);
 
     const navigation = useNavigation<ProfileScreenNavigationProp>();
@@ -87,16 +88,18 @@ export default function ProfileScreen() {
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     safeArea: {
-        flex: 1, // El SafeAreaView ocupa toda la pantalla
+        flex: 1,
+        backgroundColor: theme.background,
     },
     scroll: {
-        flex: 1, // El ScrollView rellena todo el SafeAreaView
+        flex: 1,
+        backgroundColor: theme.background,
     },
     contentContainer: {
-        flexGrow: 1, // Permite que el contenido interno empuje el scroll
+        flexGrow: 1,
         padding: 16,
-        paddingBottom: 64, // Tu padding general
+        paddingBottom: 64,
     },
 });

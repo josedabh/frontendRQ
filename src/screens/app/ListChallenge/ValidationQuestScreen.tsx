@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 import AnswerOption from '../../../components/layout/challenges/AnswerOption';
+import { Theme } from '../../../shared/themes/themes';
+import { useTheme } from '../../../context/ThemeContext';
 
 const answers = [
   { id: "a", label: "Comida" },
@@ -10,6 +12,9 @@ const answers = [
 ];
 
 export default function ValidationQuestScreen() {
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
+
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
@@ -35,9 +40,9 @@ export default function ValidationQuestScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   card: {
-    backgroundColor: "#f8f8f8",
+    backgroundColor: theme.card,
     padding: 16,
     margin: 16,
     borderRadius: 12,
@@ -45,7 +50,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "700",
-    color: "#1d1d1d",
+    color: theme.textTitle,
     marginBottom: 12,
   },
 });

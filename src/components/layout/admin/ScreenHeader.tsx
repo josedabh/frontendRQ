@@ -1,5 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 export interface ScreenHeaderProps {
   /** Título centrado */
@@ -27,6 +30,9 @@ export default function ScreenHeader({
   containerStyle,
   titleStyle,
 }: ScreenHeaderProps) {
+  const { theme } = useTheme();
+  const styles = createStyles(theme);
+
   return (
     <View style={[styles.header, containerStyle]}>
       {onLeftPress ? (
@@ -50,25 +56,30 @@ export default function ScreenHeader({
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: theme.backgroundCard,
     elevation: 2,
+    shadowColor: theme.shadowColor,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   sideButton: {
     fontSize: 16,
-    color: '#4e91fc',
+    color: theme.backgroundAlt,
   },
   sidePlaceholder: {
-    width: 40, // mismo espacio que el texto del botón
+    width: 40,
   },
   title: {
     flex: 1,
     textAlign: 'center',
     fontSize: 18,
     fontWeight: '600',
+    color: theme.textTitle,
   },
 });

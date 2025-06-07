@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import colors from '../../../shared/themes/constants/colors';
+import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 interface AssignVerificationModalProps {
     visible: boolean;
@@ -9,6 +11,11 @@ interface AssignVerificationModalProps {
 }
 
 const AssignVerificationModal: React.FC<AssignVerificationModalProps> = ({ visible, onClose, onAssign }) => {
+    // Acceso al tema y estilos personalizados
+    const { theme } = useTheme();
+    const styles = createStyles(theme);
+    
+    //  State para el tipo de verificación seleccionado
     const [selectedType, setSelectedType] = useState<string>('');
 
     const handleAssign = () => {
@@ -70,7 +77,7 @@ const AssignVerificationModal: React.FC<AssignVerificationModalProps> = ({ visib
     );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     backdrop: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.4)',
@@ -79,11 +86,11 @@ const styles = StyleSheet.create({
     },
     container: {
         width: '80%',
-        backgroundColor: '#fff',
+        backgroundColor: theme.card,
         borderRadius: 12,
         padding: 20,
         elevation: 6,
-        shadowColor: '#000',
+        shadowColor: theme.shadowColor,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
@@ -93,21 +100,22 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         marginBottom: 16,
         textAlign: 'center',
+        color: theme.textTitle,
     },
     option: {
         padding: 12,
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: '#ddd',
+        borderColor: theme.border,
         marginBottom: 8,
     },
     selectedOption: {
-        backgroundColor: colors.backgroundLight,
-        borderColor: colors.primary,
+        backgroundColor: theme.backgroundAlt,
+        borderColor: theme.primary,
     },
     optionText: {
         fontSize: 16,
-        color: '#333',
+        color: theme.text,
     },
     buttonsRow: {
         flexDirection: 'row',
@@ -121,19 +129,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     cancelButton: {
-        backgroundColor: '#ddd',
+        backgroundColor: theme.buttonSecondary,
         marginRight: 8,
     },
     confirmButton: {
-        backgroundColor: colors.primary,
+        backgroundColor: theme.buttonPrimary,
         marginLeft: 8,
     },
     cancelText: {
-        color: '#333',
+        color: theme.text,
         fontWeight: '600',
     },
     confirmText: {
-        color: '#fff',
+        color: theme.buttonText,
         fontWeight: '600',
     },
 });

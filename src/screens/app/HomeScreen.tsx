@@ -12,11 +12,13 @@ import { getMyUserInfo } from '../../shared/services/UserService';
 import colors from '../../shared/themes/constants/colors';
 import createTextStyles from '../../shared/themes/styles/textStyles';
 import { RootTabParamList } from '../Layout';
+import { Theme } from '../../shared/themes/themes';
 
 /** Pagina main que sale al principio cuadno ya estas logeado */
 export default function HomeScreen() {
     const { theme } = useTheme();
     const textStyles = createTextStyles(theme);
+    const styles = createStyles(theme);
 
     const navigation = useNavigation<BottomTabNavigationProp<RootTabParamList>>();
     const [user, setUser] = useState<UserProfile | null>();
@@ -85,12 +87,12 @@ export default function HomeScreen() {
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.backgroundLight,
+        backgroundColor: theme.background,
         padding: 16,
-        paddingBottom: 70, // Espacio para el botón de navegación
+        paddingBottom: 70,
     },
     scrollContent: {
         flexGrow: 1,
@@ -101,41 +103,43 @@ const styles = StyleSheet.create({
     },
     mainTitle: {
         fontSize: 28,
-        color: colors.primary,
+        color: theme.textTitle,
         textAlign: 'center',
         marginBottom: 16,
     },
     card: {
-        backgroundColor: '#fff',
+        backgroundColor: theme.card,
         borderRadius: 12,
         padding: 16,
         marginBottom: 16,
-        shadowColor: '#000',
+        shadowColor: theme.shadowColor,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 3,
+        borderColor: theme.border,
+        borderWidth: 1,
     },
     section: {
         marginBottom: 24,
     },
     sectionTitle: {
         marginBottom: 12,
-        color: colors.textPrimary,
+        color: theme.textSubtitle,
     },
     pointsText: {
         fontSize: 32,
         fontWeight: 'bold',
-        color: colors.primary,
+        color: theme.text,
         textAlign: 'center',
         marginVertical: 8,
     },
     storeButton: {
-        backgroundColor: colors.success,
+        backgroundColor: theme.success,
         marginTop: 8,
     },
     challengeButton: {
-        backgroundColor: colors.primary,
+        backgroundColor: theme.buttonPrimary,
         marginTop: 8,
     }
 });

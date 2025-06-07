@@ -12,8 +12,15 @@ import ButtonGeneric from '../../../components/layout/admin/ButtonGeneric';
 import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
 import MySearchBar from '../../../components/shared/MySearchBar';
 import AssignVerificationModal from '../../../components/layout/admin/AssignVerificationModal';
+import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 export default function ManageChallengesScreen() {
+    // Acceso al tema y estilos personalizados
+    const { theme } = useTheme();
+    const styles = createStyles(theme);
+    // Navegación al stack de administración
     const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageChallenges">>();
     const [input, setInput] = useState("");
     const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
@@ -243,20 +250,20 @@ export default function ManageChallengesScreen() {
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#f7f8fa",
+        backgroundColor: theme.background,
     },
     createBtn: {
-        backgroundColor: colors.primary,
+        backgroundColor: theme.buttonPrimary,
         padding: 14,
         margin: 16,
         borderRadius: 8,
         alignItems: "center",
     },
     createText: {
-        color: "#fff",
+        color: theme.buttonText,
         fontSize: 16,
         fontWeight: "600",
     },
@@ -270,14 +277,14 @@ const styles = StyleSheet.create({
     empty: {
         textAlign: "center",
         marginTop: 40,
-        color: "#888",
+        color: theme.empty,
         fontSize: 16,
     },
     card: {
-        backgroundColor: "#fff",
+        backgroundColor: theme.card,
         borderRadius: 12,
         padding: 16,
-        shadowColor: "#000",
+        shadowColor: theme.shadowColor,
         shadowOpacity: 0.05,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
@@ -290,21 +297,22 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "600",
         marginBottom: 4,
+        color: theme.textTitle,
     },
     desc: {
         fontSize: 14,
-        color: "#555",
+        color: theme.textSubtitle,
         marginBottom: 6,
     },
     small: {
         fontSize: 12,
-        color: "#777",
+        color: theme.textMuted,
     },
     verified: {
-        color: colors.success,
+        color: theme.success,
     },
     unverified: {
-        color: colors.danger,
+        color: theme.error,
     },
     actions: {
         flexDirection: "row",
@@ -313,28 +321,29 @@ const styles = StyleSheet.create({
     actionBtn: {
         paddingVertical: 6,
         paddingHorizontal: 10,
-        backgroundColor: "#e6e6e6",
+        backgroundColor: theme.buttonSecondary,
         borderRadius: 6,
     },
     actionText: {
         fontSize: 12,
-        color: "#333",
+        color: theme.buttonText,
     },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: '#fff',
+        backgroundColor: theme.backgroundCard,
         elevation: 2,
     },
     backText: {
         fontSize: 16,
-        color: colors.primary,
+        color: theme.primary,
     },
     headerTitle: {
         flex: 1,
         textAlign: 'center',
         fontSize: 18,
         fontWeight: '600',
+        color: theme.textTitle,
     },
 });

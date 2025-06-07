@@ -11,21 +11,31 @@ import { AdminStackParamList } from '../AdminStackScreen';
 import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import ButtonGeneric from '../../../components/layout/admin/ButtonGeneric';
 import MySearchBar from '../../../components/shared/MySearchBar';
+import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
+import createTextStyles from '../../../shared/themes/styles/textStyles';
 
 export default function ManageRewardsScreen() {
+    // Acceso al tema y estilos personalizados
+    const { theme } = useTheme();
+    const styles = createStyles(theme);
+    const textStyles = createTextStyles(theme);
+    // Navegación al stack de administración
     const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageProducts">>();
     const [input, setInput] = useState("");
-    const [rewards, setRewards] = useState<RewardResponse[]>([
-        {
-            id: 0,
-            name: "",
-            description: "",
-            points: 0,
-            visible: true,
-            image: "",
-            stock: 0,
-        },
-    ]);
+    const [rewards, setRewards] = useState<RewardResponse[]>(
+        [
+            {
+                id: 0,
+                name: "",
+                description: "",
+                points: 0,
+                visible: true,
+                image: "",
+                stock: 0,
+            },
+        ]
+    );
 
     // Filtro de retos por título
     const filteredRewards = useMemo(() => {
@@ -98,7 +108,7 @@ export default function ManageRewardsScreen() {
     const renderItem = ({ item }: { item: RewardResponse }) => (
         <View style={styles.card}>
             <View style={styles.info}>
-                <Text style={styles.title}>{item.name}</Text>
+                <Text style={textStyles.title}>{item.name}</Text>
                 <Text style={styles.desc}>{item.description}</Text>
                 <Text style={styles.small}>
                     Puntos: {item.points} · Stock: {item.stock}
@@ -173,22 +183,10 @@ export default function ManageRewardsScreen() {
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#f7f8fa",
-    },
-    createBtn: {
-        backgroundColor: "#4e91fc",
-        padding: 14,
-        margin: 16,
-        borderRadius: 8,
-        alignItems: "center",
-    },
-    createText: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: "600",
+        backgroundColor: theme.background,
     },
     list: {
         paddingHorizontal: 16,
@@ -200,14 +198,14 @@ const styles = StyleSheet.create({
     empty: {
         textAlign: "center",
         marginTop: 40,
-        color: "#888",
+        color: theme.empty,
         fontSize: 16,
     },
     card: {
-        backgroundColor: "#fff",
+        backgroundColor: theme.card,
         borderRadius: 12,
         padding: 16,
-        shadowColor: "#000",
+        shadowColor: theme.shadowColor,
         shadowOpacity: 0.05,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
@@ -216,22 +214,17 @@ const styles = StyleSheet.create({
     info: {
         marginBottom: 12,
     },
-    title: {
-        fontSize: 18,
-        fontWeight: "600",
-        marginBottom: 4,
-    },
     desc: {
         fontSize: 14,
-        color: "#555",
+        color: theme.textSubtitle,
         marginBottom: 6,
     },
     small: {
         fontSize: 12,
-        color: "#777",
+        color: theme.textMuted,
     },
     inactive: {
-        color: colors.danger,
+        color: theme.error,
     },
     actions: {
         flexDirection: "row",
@@ -240,28 +233,29 @@ const styles = StyleSheet.create({
     actionBtn: {
         paddingVertical: 6,
         paddingHorizontal: 10,
-        backgroundColor: "#e6e6e6",
+        backgroundColor: theme.buttonSecondary,
         borderRadius: 6,
     },
     actionText: {
         fontSize: 12,
-        color: "#333",
+        color: theme.buttonText,
     },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: '#fff',
+        backgroundColor: theme.backgroundCard,
         elevation: 2,
     },
     backText: {
         fontSize: 16,
-        color: colors.primary,
+        color: theme.primary,
     },
     headerTitle: {
         flex: 1,
         textAlign: 'center',
         fontSize: 18,
         fontWeight: '600',
+        color: theme.textTitle,
     },
 });

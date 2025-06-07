@@ -10,6 +10,7 @@ import textStyles from '../../../shared/themes/styles/textStyles';
 import { RootTabParamList } from '../../Layout';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { Theme } from '../../../shared/themes/themes';
 
 type ThemeScreenNavigationProp = BottomTabNavigationProp<
     RootTabParamList,
@@ -19,6 +20,7 @@ type ThemeScreenNavigationProp = BottomTabNavigationProp<
 export default function ThemeScreen() {
     // Aplicamos estilos de texto personalizados
     const { theme } = useTheme();
+    const styles = createStyles(theme);
     const textStyles = createTextStyles(theme);
 
     const { setThemeKey, themeKey } = useTheme();
@@ -59,10 +61,10 @@ export default function ThemeScreen() {
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.backgroundLight,
+        backgroundColor: theme.background,
     },
     scrollContainer: {
         flexGrow: 1,
@@ -71,18 +73,18 @@ const styles = StyleSheet.create({
     title: {
         textAlign: 'center',
         marginBottom: 32,
-        color: colors.textPrimary,
+        color: theme.textSubtitle,
     },
     buttonContainer: {
         gap: 16,
     },
     themeButton: {
-        backgroundColor: colors.primary,
+        backgroundColor: theme.buttonPrimary,
         borderRadius: 8,
     },
     selectedButton: {
-        backgroundColor: colors.success,
+        backgroundColor: theme.success,
         borderWidth: 2,
-        borderColor: colors.primary,
+        borderColor: theme.accent,
     }
 });

@@ -10,11 +10,17 @@ import { createReward, getRewardById, updateReward } from '../../../shared/servi
 import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
 import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
+import { Theme } from '../../../shared/themes/themes';
+import { useTheme } from '../../../context/ThemeContext';
 
 type RouteProps = RouteProp<AdminStackParamList, 'AddReward'>;
 type NavProps = BottomTabNavigationProp<AdminStackParamList, 'AddReward'>;
 
 export default function AddRewardScreen() {
+    // Acceso al tema y estilos personalizados
+    const { theme } = useTheme();
+    const styles = createStyles(theme);
+
     const navigation = useNavigation<NavProps>();
     const route = useRoute<RouteProps>();
     const editId = route.params?.id;
@@ -164,16 +170,16 @@ export default function AddRewardScreen() {
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: colors.backgroundLight,
+        backgroundColor: theme.background,
     },
     backText: {
         fontSize: 16,
-        color: colors.primary,
+        color: theme.primary,
     },
     headerTitle: {
         flex: 1,
@@ -193,7 +199,7 @@ const styles = StyleSheet.create({
     },
     input: {
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: theme.border,
         padding: 10,
         borderRadius: 6,
         marginTop: 4,
@@ -213,12 +219,12 @@ const styles = StyleSheet.create({
         marginTop: 24,
     },
     btnSave: {
-        backgroundColor: colors.success,
+        backgroundColor: theme.success,
         flex: 1,
         marginRight: 8,
     },
     btnCancel: {
-        backgroundColor: colors.danger,
+        backgroundColor: theme.error,
         flex: 1,
         marginLeft: 8,
     },
