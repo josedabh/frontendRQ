@@ -31,7 +31,6 @@ export default function ManageRewardsScreen() {
                 description: "",
                 points: 0,
                 visible: true,
-                image: "",
                 stock: 0,
             },
         ]

@@ -146,11 +146,4 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     outOfStock: {
         color: theme.error,
     },
-    image: {
-        width: '100%',
-        height: 120,
-        borderRadius: 8,
-        marginBottom: 8,
-        resizeMode: 'cover',
-    },
 });

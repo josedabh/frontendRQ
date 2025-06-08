@@ -29,7 +29,6 @@ export default function AddRewardScreen() {
         name: '',
         description: '',
         points: 0,
-        image: '',
         visible: true,
         stock: 0,
     });
@@ -43,7 +42,6 @@ export default function AddRewardScreen() {
                         name: data.name,
                         description: data.description,
                         points: data.points,
-                        image: data.image,
                         visible: data.visible,
                         stock: data.stock,
                     });
@@ -122,14 +120,6 @@ export default function AddRewardScreen() {
                     onChangeText={(t) => setFormData({ ...formData, points: Number(t) || 0 })}
                     keyboardType="numeric"
                     placeholder="0"
-                />
-
-                <Text style={styles.label}>Imagen URL:</Text>
-                <TextInput
-                    style={styles.input}
-                    value={formData.image}
-                    onChangeText={(t) => setFormData({ ...formData, image: t })}
-                    placeholder="URL de la imagen"
                 />
 
                 <Text style={styles.label}>Stock:</Text>

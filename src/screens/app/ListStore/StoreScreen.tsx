@@ -1,7 +1,7 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../../App';
@@ -83,18 +83,6 @@ export default function StoreScreen() {
         onLeftPress={() => navigation.goBack()} />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Imagen arriba */}
-        {reward.image ? (
-          <Image
-            source={{ uri: reward.image }}
-            style={styles.image}
-            resizeMode="contain"
-          />
-        ) : (
-          <View style={[styles.image, styles.noImage]}>
-            <Text style={textStyles.normal}>Sin imagen</Text>
-          </View>
-        )}
 
         {/* Nombre y estado */}
         <Text style={textStyles.title}>{reward.name}</Text>
@@ -153,17 +141,6 @@ const createStyles = (theme: Theme) => StyleSheet.create({
   scrollContent: {
     padding: 16,
     paddingBottom: 32,
-  },
-  image: {
-    width: "80%",
-    height: width * 0.6,
-    borderRadius: 8,
-    backgroundColor: theme.backgroundAlt,
-    marginBottom: 16,
-  },
-  noImage: {
-    justifyContent: "center",
-    alignItems: "center",
   },
   unavailable: {
     color: theme.error,
