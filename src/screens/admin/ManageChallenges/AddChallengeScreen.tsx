@@ -123,7 +123,7 @@ export default function AddChallengeScreen() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.safe}>
             {/* Header */}
             <ScreenHeader
                 title={editId ? 'Editar Retos' : 'Crear Retos'}
@@ -257,6 +257,11 @@ export default function AddChallengeScreen() {
 
 /** Estilos para los componentes de la pantalla */
 const createStyles = (theme: Theme) => StyleSheet.create({
+    safe: {
+        flex: 1,
+        backgroundColor: theme.background,
+        paddingBottom: 50, // Espacio para evitar que el teclado cubra los botones
+    },
     container: {
         padding: 16,
         backgroundColor: theme.background,

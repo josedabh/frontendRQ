@@ -26,6 +26,13 @@ const createButtonStyles = (theme: Theme) => StyleSheet.create({
     textAlign: "center",
     fontWeight: "600",
   },
+  buttonDisabled: {
+    backgroundColor: theme.buttonSecondary,
+    opacity: 0.6,
+  },
+  buttonTextDisabled: {
+    color: theme.textMuted,
+  }
 });
 
 export default createButtonStyles;

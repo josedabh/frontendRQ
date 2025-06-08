@@ -155,7 +155,7 @@ export default function AddQuizValidationScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.safe}>
       <ScreenHeader
         title="Crear Validación"
         onLeftPress={() => navigation.goBack()}
@@ -222,12 +222,12 @@ export default function AddQuizValidationScreen() {
         </View>
 
         <View style={styles.navigationContainer}>
-          <Button
+          <MyButton
             title="Anterior"
             onPress={handlePreviousQuestion}
             disabled={currentQuestionIndex === 0}
           />
-          <Button
+          <MyButton
             title="Siguiente"
             onPress={handleNextQuestion}
             disabled={currentQuestionIndex === questions.length - 1}
@@ -239,6 +239,11 @@ export default function AddQuizValidationScreen() {
 }
 
 const createStyles = (theme: Theme) => StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: theme.background,
+    paddingBottom: 50,
+  },
   container: {
     padding: 16,
     backgroundColor: theme.background,
@@ -282,7 +287,9 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 16,
+    marginBottom: 24, // Añadir margen inferior
     paddingHorizontal: 16,
+    width: '100%', // Asegurar que ocupa todo el ancho
   },
   checkboxContainer: {
     flexDirection: 'row',

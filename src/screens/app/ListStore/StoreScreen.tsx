@@ -5,7 +5,6 @@ import { ActivityIndicator, Alert, Dimensions, Image, ScrollView, StyleSheet, Te
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../../App';
-import HeaderNavigation from '../../../components/shared/HeaderNavigation';
 import { MyButton } from '../../../components/shared/MyButton';
 import { useTheme } from '../../../context/ThemeContext';
 import { RewardResponse } from '../../../shared/models/StoreData';
@@ -13,6 +12,7 @@ import { buyReward, getRewardById } from '../../../shared/services/StoreService'
 import colors from '../../../shared/themes/constants/colors';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
 import { Theme } from '../../../shared/themes/themes';
+import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 
 type StoreScreenRouteProp = RouteProp<RootStackParamList, "Store">;
 type StoreScreenNavigationProp = BottomTabNavigationProp<
@@ -78,7 +78,9 @@ export default function StoreScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <HeaderNavigation onPress={() => navigation.goBack()} />
+      <ScreenHeader
+        title='Detalles de la Recompensa'
+        onLeftPress={() => navigation.goBack()} />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Imagen arriba */}

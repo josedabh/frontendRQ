@@ -1,9 +1,9 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { bermellon, futurista, Theme } from '../shared/themes/themes';
+import { bermellon, futurista, naturaleza, oscuro, retro, Theme } from '../shared/themes/themes';
 
-type ThemeKey = 'bermellon' | 'futurista';
+type ThemeKey = 'bermellon' | 'futurista' | 'naturaleza' | 'oscuro' | 'retro';
 
 interface ThemeContextValue {
   theme: Theme;
@@ -26,17 +26,32 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Al arrancar, cargamos tema guardado
     (async () => {
-      const saved = await AsyncStorage.getItem('APP_THEME');
-      if (saved === 'futurista' || saved === 'bermellon') {
+      const saved = await AsyncStorage.getItem('APP_THEME') as ThemeKey | null;
+      if (saved) {
         setThemeKeyState(saved);
-        setTheme(saved === 'futurista' ? futurista : bermellon);
+        setTheme(getThemeByKey(saved));
       }
     })();
   }, []);
 
+  const getThemeByKey = (key: ThemeKey): Theme => {
+    switch (key) {
+      case 'futurista':
+        return futurista;
+      case 'naturaleza':
+        return naturaleza;
+      case 'oscuro':
+        return oscuro;
+      case 'retro':
+        return retro;
+      default:
+        return bermellon;
+    }
+  };
+
   const setThemeKey = async (key: ThemeKey) => {
     setThemeKeyState(key);
-    setTheme(key === 'futurista' ? futurista : bermellon);
+    setTheme(getThemeByKey(key));
     await AsyncStorage.setItem('APP_THEME', key);
   };
 

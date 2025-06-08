@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
+import { useTheme } from '../../../context/ThemeContext';
+import { Theme } from '../../../shared/themes/themes';
 
 export interface ButtonProps {
     /** Texto del botón */
@@ -27,6 +29,9 @@ export default function ButtonGeneric({
     prefix,
     suffix,
 }: ButtonProps) {
+    const { theme } = useTheme();
+    const styles = createStyles(theme);
+
     return (
         <TouchableOpacity
             style={[styles.button, disabled && styles.disabled, containerStyle]}
@@ -43,16 +48,16 @@ export default function ButtonGeneric({
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
     button: {
-        backgroundColor: '#4e91fc',
+        backgroundColor: theme.buttonPrimary,
         paddingVertical: 12,
         paddingHorizontal: 16,
         borderRadius: 8,
         alignItems: 'center',
     },
     text: {
-        color: '#fff',
+        color: theme.buttonText,
         fontSize: 16,
         fontWeight: '600',
     },

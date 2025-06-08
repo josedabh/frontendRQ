@@ -10,19 +10,37 @@ interface MyButtonProps {
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  disabled?: boolean; // Nueva prop para deshabilitar
 }
 
-export function MyButton({ style, textStyle, onPress, title }: MyButtonProps) {
+export function MyButton({ 
+  style, 
+  textStyle, 
+  onPress, 
+  title, 
+  disabled = false 
+}: MyButtonProps) {
   const { theme } = useTheme();
   const buttonStyles = createButtonStyles(theme);
   
   return (
     <TouchableOpacity
-      style={[buttonStyles.button, style]}
+      style={[
+        buttonStyles.button,
+        style,
+        disabled && buttonStyles.buttonDisabled
+      ]}
       onPress={onPress}
       activeOpacity={0.8}
+      disabled={disabled}
     >
-      <Text style={[buttonStyles.buttonText, textStyle]}>{title}</Text>
+      <Text style={[
+        buttonStyles.buttonText,
+        textStyle,
+        disabled && buttonStyles.buttonTextDisabled
+      ]}>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 }

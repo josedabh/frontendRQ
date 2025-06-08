@@ -18,13 +18,20 @@ type ThemeScreenNavigationProp = BottomTabNavigationProp<
 >;
 
 export default function ThemeScreen() {
-    // Aplicamos estilos de texto personalizados
     const { theme } = useTheme();
     const styles = createStyles(theme);
     const textStyles = createTextStyles(theme);
 
     const { setThemeKey, themeKey } = useTheme();
     const navigation = useNavigation<ThemeScreenNavigationProp>();
+
+    const themes = [
+        { key: 'bermellon', title: 'Tema Bermellón' },
+        { key: 'futurista', title: 'Tema Futurista' },
+        { key: 'naturaleza', title: 'Tema Naturaleza' },
+        { key: 'oscuro', title: 'Tema Oscuro' },
+        { key: 'retro', title: 'Tema Retro' },
+    ] as const;
 
     return (
         <SafeAreaView style={styles.container}>
@@ -39,22 +46,17 @@ export default function ThemeScreen() {
                 </Text>
 
                 <View style={styles.buttonContainer}>
-                    <MyButton
-                        title="Tema Bermellón"
-                        onPress={() => setThemeKey('bermellon')}
-                        style={[
-                            styles.themeButton,
-                            themeKey === 'bermellon' && styles.selectedButton
-                        ]}
-                    />
-                    <MyButton
-                        title="Tema Futurista"
-                        onPress={() => setThemeKey('futurista')}
-                        style={[
-                            styles.themeButton,
-                            themeKey === 'futurista' && styles.selectedButton
-                        ]}
-                    />
+                    {themes.map((item) => (
+                        <MyButton
+                            key={item.key}
+                            title={item.title}
+                            onPress={() => setThemeKey(item.key)}
+                            style={[
+                                styles.themeButton,
+                                themeKey === item.key && styles.selectedButton
+                            ]}
+                        />
+                    ))}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -81,6 +83,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     themeButton: {
         backgroundColor: theme.buttonPrimary,
         borderRadius: 8,
+        paddingVertical: 16,
     },
     selectedButton: {
         backgroundColor: theme.success,

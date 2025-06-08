@@ -1,19 +1,17 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../../App';
-import HeaderNavigation from '../../../components/shared/HeaderNavigation';
+import { useTheme } from '../../../context/ThemeContext';
 import { ChallengeResponse, getDifficultyLabel } from '../../../shared/models/ChallengeData';
 import { getChallengeById } from '../../../shared/services/ChallengeService';
-import colors from '../../../shared/themes/constants/colors';
-import textStyles from '../../../shared/themes/styles/textStyles';
-import { getCategoryLabel } from '../../../shared/utils/Utils';
-import { useTheme } from '../../../context/ThemeContext';
-import { Theme } from '../../../shared/themes/themes';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { Theme } from '../../../shared/themes/themes';
+import { getCategoryLabel } from '../../../shared/utils/Utils';
+import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 
 type ChallengeRouteProp = RouteProp<RootStackParamList, 'Challenge'>;
 type ChallengeNavProp = BottomTabNavigationProp<RootStackParamList, 'Challenge'>;
@@ -73,7 +71,9 @@ export default function ChallengeScreen() {
 
     return (
         <SafeAreaView style={styles.safe}>
-            <HeaderNavigation onPress={() => navigation.goBack()} />
+            <ScreenHeader
+                title='Detalles del Reto'
+                onLeftPress={() => navigation.goBack()} />
 
             <ScrollView contentContainerStyle={styles.container}>
                 <View style={styles.card}>

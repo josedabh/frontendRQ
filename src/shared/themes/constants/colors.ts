@@ -93,6 +93,16 @@ const colors = {
   futuristaAccent: "#4C6EB1",
   futuristaText: "#E0E1DD",
   futuristaCard: "#23395B",
+
+  // Nuevos colores para tema naturaleza
+  verdePastel: '#E8F5E9',
+  verdeClaro: '#81C784',
+  verdeOscuro: '#2E7D32',
+  marron: '#795548',
+
+  // Colores básicos
+  rojo: '#FF0000',
+
 };
 
 export default colors;

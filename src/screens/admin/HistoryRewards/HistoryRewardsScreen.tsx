@@ -1,34 +1,35 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import MySearchBar from '../../../components/shared/MySearchBar';
-import { AdminStackParamList } from '../AdminStackScreen';
+import { useTheme } from '../../../context/ThemeContext';
 import { HistoryShopping } from '../../../shared/models/StoreData';
 import { getListHistoryRewards } from '../../../shared/services/StoreService';
-import { useTheme } from '../../../context/ThemeContext';
-import { Theme } from '../../../shared/themes/themes';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { Theme } from '../../../shared/themes/themes';
+import { AdminStackParamList } from '../AdminStackScreen';
 
 export default function HistoryRewardsScreen() {
-    // Acceso al tema y estilos personalizados
     const { theme } = useTheme();
     const styles = createStyles(theme);
-    //Navegación al stack de administración
+    const textStyles = createTextStyles(theme);
+
     const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "HistoryRewards">>();
     const [input, setInput] = useState("");
-    // Estado para almacenar la lista de recompensas históricas
     const [historyRewards, setHistoryRewards] = useState<HistoryShopping[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    // Filtro de retos por título
+    // Filtro mejorado de recompensas
     const filteredHisRew = useMemo(() => {
         const query = input.toLowerCase();
-        return historyRewards.filter((hisRew) => hisRew.userName.toLowerCase().includes(query));
+        return historyRewards.filter((hisRew) => 
+            hisRew.userName.toLowerCase().includes(query) ||
+            hisRew.rewardName.toLowerCase().includes(query)
+        );
     }, [input, historyRewards]);
-
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetch() {
@@ -45,23 +46,27 @@ export default function HistoryRewardsScreen() {
     }, []);
 
     const renderItem = ({ item }: { item: HistoryShopping }) => (
-        <TouchableOpacity
-            style={styles.row}
-            onPress={() => {
-                /* navegar a detalle si lo deseas */
-            }}
-        >
-            <Text style={[styles.cell, styles.id]}>{item.transactionId}</Text>
-            <Text style={[styles.cell, styles.user]} numberOfLines={1}>
-                {item.userName} {item.userLastname}
-            </Text>
-            <Text style={[styles.cell, styles.reward]} numberOfLines={1}>
-                {item.rewardName}
-            </Text>
-            <Text style={[styles.cell, styles.date]}>
-                {new Date(item.transactionPurchaseDate).toLocaleDateString()}
-            </Text>
-        </TouchableOpacity>
+        <View style={styles.card}>
+            <View style={styles.header}>
+                <Text style={styles.headerText}>Transacción #{item.transactionId}</Text>
+                <Text style={styles.date}>
+                    {new Date(item.transactionPurchaseDate).toLocaleDateString()}
+                </Text>
+            </View>
+
+            <View style={styles.row}>
+                <View style={styles.column}>
+                    <Text style={styles.label}>Usuario</Text>
+                    <Text style={styles.value}>{item.userName} {item.userLastname}</Text>
+                    <Text style={styles.subValue}>@{item.userApodo}</Text>
+                </View>
+                <View style={styles.column}>
+                    <Text style={styles.label}>Recompensa</Text>
+                    <Text style={styles.value}>{item.rewardName}</Text>
+                    <Text style={styles.points}>{item.rewardPoints} pts</Text>
+                </View>
+            </View>
+        </View>
     );
 
     if (loading) {
@@ -71,36 +76,29 @@ export default function HistoryRewardsScreen() {
             </SafeAreaView>
         );
     }
+
     return (
         <SafeAreaView style={styles.container}>
-
-            {/* Header personalizado */}
             <ScreenHeader
-                title="Administrar Retos"
+                title="Historial de Recompensas"
                 onLeftPress={() => navigation.navigate('AdminHome')}
                 leftLabel="← Volver"
             />
-            {/* Barra de búsqueda */}
             <MySearchBar
-                title="Buscar nombre del usuario"
+                title="Buscar por usuario o recompensa"
                 value={input}
                 onChangeText={setInput}
             />
-
-            {/* Header row */}
-            <View style={[styles.row, styles.headerRow]}>
-                <Text style={[styles.cell, styles.id, styles.headerText]}>#</Text>
-                <Text style={[styles.cell, styles.user, styles.headerText]}>Usuario</Text>
-                <Text style={[styles.cell, styles.reward, styles.headerText]}>Recompensa</Text>
-                <Text style={[styles.cell, styles.date, styles.headerText]}>Fecha</Text>
-            </View>
             <FlatList
-                data={historyRewards}
+                data={filteredHisRew}
                 keyExtractor={(item) => item.transactionId.toString()}
                 renderItem={renderItem}
+                contentContainerStyle={styles.list}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
+                ListEmptyComponent={
+                    <Text style={styles.emptyText}>No hay registros que coincidan</Text>
+                }
             />
-
         </SafeAreaView>
     );
 }
@@ -109,46 +107,79 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.background,
+        paddingBottom: 55, // Espacio para evitar que el teclado cubra la lista
     },
     centered: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
-    row: {
+    list: {
+        padding: 16,
+    },
+    card: {
+        backgroundColor: theme.card,
+        borderRadius: 12,
+        padding: 16,
+        elevation: 2,
+        shadowColor: theme.shadowColor,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
+    header: {
         flexDirection: 'row',
-        paddingVertical: 12,
-        paddingHorizontal: 16,
-    },
-    headerRow: {
-        backgroundColor: theme.backgroundAlt,
-    },
-    cell: {
-        fontSize: 14,
-        color: theme.text,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 12,
+        paddingBottom: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.border,
     },
     headerText: {
+        fontSize: 16,
         fontWeight: '700',
         color: theme.textTitle,
     },
-    id: {
+    date: {
+        fontSize: 14,
+        color: theme.textMuted,
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    column: {
         flex: 1,
     },
-    user: {
-        flex: 3,
-        paddingHorizontal: 8,
+    label: {
+        fontSize: 12,
+        color: theme.textMuted,
+        marginBottom: 4,
     },
-    reward: {
-        flex: 3,
-        paddingHorizontal: 8,
+    value: {
+        fontSize: 16,
+        color: theme.text,
+        fontWeight: '500',
     },
-    date: {
-        flex: 2,
-        textAlign: 'right',
+    subValue: {
+        fontSize: 14,
+        color: theme.textMuted,
+        marginTop: 2,
+    },
+    points: {
+        fontSize: 14,
+        color: theme.primary,
+        fontWeight: '600',
+        marginTop: 4,
     },
     separator: {
-        height: 1,
-        backgroundColor: theme.divider,
-        marginHorizontal: 16,
+        height: 12,
+    },
+    emptyText: {
+        textAlign: 'center',
+        marginTop: 40,
+        color: theme.empty,
+        fontSize: 16,
     },
 });

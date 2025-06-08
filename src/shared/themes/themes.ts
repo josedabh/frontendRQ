@@ -114,4 +114,118 @@ export const futurista: ThemeColors = {
     shadowColor: colors.negro,
 };
 
+export const naturaleza: ThemeColors = {
+    // Backgrounds
+    background: colors.verdePastel,
+    backgroundAlt: colors.beige,
+    backgroundCard: colors.blanco,
+    
+    // Brand colors
+    primary: colors.verdeOscuro,
+    secondary: colors.marron,
+    accent: colors.verdeLima,
+    
+    // Text colors
+    text: colors.shadow,
+    textTitle: colors.verdeOscuro,
+    textSubtitle: colors.marron,
+    textMuted: colors.grisClaro,
+    
+    // UI Elements
+    card: colors.blanco,
+    border: colors.verdeClaro,
+    divider: colors.beige,
+    empty: colors.grisClaro,
+    
+    // Status colors
+    success: colors.verdeMenta,
+    error: colors.rojo,
+    warning: colors.naranja,
+    info: colors.azulCielo,
+    
+    // Interactive elements
+    buttonPrimary: colors.verdeOscuro,
+    buttonSecondary: colors.beige,
+    buttonText: colors.shadow,
+    
+    // Shadows
+    shadowColor: colors.shadow,
+};
+
+export const oscuro: ThemeColors = {
+    // Backgrounds
+    background: colors.negro,
+    backgroundAlt: colors.grisOscuro,
+    backgroundCard: colors.grisOscuro,
+    
+    // Brand colors
+    primary: colors.azulCielo,
+    secondary: colors.grisClaro,
+    accent: colors.celeste,
+    
+    // Text colors
+    text: colors.blanco,
+    textTitle: colors.blanco,
+    textSubtitle: colors.grisClaro,
+    textMuted: colors.grisClaro,
+    
+    // UI Elements
+    card: colors.grisOscuro,
+    border: colors.grisClaro,
+    divider: colors.grisClaro,
+    empty: colors.grisClaro,
+    
+    // Status colors
+    success: colors.verdeClaro,
+    error: colors.rojo,
+    warning: colors.naranja,
+    info: colors.azulCielo,
+    
+    // Interactive elements
+    buttonPrimary: colors.azulCielo,
+    buttonSecondary: colors.grisClaro,
+    buttonText: colors.negro,
+    
+    // Shadows
+    shadowColor: colors.negro,
+};
+
+export const retro: ThemeColors = {
+    // Backgrounds
+    background: colors.beige,
+    backgroundAlt: colors.marron,
+    backgroundCard: colors.blanco,
+    
+    // Brand colors
+    primary: colors.marron,
+    secondary: colors.naranja,
+    accent: colors.rojo,
+    
+    // Text colors
+    text: colors.shadow,
+    textTitle: colors.marron,
+    textSubtitle: colors.grisOscuro,
+    textMuted: colors.grisClaro,
+    
+    // UI Elements
+    card: colors.blanco,
+    border: colors.marron,
+    divider: colors.beige,
+    empty: colors.grisClaro,
+    
+    // Status colors
+    success: colors.verdeOscuro,
+    error: colors.rojo,
+    warning: colors.naranja,
+    info: colors.azulCielo,
+    
+    // Interactive elements
+    buttonPrimary: colors.marron,
+    buttonSecondary: colors.beige,
+    buttonText: colors.blanco,
+    
+    // Shadows
+    shadowColor: colors.shadow,
+};
+
 export type Theme = ThemeColors;

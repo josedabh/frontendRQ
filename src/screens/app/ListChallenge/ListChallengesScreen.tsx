@@ -83,8 +83,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.background,
-        padding: 16,
-        paddingBottom: 70,
+        paddingBottom: 55,
     },
     list: {
         paddingLeft: 16,

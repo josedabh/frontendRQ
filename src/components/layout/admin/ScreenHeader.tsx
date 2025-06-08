@@ -70,7 +70,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
   },
   sideButton: {
     fontSize: 16,
-    color: theme.backgroundAlt,
+    color: theme.buttonPrimary,
   },
   sidePlaceholder: {
     width: 40,

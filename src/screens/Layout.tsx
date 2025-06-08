@@ -50,7 +50,7 @@ export default function Layout() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#ff2058',
+        tabBarActiveTintColor: theme.buttonPrimary,
         tabBarStyle: {
           ...globalStyles.tabBar,
           

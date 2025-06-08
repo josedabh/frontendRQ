@@ -147,18 +147,20 @@ export default function ManageRewardsScreen() {
                 onLeftPress={() => navigation.navigate('AdminHome')}
                 leftLabel="← Volver"
             />
+
+            {/* Barra de búsqueda */}
+            <MySearchBar
+                title="Buscar Recompensa"
+                value={input}
+                onChangeText={setInput}
+            />
+
             {/* Botón para crear un nuevo recompensa */}
             <ButtonGeneric
                 label="Crear Recompensa"
                 onPress={onCreate}
                 prefix="➕"
                 containerStyle={{ margin: 16 }}
-            />
-            {/* Barra de búsqueda */}
-            <MySearchBar
-                title="Buscar Recompensa"
-                value={input}
-                onChangeText={setInput}
             />
 
             {/* Lista de recompensas */}
