@@ -1,22 +1,42 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import Card from '../../components/shared/Card';
+import { AuthContext } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import createTextStyles from '../../shared/themes/styles/textStyles';
 import { Theme } from '../../shared/themes/themes';
-import { AdminStackParamList } from './AdminStackScreen';
+import { RootStackParamList } from '../../../App';
 
-type AdminNavProp = NativeStackNavigationProp<AdminStackParamList, "AdminHome">;
+// Cambiar el tipo de navegación para usar el stack raíz
+type AdminNavProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function AdminScreen() {
     const { theme } = useTheme();
+    const { isAdmin } = useContext(AuthContext);
     const styles = createStyles(theme);
     const textStyles = createTextStyles(theme);
     const navigation = useNavigation<AdminNavProp>();
+
+    useEffect(() => {
+        if (!isAdmin) {
+            navigation.replace('Layout');
+        }
+    }, [isAdmin, navigation]);
+
+    if (!isAdmin) {
+        return null;
+    }
+
+    const handleNavigation = (screen: string) => {
+        // Navegar primero al stack de Admin y luego a la pantalla específica
+        navigation.navigate('Admin', {
+            screen: screen
+        });
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -29,15 +49,15 @@ export default function AdminScreen() {
                 >
                     <Card
                         title="📝 Administrar Retos"
-                        onPress={() => navigation.navigate("ManageChallenges")}
+                        onPress={() => handleNavigation("ManageChallenges")}
                     />
                     <Card
                         title="🏆 Administrar Recompensas"
-                        onPress={() => navigation.navigate("ManageProducts")}
+                        onPress={() => handleNavigation("ManageProducts")}
                     />
                     <Card
                         title="🛒 Administrar Historial"
-                        onPress={() => navigation.navigate("HistoryRewards")}
+                        onPress={() => handleNavigation("HistoryRewards")}
                     />
                 </ScrollView>
             </View>

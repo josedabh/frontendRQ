@@ -27,7 +27,9 @@ export type RootStackParamList = {
   Theme: undefined;
   Challenge: { id: string };
   Store: { id: number };
-  Admin: undefined;
+  Admin: {
+    screen: string;
+  } | undefined;
   ValidationQuest: { 
     challengeId: string;  // Cambiado de verificationId a challengeId
   };

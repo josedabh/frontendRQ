@@ -17,15 +17,17 @@ import { getToken, removeToken, saveToken } from "../shared/utils/TokenStorage";
 interface AuthContextData {
   userToken: string | null;
   isAuthenticated: boolean;
+  isAdmin: boolean; // Añadir esto
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  register: (userData: Register) => Promise<void>; // Añadir esta línea
+  register: (userData: Register) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextData>({
   userToken: null,
   isAuthenticated: false,
+  isAdmin: false, // Añadir esto
   loading: true,
   login: async () => {},
   logout: async () => {},
@@ -38,6 +40,7 @@ interface AuthProviderProps {
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [userToken, setUserToken] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -63,6 +66,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       });
       await saveToken(response.token);
       setUserToken(response.token);
+      setIsAdmin(response.admin); // Guardar el estado de admin
     } catch (error) {
       console.error("Login fallido:", error);
       throw error;
@@ -85,6 +89,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     try {
       await removeToken();
       setUserToken(null);
+      setIsAdmin(false); // Resetear el estado de admin
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
@@ -95,6 +100,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       value={{
         userToken,
         isAuthenticated: !!userToken,
+        isAdmin,
         loading,
         login,
         logout,

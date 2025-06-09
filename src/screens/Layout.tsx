@@ -1,5 +1,5 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, { useContext } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import globalStyles from '../shared/themes/styles/globalStyles';
@@ -10,6 +10,7 @@ import ListStoreScreen from './app/ListStore/ListStoreScreen';
 import ProfileScreen from './app/Profile/ProfileScreen';
 import createGlobalStyles from '../shared/themes/styles/globalStyles';
 import { useTheme } from '../context/ThemeContext';
+import { AuthContext } from '../context/AuthContext';
 
 // 1. Define el tipo RootTabParamList
 export type RootTabParamList = {
@@ -45,6 +46,7 @@ function ProfileScreenWrapper({ navigation, route }: ProfileScreenProps) {
 // 4. Implementa el Layout con el Tab.Navigator tipado
 export default function Layout() {
   const { theme } = useTheme();
+  const { isAdmin } = useContext(AuthContext); // Añadir esto
   const globalStyles = createGlobalStyles(theme);
 
   return (
@@ -54,7 +56,6 @@ export default function Layout() {
         tabBarActiveTintColor: theme.buttonPrimary,
         tabBarStyle: {
           ...globalStyles.tabBar,
-          
         },
       }}
     >
@@ -78,16 +79,18 @@ export default function Layout() {
           ),
         }}
       />
-      <Tab.Screen
-        name="Admin"
-        component={AdminStackScreen}
-        options={{
-          title: "Panel de control",
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="add" color={color} size={28} />
-          ),
-        }}
-      />
+      {isAdmin && ( // Condicionar la visualización de la pestaña de admin
+        <Tab.Screen
+          name="Admin"
+          component={AdminStackScreen}
+          options={{
+            title: "Panel de control",
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="shield-outline" color={color} size={28} />
+            ),
+          }}
+        />
+      )}
       <Tab.Screen
         name="ListStore"
         component={ListStoreScreen}
