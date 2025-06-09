@@ -1,95 +1,113 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { createContext, FC, ReactNode, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  FC,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 
-import { Key } from '../shared/models/UserData';
-import { loginUser as loginService } from '../shared/services/UserService';
+import { Credentials, Register } from "../shared/models/UserData";
+import {
+  loginUser as loginService,
+  registerUser,
+} from "../shared/services/UserService";
+import { getToken, removeToken, saveToken } from "../shared/utils/TokenStorage";
 
 //Importar bien para que no falle al usar el token
 interface AuthContextData {
-    userToken: string | null;
-    isAuthenticated: boolean;
-    loading: boolean;
-    login: (email: string, password: string) => Promise<void>;
-    logout: () => Promise<void>;
+  userToken: string | null;
+  isAuthenticated: boolean;
+  isAdmin: boolean; // Añadir esto
+  loading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  register: (userData: Register) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextData>({
-    userToken: null,
-    isAuthenticated: false,
-    loading: true,
-    login: async () => {},
-    logout: async () => {},
+  userToken: null,
+  isAuthenticated: false,
+  isAdmin: false, // Añadir esto
+  loading: true,
+  login: async () => {},
+  logout: async () => {},
+  register: async () => {},
 });
 
 interface AuthProviderProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
-// Funciones auxiliares para manejar el token
-export const TOKEN_KEY = 'userToken';
-
-export const getToken = async (): Promise<string | null> => {
-    return await AsyncStorage.getItem(TOKEN_KEY);
-};
-
-const saveToken = async (token: string): Promise<void> => {
-    await AsyncStorage.setItem(TOKEN_KEY, token);
-};
-
-export const removeToken = async (): Promise<void> => {
-    await AsyncStorage.removeItem(TOKEN_KEY);
-};
-
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-    const [userToken, setUserToken] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+  const [userToken, setUserToken] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        const loadToken = async () => {
-            try {
-                const token = await getToken();
-                setUserToken(token);
-            } catch (error) {
-                console.error('Error al cargar el token', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadToken();
-    }, []);
-
-    const login = async (identifier: string, password: string) => {
-        try {
-            const response: Key = await loginService({ identifier, password });
-            await saveToken(response.token);
-            setUserToken(response.token);
-        } catch (error) {
-            console.error('Login fallido:', error);
-            throw error;
-        }
+  useEffect(() => {
+    const loadToken = async () => {
+      try {
+        const token = await getToken();
+        setUserToken(token);
+      } catch (error) {
+        console.error("Error al cargar el token", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const logout = async () => {
-        try {
-            await removeToken();
-            setUserToken(null);
-        } catch (error) {
-            console.error('Error al cerrar sesión:', error);
-        }
-    };
+    loadToken();
+  }, []);
 
-    return (
-        <AuthContext.Provider
-            value={{
-                userToken,
-                isAuthenticated: !!userToken,
-                loading,
-                login,
-                logout,
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
+  const login = async (identifier: string, password: string) => {
+    try {
+      const response: Credentials = await loginService({
+        identifier,
+        password,
+      });
+      await saveToken(response.token);
+      setUserToken(response.token);
+      setIsAdmin(response.admin); // Guardar el estado de admin
+    } catch (error) {
+      console.error("Login fallido:", error);
+      throw error;
+    }
+  };
+
+  const register = async (userData: Register) => {
+    try {
+      // Usa registerUser en lugar de loginService
+      const response: Credentials = await registerUser(userData);
+      await saveToken(response.token);
+      setUserToken(response.token);
+    } catch (error) {
+      console.error("Error al registrar:", error);
+      throw error;
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await removeToken();
+      setUserToken(null);
+      setIsAdmin(false); // Resetear el estado de admin
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        userToken,
+        isAuthenticated: !!userToken,
+        isAdmin,
+        loading,
+        login,
+        logout,
+        register, // Añadir la función de registro aquí
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
