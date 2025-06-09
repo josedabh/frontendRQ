@@ -43,3 +43,11 @@ export interface FormPassword {
   newPassword: string;
   verifyNewPassword: string;
 }
+
+export interface UpdateUserInfoRequest {
+  email: string;
+  name: string;
+  lastname: string;
+  username: string;
+  numPhone: string;
+}

@@ -1,23 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Modal, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { MyButton } from '../../../components/shared/MyButton';
 import { useTheme } from '../../../context/ThemeContext';
 import { FormPassword, UserProfile } from '../../../shared/models/UserData';
-import { changePassword, getMyUserInfo } from '../../../shared/services/UserService';
-import textStyles from '../../../shared/themes/styles/textStyles';
-import { Theme } from '../../../shared/themes/themes';
+import { changePassword, getMyUserInfo, updateUserInfo } from '../../../shared/services/UserService';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { Theme } from '../../../shared/themes/themes';
 
 export default function Datauser() {
-  // Acceso al tema y estilos personalizados
   const { theme } = useTheme();
   const styles = createStyles(theme);
   const textStyles = createTextStyles(theme);
-
   const navigation = useNavigation();
+
   const [myUser, setMyUser] = useState<UserProfile>({
     email: "",
     lastname: "",
@@ -27,29 +25,46 @@ export default function Datauser() {
     username: "",
   });
 
-  const [editName, setEditName] = useState(false);
-  const [nameInput, setNameInput] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedUser, setEditedUser] = useState<UserProfile>(myUser);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentPwd, setCurrentPwd] = useState("");
   const [newPwd, setNewPwd] = useState("");
   const [repeatPwd, setRepeatPwd] = useState("");
 
   useEffect(() => {
-    const fetchMyUser = async () => {
-      try {
-        const myInfo = await getMyUserInfo();
-        setMyUser(myInfo);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchMyUser();
   }, []);
 
-  const handleSaveName = () => {
-    // Aquí podrías llamar a un endpoint para actualizar el nombre
-    setMyUser({ ...myUser, name: nameInput });
-    setEditName(false);
+  const fetchMyUser = async () => {
+    try {
+      const myInfo = await getMyUserInfo();
+      setMyUser(myInfo);
+      setEditedUser(myInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUpdateInfo = async () => {
+    try {
+      await updateUserInfo({
+        name: editedUser.name,
+        lastname: editedUser.lastname,
+        email: editedUser.email,
+        numPhone: editedUser.numPhone,
+        username: editedUser.username
+      });
+      
+      setMyUser(editedUser);
+      setIsEditing(false);
+      Alert.alert("Éxito", "Información actualizada correctamente");
+    } catch (error: any) {
+      Alert.alert(
+        "Error",
+        error.response?.data?.message || "Error al actualizar la información"
+      );
+    }
   };
 
   const handleChangePassword = async () => {
@@ -91,94 +106,100 @@ export default function Datauser() {
     }
   };
 
-  return (
-    <SafeAreaView style = { styles.container }>
-      <View style = { styles.card }>
-        <Text style = { textStyles.title }>Perfil de usuario</Text>
+  const renderField = (label: string, value: string, field: keyof UserProfile) => {
+    if (field === 'points') {
+      return (
+        <>
+          <Text style={styles.label}>{label}:</Text>
+          <Text style={styles.text}>{value}</Text>
+        </>
+      );
+    }
 
-        <Text style = { styles.label }>Nombre:</Text>
-        { editName ? (
-          <>
-            <TextInput
-              style = { styles.input }
-              value = { nameInput }
-              onChangeText = { setNameInput }
-              placeholder = "Nuevo nombre"
-            />
-            <View style = { styles.buttonRow }>
-              <MyButton title = "Guardar" onPress = { handleSaveName } />
-              <MyButton title = "Cancelar" onPress = { () => setEditName(false) } />
-            </View>
-          </>
+    return (
+      <>
+        <Text style={styles.label}>{label}:</Text>
+        {isEditing ? (
+          <TextInput
+            style={styles.input}
+            value={editedUser[field] as string}
+            onChangeText={(text) => setEditedUser({ ...editedUser, [field]: text })}
+            placeholder={`Ingrese ${label.toLowerCase()}`}
+          />
         ) : (
-          <View style = { styles.inlineRow }>
-            <Text style = { styles.text }>{ myUser.name }</Text>
-            <TouchableOpacity
-              onPress = { () => {
-                setNameInput(myUser.name);
-                setEditName(true);
-              } }
-            >
-              <Text style = { styles.editText }>Editar</Text>
-            </TouchableOpacity>
-          </View>
-        ) }
+          <Text style={styles.text}>{value}</Text>
+        )}
+      </>
+    );
+  };
 
-        <Text style = { styles.label }>Apellidos:</Text>
-        <Text style = { styles.text }>{ myUser.lastname }</Text>
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.card}>
+        <Text style={textStyles.title}>Perfil de usuario</Text>
 
-        <Text style = { styles.label }>Nombre de usuario:</Text>
-        <Text style = { styles.text }>{ myUser.username }</Text>
+        {renderField("Nombre", myUser.name, "name")}
+        {renderField("Apellidos", myUser.lastname, "lastname")}
+        {renderField("Nombre de usuario", myUser.username, "username")}
+        {renderField("Correo electrónico", myUser.email, "email")}
+        {renderField("Número de teléfono", myUser.numPhone, "numPhone")}
+        {renderField("Puntos", myUser.points.toString(), "points")}
 
-        <Text style = { styles.label }>Correo electrónico:</Text>
-        <Text style = { styles.text }>{ myUser.email }</Text>
-
-        <Text style = { styles.label }>Número de teléfono:</Text>
-        <Text style = { styles.text }>{ myUser.numPhone }</Text>
-
-        <Text style = { styles.label }>Puntos:</Text>
-        <Text style = { styles.text }>{ myUser.points }</Text>
-
-        <MyButton
-          title = "Cambiar contraseña"
-          onPress = { () => setModalVisible(true) }
-        />
-        <MyButton title = "Volver atrás" onPress = { () => navigation.goBack() } />
+        <View style={styles.buttonContainer}>
+          {isEditing ? (
+            <>
+              <MyButton title="Guardar cambios" onPress={handleUpdateInfo} />
+              <MyButton 
+                title="Cancelar" 
+                onPress={() => {
+                  setIsEditing(false);
+                  setEditedUser(myUser);
+                }} 
+              />
+            </>
+          ) : (
+            <>
+              <MyButton title="Editar información" onPress={() => setIsEditing(true)} />
+              <MyButton title="Cambiar contraseña" onPress={() => setModalVisible(true)} />
+              <MyButton title="Volver atrás" onPress={() => navigation.goBack()} />
+            </>
+          )}
+        </View>
       </View>
 
-      { /* Modal para cambio de contraseña */ }
-      <Modal visible = { modalVisible } animationType = "slide" transparent>
-        <View style = { styles.modalBackground }>
-          <View style = { styles.modalContent }>
-            <Text style = { textStyles.title }>Cambiar Contraseña</Text>
+      {/* Modal para cambio de contraseña */}
+      <Modal visible={modalVisible} animationType="slide" transparent>
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContent}>
+            <Text style={textStyles.title}>Cambiar Contraseña</Text>
 
             <TextInput
-              style = { styles.input }
-              placeholder = "Contraseña actual"
+              style={styles.input}
+              placeholder="Contraseña actual"
               secureTextEntry
-              value = { currentPwd }
-              onChangeText = { setCurrentPwd }
+              value={currentPwd}
+              onChangeText={setCurrentPwd}
             />
             <TextInput
-              style = { styles.input }
-              placeholder = "Nueva contraseña"
+              style={styles.input}
+              placeholder="Nueva contraseña"
               secureTextEntry
-              value = { newPwd }
-              onChangeText = { setNewPwd }
+              value={newPwd}
+              onChangeText={setNewPwd}
             />
             <TextInput
-              style = { styles.input }
-              placeholder = "Repetir nueva contraseña"
+              style={styles.input}
+              placeholder="Repetir nueva contraseña"
               secureTextEntry
-              value = { repeatPwd }
-              onChangeText = { setRepeatPwd }
+              value={repeatPwd}
+              onChangeText={setRepeatPwd}
             />
 
-            <View style = { styles.buttonRow }>
-              <MyButton title = "Actualizar" onPress = { handleChangePassword } />
+            <View style={styles.buttonRow}>
+              <MyButton title="Actualizar" onPress={handleChangePassword} />
               <MyButton
-                title = "Cancelar"
-                onPress = { () => setModalVisible(false) }
+                title="Cancelar"
+                onPress={() => setModalVisible(false)}
               />
             </View>
           </View>
@@ -215,6 +236,8 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     borderRadius: 8,
     padding: 8,
     marginBottom: 10,
+    backgroundColor: theme.backgroundCard,
+    color: theme.text,
   },
   inlineRow: {
     flexDirection: "row",
@@ -230,6 +253,10 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     justifyContent: "space-between",
     gap: 10,
     marginTop: 8,
+  },
+  buttonContainer: {
+    marginTop: 20,
+    gap: 10,
   },
   modalBackground: {
     flex: 1,
