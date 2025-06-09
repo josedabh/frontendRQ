@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Modal, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import { MyButton } from '../../../components/shared/MyButton';
 import { useTheme } from '../../../context/ThemeContext';
 import { FormPassword, UserProfile } from '../../../shared/models/UserData';
@@ -135,37 +136,45 @@ export default function Datauser() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.card}>
-        <Text style={textStyles.title}>Perfil de usuario</Text>
+      <ScreenHeader
+        title="Perfil de Usuario"
+        onLeftPress={() => navigation.goBack()}
+        leftLabel="← Volver"
+      />
+      
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.card}>
+          {renderField("Nombre", myUser.name, "name")}
+          {renderField("Apellidos", myUser.lastname, "lastname")}
+          {renderField("Nombre de usuario", myUser.username, "username")}
+          {renderField("Correo electrónico", myUser.email, "email")}
+          {renderField("Número de teléfono", myUser.numPhone, "numPhone")}
+          {renderField("Puntos", myUser.points.toString(), "points")}
 
-        {renderField("Nombre", myUser.name, "name")}
-        {renderField("Apellidos", myUser.lastname, "lastname")}
-        {renderField("Nombre de usuario", myUser.username, "username")}
-        {renderField("Correo electrónico", myUser.email, "email")}
-        {renderField("Número de teléfono", myUser.numPhone, "numPhone")}
-        {renderField("Puntos", myUser.points.toString(), "points")}
-
-        <View style={styles.buttonContainer}>
-          {isEditing ? (
-            <>
-              <MyButton title="Guardar cambios" onPress={handleUpdateInfo} />
-              <MyButton 
-                title="Cancelar" 
-                onPress={() => {
-                  setIsEditing(false);
-                  setEditedUser(myUser);
-                }} 
-              />
-            </>
-          ) : (
-            <>
-              <MyButton title="Editar información" onPress={() => setIsEditing(true)} />
-              <MyButton title="Cambiar contraseña" onPress={() => setModalVisible(true)} />
-              <MyButton title="Volver atrás" onPress={() => navigation.goBack()} />
-            </>
-          )}
+          <View style={styles.buttonContainer}>
+            {isEditing ? (
+              <>
+                <MyButton title="Guardar cambios" onPress={handleUpdateInfo} />
+                <MyButton 
+                  title="Cancelar" 
+                  onPress={() => {
+                    setIsEditing(false);
+                    setEditedUser(myUser);
+                  }} 
+                />
+              </>
+            ) : (
+              <>
+                <MyButton title="Editar información" onPress={() => setIsEditing(true)} />
+                <MyButton title="Cambiar contraseña" onPress={() => setModalVisible(true)} />
+              </>
+            )}
+          </View>
         </View>
-      </View>
+      </ScrollView>
 
       {/* Modal para cambio de contraseña */}
       <Modal visible={modalVisible} animationType="slide" transparent>
@@ -211,15 +220,22 @@ export default function Datauser() {
 
 const createStyles = (theme: Theme) => StyleSheet.create({
   container: {
-    padding: 16,
     flex: 1,
     backgroundColor: theme.background,
   },
+  scrollContent: {
+    flexGrow: 1,
+    padding: 16,
+    paddingBottom: 32, // Extra padding at bottom
+  },
   card: {
     backgroundColor: theme.card,
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 16,
-    boxShadow: "#000",
+    shadowColor: theme.shadowColor,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
     elevation: 3,
   },
   label: {

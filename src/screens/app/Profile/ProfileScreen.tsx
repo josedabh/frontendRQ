@@ -80,14 +80,14 @@ export default function ProfileScreen() {
                         onPress={() => navigation.navigate("HistoryChallenges")}
                     />
                     <Option
-                        title="Historial de Recompensas"
+                        title="Historial de recompensas"
                         onPress={() => navigation.navigate("HistoryShopping")} 
                     />
                     <Option 
                         title="Cambiar tema"
                         onPress={() => navigation.navigate("Theme")} />
                     <Option 
-                        title="Cerrar Sesión" 
+                        title="Cerrar sesión" 
                         onPress={() => setModalLogout(true)} />
                 </View>
             </ScrollView>
