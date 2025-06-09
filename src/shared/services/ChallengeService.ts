@@ -92,7 +92,7 @@ export const getAllChallenges = async (): Promise<ChallengeResponse[]> => {
 export const assignVerificationType = async (challengeId: string, type: string) => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.post<String>( `${URL}/${challengeId}/assign-verification/${type}`,
+    const response = await axios.patch<String>( `${URL}/${challengeId}/assign-verification/${type}`, {},
      { headers });
     return response.data;
   } catch (error) {
@@ -114,6 +114,22 @@ export const deleteVerificationType = async (challengeId: string) => {
   }
 }
 
+export const getNextVerificationId = async (type: string): Promise<string> => {
+    try {
+        const headers = await getAuthHeaders();
+        const response = await axios.post(
+            `/next-verification-id/${type}`,
+            {},
+            { headers }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error submitting quiz:", error);
+        throw error;
+    }
+};
+
+
 /**Quitaar este interface y servicio para despues */
 interface CompleteChallengeParams {
   challengeId: string;
@@ -132,4 +148,14 @@ export const completeChallenge = async (params: CompleteChallengeParams) => {
     }
   );
   return response.data;
+};
+
+export const joinChallenge = async (challengeId: string): Promise<void> => {
+    try {
+        const headers = await getAuthHeaders();
+        await axios.post(`${URL}/join/${challengeId}`, {}, { headers });
+    } catch (error) {
+        console.error('Error joining challenge:', error);
+        throw error;
+    }
 };

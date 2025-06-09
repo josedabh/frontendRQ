@@ -5,13 +5,13 @@ import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RootStackParamList } from '../../../../App';
+import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import { useTheme } from '../../../context/ThemeContext';
 import { ChallengeResponse, getDifficultyLabel } from '../../../shared/models/ChallengeData';
-import { getChallengeById } from '../../../shared/services/ChallengeService';
+import { getChallengeById, joinChallenge } from '../../../shared/services/ChallengeService';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
 import { Theme } from '../../../shared/themes/themes';
 import { getCategoryLabel } from '../../../shared/utils/Utils';
-import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 
 type ChallengeRouteProp = RouteProp<RootStackParamList, 'Challenge'>;
 type ChallengeNavProp = BottomTabNavigationProp<RootStackParamList, 'Challenge'>;
@@ -29,6 +29,7 @@ export default function ChallengeScreen() {
     // Estado para almacenar los datos del reto
     const [challenge, setChallenge] = useState<ChallengeResponse | null>(null);
     const [joined, setJoined] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -48,17 +49,37 @@ export default function ChallengeScreen() {
                 return;
             }
 
-            const verificationId = `${vType}-${vNumber}`;
             if (vType === 'Q') {
-                navigation.navigate('ValidationQuest', { verificationId });
+                navigation.navigate('ValidationQuest', { 
+                    challengeId: challenge.id  // Pasamos el ID del reto directamente
+                });
             } else {
                 Alert.alert('Verificación', `Tipo '${vType}' no está implementado aún.`);
             }
         }
     }, [joined, challenge, navigation]);
 
-    const handleJoin = () => {
-        setJoined(true);
+    const handleJoin = async () => {
+        try {
+            if (!challenge) return;
+            
+            // Show loading state
+            setLoading(true);
+            
+            // Call join API
+            await joinChallenge(challenge.id);
+            
+            // If successful, set joined to true
+            setJoined(true);
+        } catch (error: any) {
+            console.error('Error joining challenge:', error);
+            Alert.alert(
+                'Error',
+                error?.response?.data?.message || 'No se pudo unir al reto. Por favor, inténtalo de nuevo.'
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (!challenge) {
@@ -107,10 +128,16 @@ export default function ChallengeScreen() {
 
                     {!joined ? (
                         <TouchableOpacity
-                            style={styles.joinButton}
+                            style={[
+                                styles.joinButton,
+                                loading && { opacity: 0.7 }
+                            ]}
                             onPress={handleJoin}
+                            disabled={loading}
                         >
-                            <Text style={styles.joinText}>Unirme</Text>
+                            <Text style={styles.joinText}>
+                                {loading ? 'Uniéndose...' : 'Unirme'}
+                            </Text>
                         </TouchableOpacity>
                     ) : (
                         <Text style={[textStyles.normal, styles.marginTop]}>

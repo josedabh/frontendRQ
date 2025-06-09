@@ -15,6 +15,7 @@ import AssignVerificationModal from '../../../components/layout/admin/AssignVeri
 import { useTheme } from '../../../context/ThemeContext';
 import { Theme } from '../../../shared/themes/themes';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { getStateLabel } from '../../../shared/utils/Utils';
 
 export default function ManageChallengesScreen() {
     // Acceso al tema y estilos personalizados
@@ -91,9 +92,8 @@ export default function ManageChallengesScreen() {
         if (selectedChallenge) {
             try {
                 if (type === 'Q') {
-                    // Si es verificación por cuestionario, navegar a la pantalla de creación
                     navigation.navigate('AddQuizValidation', {
-                        challengeId: selectedChallenge.id
+                        challengeId: selectedChallenge.id  // Asegúrate de que esto es un string
                     });
                     setVerificationModalVisible(false);
                     return;
@@ -134,7 +134,7 @@ export default function ManageChallengesScreen() {
         setSelectedChallenge(null);
     };
 
-
+    // Modificar el renderItem
     const renderItem = ({ item }: { item: ChallengeResponse }) => (
         <View style={styles.card}>
             <View style={styles.info}>
@@ -143,13 +143,16 @@ export default function ManageChallengesScreen() {
                 <Text style={styles.small}>
                     Dificultad: {item.difficulty} · Puntos: {item.points}
                 </Text>
+                <Text style={[styles.small, getStateStyle(item.state)]}>
+                    Estado: {getStateLabel(item.state)}
+                </Text>
                 <Text
                     style={[
                         styles.small,
-                        item.state == "PENDING" ? styles.verified : styles.unverified,
+                        item.verificationType ? styles.verified : styles.unverified,
                     ]}
                 >
-                    {item.state == "PENDING" ? "Verificado" : "Pendiente verificación"}
+                    {item.verificationType != null ? "Verificado" : "Pendiente verificación"}
                 </Text>
             </View>
             <View style={styles.actions}>
@@ -175,6 +178,22 @@ export default function ManageChallengesScreen() {
             </View>
         </View>
     );
+
+    // Añadir función helper para los estilos
+    const getStateStyle = (state: string) => {
+        switch (state) {
+            case 'CANCELLED':
+                return styles.stateCancelled;
+            case 'PENDING':
+                return styles.statePending;
+            case 'IN_PROGRESS':
+                return styles.stateInProgress;
+            case 'FINISHED':
+                return styles.stateFinished;
+            default:
+                return {};
+        }
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -345,5 +364,17 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
         color: theme.textTitle,
+    },
+    stateCancelled: {
+        color: theme.error,
+    },
+    statePending: {
+        color: theme.warning,
+    },
+    stateInProgress: {
+        color: theme.primary,
+    },
+    stateFinished: {
+        color: theme.success,
     },
 });

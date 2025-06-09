@@ -3,16 +3,14 @@ import { Picker } from '@react-native-picker/picker';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Alert, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import { MyButton } from '../../../components/shared/MyButton';
+import { useTheme } from '../../../context/ThemeContext';
 import { ChallengeRequest, ChallengeResponse } from '../../../shared/models/ChallengeData';
 import { createChallenge, getChallengeById, updateChallenge } from '../../../shared/services/ChallengeService';
-import colors from '../../../shared/themes/constants/colors';
-import { useTheme } from '../../../context/ThemeContext';
 import { Theme } from '../../../shared/themes/themes';
-import createTextStyles from '../../../shared/themes/styles/textStyles';
 import { AdminStackParamList } from '../AdminStackScreen';
 
 type RouteProps = RouteProp<AdminStackParamList, 'AddChallenge'>;
@@ -66,7 +64,10 @@ export default function AddChallengeScreen() {
 
     /** Función auxiliar para formatear fechas */
     const formatDate = (date: Date): string => {
-        return date.toISOString().split(".")[0]; // Formato: "2025-05-05T07:06:50"
+        // Ajustamos la fecha para la zona horaria local
+        const offset = date.getTimezoneOffset();
+        const adjustedDate = new Date(date.getTime() - (offset * 60 * 1000));
+        return adjustedDate.toISOString().split('.')[0];
     };
 
     /** Valida los campos del formulario según los requisitos */
@@ -120,6 +121,55 @@ export default function AddChallengeScreen() {
                 `No se pudo crear el reto: ${error.message || "Error desconocido"}`,
             );
         }
+    };
+
+    const renderDatePicker = (
+        value: Date,
+        onChange: (date: Date) => void,
+        show: boolean,
+        setShow: (show: boolean) => void
+    ) => {
+        if (Platform.OS === 'web') {
+            return (
+                <input
+                    type="datetime-local"
+                    value={formatDate(value)}
+                    onChange={(e) => {
+                        const newDate = new Date(e.target.value);
+                        onChange(newDate);
+                    }}
+                    style={{
+                        padding: 10,
+                        borderRadius: 6,
+                        borderWidth: 1,
+                        borderColor: theme.border,
+                        backgroundColor: theme.backgroundCard,
+                        color: theme.text,
+                        marginTop: 8,
+                    }}
+                />
+            );
+        }
+
+        return (
+            <>
+                <MyButton
+                    title={value.toLocaleString()} // Cambiado a toLocaleString para mostrar hora
+                    onPress={() => setShow(true)}
+                />
+                {show && (
+                    <DateTimePicker
+                        value={value}
+                        mode="datetime"
+                        display="default"
+                        onChange={(_, date) => {
+                            setShow(false);
+                            if (date) onChange(date);
+                        }}
+                    />
+                )}
+            </>
+        );
     };
 
     return (
@@ -193,45 +243,25 @@ export default function AddChallengeScreen() {
                 />
 
                 <Text style={styles.label}>Fecha de inicio</Text>
-                <MyButton
-                    title={new Date(formData.startDate).toLocaleDateString()}
-                    onPress={() => setShowStartPicker(true)}
-                />
-                {showStartPicker && (
-                    <DateTimePicker
-                        value={new Date(formData.startDate)}
-                        mode="datetime"
-                        display="default"
-                        onChange={(_, date) => {
-                            if (date)
-                                setFormData({
-                                    ...formData,
-                                    startDate: formatDate(date),
-                                });
-                            setShowStartPicker(false);
-                        }}
-                    />
+                {renderDatePicker(
+                    new Date(formData.startDate),
+                    (date) => setFormData({
+                        ...formData,
+                        startDate: formatDate(date),
+                    }),
+                    showStartPicker,
+                    setShowStartPicker
                 )}
 
                 <Text style={styles.label}>Fecha de fin</Text>
-                <MyButton
-                    title={new Date(formData.endDate).toLocaleDateString()}
-                    onPress={() => setShowEndPicker(true)}
-                />
-                {showEndPicker && (
-                    <DateTimePicker
-                        value={new Date(formData.endDate)}
-                        mode="datetime"
-                        display="default"
-                        onChange={(_, date) => {
-                            if (date)
-                                setFormData({
-                                    ...formData,
-                                    endDate: formatDate(date),
-                                });
-                            setShowEndPicker(false);
-                        }}
-                    />
+                {renderDatePicker(
+                    new Date(formData.endDate),
+                    (date) => setFormData({
+                        ...formData,
+                        endDate: formatDate(date),
+                    }),
+                    showEndPicker,
+                    setShowEndPicker
                 )}
 
                 {/* Botón de envío */}

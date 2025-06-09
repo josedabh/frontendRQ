@@ -15,6 +15,7 @@ import RegisterScreen from './src/screens/auth/RegisterScreen';
 import Layout from './src/screens/Layout';
 import HistoryShoppingScreen from './src/screens/app/Profile/HistoryShoppingScreen';
 import ThemeScreen from './src/screens/app/Profile/ThemeScreen';
+import ValidationQuestScreen from './src/screens/app/ListChallenge/ValidationQuestScreen';
 
 export type RootStackParamList = {
   Main: undefined;
@@ -26,7 +27,9 @@ export type RootStackParamList = {
   Challenge: { id: string };
   Store: { id: number };
   Admin: undefined;
-  ValidationQuest: { verificationId: string } | undefined; // Assuming this is the screen for quest validation
+  ValidationQuest: { 
+    challengeId: string;  // Cambiado de verificationId a challengeId
+  };
   HistoryShopping: undefined;
 };
 
@@ -49,9 +52,9 @@ function AppStack() {
       <RootStack.Screen name="Datauser" component={Datauser} />
       <RootStack.Screen name="Theme" component={ThemeScreen} />
       <RootStack.Screen name="Challenge" component={ChallengeScreen} />
-      <RootStack.Screen
-        name="ValidationQuest"
-        component={ChallengeScreen} // Assuming this is the screen for quest validation}
+      <RootStack.Screen 
+        name="ValidationQuest" 
+        component={ValidationQuestScreen}
       />
       <RootStack.Screen name="HistoryShopping" component={HistoryShoppingScreen} />
       <RootStack.Screen name="Store" component={StoreScreen} />
