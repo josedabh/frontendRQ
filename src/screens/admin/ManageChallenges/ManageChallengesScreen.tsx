@@ -1,10 +1,10 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useMemo, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ChallengeResponse } from '../../../shared/models/ChallengeData';
-import { assignVerificationType, deleteChallenge, deleteVerificationType, getAllChallenges } from '../../../shared/services/ChallengeService';
+import { assignVerificationType, deleteChallenge, deleteVerificationType, getAllChallenges, startChallenge } from '../../../shared/services/ChallengeService';
 import colors from '../../../shared/themes/constants/colors';
 import { AdminStackParamList } from '../AdminStackScreen';
 import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
@@ -134,6 +134,20 @@ export default function ManageChallengesScreen() {
         setSelectedChallenge(null);
     };
 
+    const handleStartChallenge = async (challengeId: string) => {
+        try {
+            const updatedChallenge = await startChallenge(challengeId);
+            setChallenges(prev =>
+                prev.map(ch => ch.id === challengeId ? updatedChallenge : ch)
+            );
+        } catch (error: any) {
+            Alert.alert(
+                'Error',
+                error?.response?.data?.message || 'No se pudo iniciar el reto'
+            );
+        }
+    };
+
     // Modificar el renderItem
     const renderItem = ({ item }: { item: ChallengeResponse }) => (
         <View style={styles.card}>
@@ -156,6 +170,14 @@ export default function ManageChallengesScreen() {
                 </Text>
             </View>
             <View style={styles.actions}>
+
+                <TouchableOpacity
+                    onPress={() => handleStartChallenge(item.id)}
+                    style={[styles.actionBtn, styles.startButton]}
+                >
+                    <Text style={styles.actionText}>Iniciar</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity onPress={() => onEdit(item)} style={styles.actionBtn}>
                     <Text style={styles.actionText}>Editar</Text>
                 </TouchableOpacity>
@@ -231,7 +253,7 @@ export default function ManageChallengesScreen() {
                 onLeftPress={() => navigation.navigate('AdminHome')}
                 leftLabel="← Volver"
             />
-            
+
             {/* Barra de búsqueda */}
             <MySearchBar
                 title="Buscar reto"
@@ -376,5 +398,8 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     stateFinished: {
         color: theme.success,
+    },
+    startButton: {
+        backgroundColor: theme.primary,
     },
 });

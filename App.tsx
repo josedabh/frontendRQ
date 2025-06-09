@@ -16,6 +16,7 @@ import Layout from './src/screens/Layout';
 import HistoryShoppingScreen from './src/screens/app/Profile/HistoryShoppingScreen';
 import ThemeScreen from './src/screens/app/Profile/ThemeScreen';
 import ValidationQuestScreen from './src/screens/app/ListChallenge/ValidationQuestScreen';
+import HistoryChallengesScreen from './src/screens/app/Profile/HistoryChallengesScreen';
 
 export type RootStackParamList = {
   Main: undefined;
@@ -31,6 +32,7 @@ export type RootStackParamList = {
     challengeId: string;  // Cambiado de verificationId a challengeId
   };
   HistoryShopping: undefined;
+  HistoryChallenges: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -52,11 +54,9 @@ function AppStack() {
       <RootStack.Screen name="Datauser" component={Datauser} />
       <RootStack.Screen name="Theme" component={ThemeScreen} />
       <RootStack.Screen name="Challenge" component={ChallengeScreen} />
-      <RootStack.Screen 
-        name="ValidationQuest" 
-        component={ValidationQuestScreen}
-      />
+      <RootStack.Screen name="ValidationQuest" component={ValidationQuestScreen} />
       <RootStack.Screen name="HistoryShopping" component={HistoryShoppingScreen} />
+      <RootStack.Screen name="HistoryChallenges" component={HistoryChallengesScreen} />
       <RootStack.Screen name="Store" component={StoreScreen} />
       <RootStack.Screen name="Admin" component={AdminStackScreen} />
     </RootStack.Navigator>

@@ -93,6 +93,7 @@ export default function ValidationQuestScreen() {
                 'Quiz enviado correctamente',
                 [{ text: 'OK', onPress: () => navigation.goBack() }]
             );
+            navigation.goBack();
         } catch (error: any) {
             console.error('Error al enviar quiz:', error);
             Alert.alert(

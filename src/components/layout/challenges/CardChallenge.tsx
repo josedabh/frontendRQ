@@ -3,14 +3,15 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { useTheme } from '../../../context/ThemeContext';
 import { getDifficultyLabel } from '../../../shared/models/ChallengeData';
-import createTextStyles from '../../../shared/themes/styles/textStyles';
 import { Theme } from '../../../shared/themes/themes';
+import { getStateLabel } from '../../../shared/utils/Utils';
 
 export interface ChallengeCardProps {
   title: string;
   description: string;
   difficulty: string;
   points: number;
+  state: string; // Añadido estado
   onPress?: () => void;
 }
 
@@ -19,6 +20,7 @@ export default function CardChallenge({
   description,
   difficulty,
   points,
+  state, // Añadido estado
   onPress,
 }: ChallengeCardProps) {
   // Acceso al tema y estilos personalizados
@@ -51,11 +53,31 @@ export default function CardChallenge({
             {getDifficultyLabel(difficulty)}
           </Text>
         </View>
-        <Text style={styles.points}>{points} pt{points !== 1 ? 's' : ''}</Text>
+        <View style={styles.rightFooter}>
+          <Text style={styles.points}>{points} pt{points !== 1 ? 's' : ''}</Text>
+          <Text style={[styles.stateText, getStateStyle(state, theme)]}>
+            {getStateLabel(state)}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
 }
+
+const getStateStyle = (state: string, theme: Theme) => {
+  switch (state) {
+    case 'CANCELLED':
+      return { color: theme.error };
+    case 'PENDING':
+      return { color: theme.warning };
+    case 'IN_PROGRESS':
+      return { color: theme.primary };
+    case 'FINISHED':
+      return { color: theme.success };
+    default:
+      return {};
+  }
+};
 
 const createStyles = (theme: Theme) => StyleSheet.create({
   card: {
@@ -100,5 +122,13 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: theme.primary,
+  },
+  rightFooter: {
+    alignItems: 'flex-end',
+  },
+  stateText: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginTop: 4,
   },
 });

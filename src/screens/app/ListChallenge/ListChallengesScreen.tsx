@@ -6,30 +6,26 @@ import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { RootStackParamList } from '../../../../App';
 import CardChallenge from '../../../components/layout/challenges/CardChallenge';
 import MySearchbar from '../../../components/shared/MySearchBar';
-import { ChallengeResponse } from '../../../shared/models/ChallengeData';
-import { getAllChallenges } from '../../../shared/services/ChallengeService';
-import textStyles from '../../../shared/themes/styles/textStyles';
 import { useTheme } from '../../../context/ThemeContext';
-import { Theme } from '../../../shared/themes/themes';
+import { ChallengeResponse } from '../../../shared/models/ChallengeData';
+import { listChallengesForUser } from '../../../shared/services/ChallengeService';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { Theme } from '../../../shared/themes/themes';
 
 export default function ListChallengesScreen() {
-    // Acceso al tema y estilos personalizados
     const { theme } = useTheme();
     const styles = createStyles(theme);
     const textStyles = createTextStyles(theme);
-
-    const navigation =
-        useNavigation<
-            BottomTabNavigationProp<RootStackParamList, 'Layout'>
-        >();
+    const navigation = useNavigation<BottomTabNavigationProp<RootStackParamList, 'Layout'>>();
+    
     const [cardChallenge, setCardChallenge] = useState<ChallengeResponse[]>([]);
     const [input, setInput] = useState("");
 
     useEffect(() => {
         const fetchListChallenge = async () => {
             try {
-                const listChallenge = await getAllChallenges();
+                // Using listChallengesForUser instead of getAllChallenges
+                const listChallenge = await listChallengesForUser();
                 setCardChallenge(listChallenge);
             } catch (error) {
                 console.log(error);
@@ -45,13 +41,16 @@ export default function ListChallengesScreen() {
     }, [input, cardChallenge]);
 
     const renderItem = ({ item }: { item: ChallengeResponse }) => (
-        <CardChallenge
-            title={item.title}
-            description={item.description}
-            difficulty={item.difficulty}
-            points={item.points}
-            onPress={() => navigation.navigate('Challenge', { id: item.id })}
-        />
+        <View style={styles.challengeContainer}>
+            <CardChallenge
+                title={item.title}
+                description={item.description}
+                difficulty={item.difficulty}
+                points={item.points}
+                state={item.state} // Añadido estado
+                onPress={() => navigation.navigate('Challenge', { id: item.id })}
+            />
+        </View>
     );
 
     return (
@@ -100,5 +99,8 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     },
     separator: {
         height: 12,
+    },
+    challengeContainer: {
+        marginBottom: 12,
     },
 });

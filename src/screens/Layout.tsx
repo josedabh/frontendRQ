@@ -29,6 +29,7 @@ export type RootTabParamList = {
   ManageUsers: undefined;
   HistoryShopping: undefined;
   Theme: undefined;
+  HistoryChallenges: undefined;
 };
 
 // 2. Crea el Tab con el tipo genérico

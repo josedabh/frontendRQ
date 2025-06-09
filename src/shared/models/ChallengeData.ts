@@ -34,3 +34,13 @@ export interface ChallengeRequest {
   endDate: string;
   points: number;
 }
+
+export interface ChallengeHistoryResponse {
+  userName: string;
+  userLastname: string;
+  userUsername: string;
+  challengeTitle: string;
+  completedAt: string;
+  earnedPoints: number;
+  attempts: number;
+}

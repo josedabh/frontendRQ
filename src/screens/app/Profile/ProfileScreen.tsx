@@ -75,10 +75,14 @@ export default function ProfileScreen() {
                         title="Información de usuario"
                         onPress={() => navigation.navigate("Datauser")}
                     />
-                    <Option title="Historial de retos cumplidos" />
+                    <Option 
+                        title="Historial de retos cumplidos"
+                        onPress={() => navigation.navigate("HistoryChallenges")}
+                    />
                     <Option
                         title="Historial de Recompensas"
-                        onPress={() => navigation.navigate("HistoryShopping")} />
+                        onPress={() => navigation.navigate("HistoryShopping")} 
+                    />
                     <Option 
                         title="Cambiar tema"
                         onPress={() => navigation.navigate("Theme")} />

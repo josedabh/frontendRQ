@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { getToken } from '../../shared/utils/TokenStorage';
-import { ChallengeRequest, ChallengeResponse } from '../models/ChallengeData';
+import { ChallengeRequest, ChallengeResponse, ChallengeHistoryResponse } from '../models/ChallengeData';
 
 /** Url de la Api */
 const URL = "http://localhost:8080/api/v1/challenge";
@@ -156,6 +156,46 @@ export const joinChallenge = async (challengeId: string): Promise<void> => {
         await axios.post(`${URL}/join/${challengeId}`, {}, { headers });
     } catch (error) {
         console.error('Error joining challenge:', error);
+        throw error;
+    }
+};
+
+export const listChallengesForUser = async (): Promise<ChallengeResponse[]> => {
+    try {
+        const headers = await getAuthHeaders();
+        const response = await axios.get<ChallengeResponse[]>(`${URL}/user/list-challenges`, { headers });
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener los retos del usuario:", error);
+        throw error;
+    }
+}
+
+export const startChallenge = async (challengeId: string): Promise<ChallengeResponse> => {
+    try {
+        const headers = await getAuthHeaders();
+        const response = await axios.patch<ChallengeResponse>(
+            `${URL}/start/${challengeId}`, 
+            {}, 
+            { headers }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error al iniciar el reto:", error);
+        throw error;
+    }
+};
+
+export const getCompletedChallengesHistory = async (): Promise<ChallengeHistoryResponse[]> => {
+    try {
+        const headers = await getAuthHeaders();
+        const response = await axios.get<ChallengeHistoryResponse[]>(
+            `${URL}/history-challenges`,
+            { headers }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error al obtener el historial de retos:", error);
         throw error;
     }
 };
