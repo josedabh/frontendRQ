@@ -1,11 +1,17 @@
 import axios from 'axios';
+import NetInfo from '@react-native-community/netinfo';
 
 import { getToken } from '../../shared/utils/TokenStorage';
 import { ChallengeRequest, ChallengeResponse, ChallengeHistoryResponse } from '../models/ChallengeData';
+import createAxiosInstance from '../config/axios.config';
 
 /** Url de la Api */
-const URL = "http://vps-5060784-x.dattaweb.com:8080/api/v1/challenge";
+const BASE_URL = "http://vps-5060784-x.dattaweb.com:8080/api/v1/challenge";
 
+// Instancia para rutas protegidas (con token)
+const api = createAxiosInstance(BASE_URL);
+
+// Mantener getAuthHeaders para compatibilidad
 const getAuthHeaders = async () => {
   const token = await getToken();
   return {
@@ -20,7 +26,7 @@ export const getChallengeById = async (
   try {
     const headers = await getAuthHeaders();
     const response = await axios.get<ChallengeResponse>(
-      `${URL}/find-challenge/${id}`,
+      `${BASE_URL}/find-challenge/${id}`,
       { headers },
     );
     return response.data;
@@ -37,7 +43,7 @@ export const createChallenge = async (
   try {
     const headers = await getAuthHeaders();
     const response = await axios.post<ChallengeRequest>(
-      `${URL}/create-challenge`,
+      `${BASE_URL}/create-challenge`,
       challengeRequest,
       { headers },
     );
@@ -51,7 +57,7 @@ export const createChallenge = async (
 export const deleteChallenge = async (id: string): Promise<void> => {
   try {
     const headers = await getAuthHeaders();
-    await axios.delete(`${URL}/delete-challenge/${id}`, { headers });
+    await axios.delete(`${BASE_URL}/delete-challenge/${id}`, { headers });
   } catch (error) {
     console.error("Error al eliminar el reto:", error);
     throw error;
@@ -65,7 +71,7 @@ export const updateChallenge = async (
   try {
     const headers = await getAuthHeaders();
     const response = await axios.put<ChallengeRequest>(
-      `${URL}/update-challenge/${id}`,
+      `${BASE_URL}/update-challenge/${id}`,
       challengeRequest,
       { headers },
     );
@@ -79,7 +85,7 @@ export const updateChallenge = async (
 export const getAllChallenges = async (): Promise<ChallengeResponse[]> => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.get<ChallengeResponse[]>( `${URL}/admin/list-challenges`,
+    const response = await axios.get<ChallengeResponse[]>( `${BASE_URL}/admin/list-challenges`,
       { headers });
     return response.data;
   } catch (error) {
@@ -92,7 +98,7 @@ export const getAllChallenges = async (): Promise<ChallengeResponse[]> => {
 export const assignVerificationType = async (challengeId: string, type: string) => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.patch<String>( `${URL}/${challengeId}/assign-verification/${type}`, {},
+    const response = await axios.patch<String>( `${BASE_URL}/${challengeId}/assign-verification/${type}`, {},
      { headers });
     return response.data;
   } catch (error) {
@@ -105,7 +111,7 @@ export const assignVerificationType = async (challengeId: string, type: string) 
 export const deleteVerificationType = async (challengeId: string) => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.delete<void>( `${URL}/verification/${challengeId}`,
+    const response = await axios.delete<void>( `${BASE_URL}/verification/${challengeId}`,
       { headers });
     return response.data;
   } catch (error) {
@@ -153,7 +159,7 @@ export const completeChallenge = async (params: CompleteChallengeParams) => {
 export const joinChallenge = async (challengeId: string): Promise<void> => {
     try {
         const headers = await getAuthHeaders();
-        await axios.post(`${URL}/join/${challengeId}`, {}, { headers });
+        await axios.post(`${BASE_URL}/join/${challengeId}`, {}, { headers });
     } catch (error) {
         console.error('Error joining challenge:', error);
         throw error;
@@ -163,7 +169,7 @@ export const joinChallenge = async (challengeId: string): Promise<void> => {
 export const listChallengesForUser = async (): Promise<ChallengeResponse[]> => {
     try {
         const headers = await getAuthHeaders();
-        const response = await axios.get<ChallengeResponse[]>(`${URL}/user/list-challenges`, { headers });
+        const response = await axios.get<ChallengeResponse[]>(`${BASE_URL}/user/list-challenges`, { headers });
         return response.data;
     } catch (error) {
         console.error("Error al obtener los retos del usuario:", error);
@@ -175,7 +181,7 @@ export const startChallenge = async (challengeId: string): Promise<ChallengeResp
     try {
         const headers = await getAuthHeaders();
         const response = await axios.patch<ChallengeResponse>(
-            `${URL}/start/${challengeId}`, 
+            `${BASE_URL}/start/${challengeId}`, 
             {}, 
             { headers }
         );
@@ -190,7 +196,7 @@ export const getCompletedChallengesHistory = async (): Promise<ChallengeHistoryR
     try {
         const headers = await getAuthHeaders();
         const response = await axios.get<ChallengeHistoryResponse[]>(
-            `${URL}/history-challenges`,
+            `${BASE_URL}/history-challenges`,
             { headers }
         );
         return response.data;
