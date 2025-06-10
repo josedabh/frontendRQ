@@ -1,16 +1,16 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import globalStyles from '../shared/themes/styles/globalStyles';
-import AdminStackScreen from './admin/AdminStackScreen';
+import { AuthContext } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
+import createGlobalStyles from '../shared/themes/styles/globalStyles';
+import AdminStackScreen, { AdminStackParamList } from './admin/AdminStackScreen';
 import HomeScreen from './app/HomeScreen';
 import ListChallengesScreen from './app/ListChallenge/ListChallengesScreen';
 import ListStoreScreen from './app/ListStore/ListStoreScreen';
 import ProfileScreen from './app/Profile/ProfileScreen';
-import createGlobalStyles from '../shared/themes/styles/globalStyles';
-import { useTheme } from '../context/ThemeContext';
-import { AuthContext } from '../context/AuthContext';
 
 // 1. Define el tipo RootTabParamList
 export type RootTabParamList = {
@@ -18,19 +18,10 @@ export type RootTabParamList = {
   ListStore: undefined;
   Perfil: undefined;
   ListChallenge: undefined;
-  Datauser: undefined;
-  Challenge: undefined;
-  Login: undefined;
-  ValidationQuest: undefined;
-  Admin: undefined;
-  ManageChallenges: undefined;
-  AddChallenge: undefined;
-  AddReward: undefined;
-  ManageProducts: undefined;
-  ManageUsers: undefined;
-  HistoryShopping: undefined;
-  Theme: undefined;
-  HistoryChallenges: undefined;
+  Admin: {
+    screen: keyof AdminStackParamList;
+    params?: any;
+  };
 };
 
 // 2. Crea el Tab con el tipo genérico
@@ -46,8 +37,9 @@ function ProfileScreenWrapper({ navigation, route }: ProfileScreenProps) {
 // 4. Implementa el Layout con el Tab.Navigator tipado
 export default function Layout() {
   const { theme } = useTheme();
-  const { isAdmin } = useContext(AuthContext); // Añadir esto
+  const { isAdmin } = useContext(AuthContext);
   const globalStyles = createGlobalStyles(theme);
+  const navigation = useNavigation();
 
   return (
     <Tab.Navigator
@@ -58,6 +50,7 @@ export default function Layout() {
           ...globalStyles.tabBar,
         },
       }}
+      initialRouteName="Home"
     >
       <Tab.Screen
         name="Home"
@@ -79,7 +72,7 @@ export default function Layout() {
           ),
         }}
       />
-      {isAdmin && ( // Condicionar la visualización de la pestaña de admin
+      {isAdmin && (
         <Tab.Screen
           name="Admin"
           component={AdminStackScreen}
@@ -89,6 +82,14 @@ export default function Layout() {
               <Ionicons name="shield-outline" color={color} size={28} />
             ),
           }}
+          listeners={({ navigation }) => ({
+            tabPress: e => {
+              e.preventDefault();
+              navigation.navigate('Admin', {
+                screen: 'AdminHome'
+              });
+            },
+          })}
         />
       )}
       <Tab.Screen

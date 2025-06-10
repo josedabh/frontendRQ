@@ -20,7 +20,13 @@
         "foregroundImage": "./assets/portada_rq.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.josedabh.RoutineQuest"
+      "package": "com.josedabh.RoutineQuest",
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ],
+      "usesCleartextTraffic": true,
+      "networkSecurityConfig": true
     },
     "web": {
       "favicon": "./assets/portada_rq.png"

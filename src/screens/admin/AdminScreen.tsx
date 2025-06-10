@@ -1,4 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useContext, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
@@ -9,34 +10,49 @@ import { AuthContext } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import createTextStyles from '../../shared/themes/styles/textStyles';
 import { Theme } from '../../shared/themes/themes';
+import { AdminStackParamList } from './AdminStackScreen';
+import { RootTabParamList } from '../Layout';
+import { getAdminStatus } from '../../shared/utils/TokenStorage';
 import { RootStackParamList } from '../../../App';
 
 // Cambiar el tipo de navegación para usar el stack raíz
-type AdminNavProp = NativeStackNavigationProp<RootStackParamList>;
+type AdminScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<RootTabParamList>,
+  NativeStackNavigationProp<RootStackParamList>
+>;
 
 export default function AdminScreen() {
     const { theme } = useTheme();
     const { isAdmin } = useContext(AuthContext);
     const styles = createStyles(theme);
     const textStyles = createTextStyles(theme);
-    const navigation = useNavigation<AdminNavProp>();
+    const navigation = useNavigation<AdminScreenNavigationProp>();
 
     useEffect(() => {
-        if (!isAdmin) {
-            navigation.replace('Layout');
-        }
-    }, [isAdmin, navigation]);
+        const checkAdminStatus = async () => {
+            const adminStatus = await getAdminStatus();
+            if (!adminStatus) {
+                // Navegamos al root stack en lugar de Layout
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                });
+            }
+        };
 
-    if (!isAdmin) {
-        return null;
-    }
+        checkAdminStatus();
+    }, [navigation]);
 
-    const handleNavigation = (screen: string) => {
-        // Navegar primero al stack de Admin y luego a la pantalla específica
+    const handleNavigation = (screen: keyof AdminStackParamList) => {
+        // Usamos la navegación anidada correctamente
         navigation.navigate('Admin', {
             screen: screen
         });
     };
+
+    if (!isAdmin) {
+        return null;
+    }
 
     return (
         <SafeAreaView style={styles.container}>

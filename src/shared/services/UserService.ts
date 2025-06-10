@@ -4,7 +4,7 @@ import { getToken } from '../../shared/utils/TokenStorage';
 import { Credentials, FormPassword, Login, Register, UpdateUserInfoRequest, UserProfile, UserResponse } from '../models/UserData';
 
 /** Url de la Api */
-const URL = "http://localhost:8080/api/v1/auth";
+const URL = "http://vps-5060784-x.dattaweb.com:8080/api/v1/auth";
 
 const getAuthHeaders = async () => {
   const token = await getToken();

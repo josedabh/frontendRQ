@@ -1,19 +1,26 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
-import { RewardResponse } from '../../../shared/models/StoreData';
-import { changeVisbilityReward, deleteReward, getListRewards } from '../../../shared/services/StoreService';
-import colors from '../../../shared/themes/constants/colors';
-import { AdminStackParamList } from '../AdminStackScreen';
-import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import ButtonGeneric from '../../../components/layout/admin/ButtonGeneric';
+import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
+import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import MySearchBar from '../../../components/shared/MySearchBar';
 import { useTheme } from '../../../context/ThemeContext';
-import { Theme } from '../../../shared/themes/themes';
+import { RewardResponse } from '../../../shared/models/StoreData';
+import { changeVisbilityReward, deleteReward, getListRewards } from '../../../shared/services/StoreService';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
+import { Theme } from '../../../shared/themes/themes';
+import { RootTabParamList } from '../../Layout';
+import { AdminStackParamList } from '../AdminStackScreen';
+
+// Definir el tipo de navegación compuesto
+type ManageRewardsScreenNavigationProp = CompositeNavigationProp<
+    BottomTabNavigationProp<RootTabParamList>,
+    NativeStackNavigationProp<AdminStackParamList>
+>;
 
 export default function ManageRewardsScreen() {
     // Acceso al tema y estilos personalizados
@@ -21,7 +28,7 @@ export default function ManageRewardsScreen() {
     const styles = createStyles(theme);
     const textStyles = createTextStyles(theme);
     // Navegación al stack de administración
-    const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageProducts">>();
+    const navigation = useNavigation<ManageRewardsScreenNavigationProp>();
     const [input, setInput] = useState("");
     const [rewards, setRewards] = useState<RewardResponse[]>(
         [
@@ -57,12 +64,17 @@ export default function ManageRewardsScreen() {
         , []);
 
     const onCreate = () => {
-        navigation.navigate("AddReward");
+        navigation.navigate('Admin', { 
+            screen: 'AddReward',
+            params: { id: undefined }
+        });
     };
 
     const onEdit = (item: RewardResponse) => {
-        // Con id: modo “editar”
-        navigation.navigate('AddReward', { id: item.id });
+        navigation.navigate('Admin', {
+            screen: 'AddReward',
+            params: { id: item.id }
+        });
     };
 
     const [modalVisible, setModalVisible] = useState(false);

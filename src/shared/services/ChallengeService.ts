@@ -4,7 +4,7 @@ import { getToken } from '../../shared/utils/TokenStorage';
 import { ChallengeRequest, ChallengeResponse, ChallengeHistoryResponse } from '../models/ChallengeData';
 
 /** Url de la Api */
-const URL = "http://localhost:8080/api/v1/challenge";
+const URL = "http://vps-5060784-x.dattaweb.com:8080/api/v1/challenge";
 
 const getAuthHeaders = async () => {
   const token = await getToken();

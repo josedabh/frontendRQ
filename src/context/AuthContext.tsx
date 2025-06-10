@@ -11,7 +11,14 @@ import {
   loginUser as loginService,
   registerUser,
 } from "../shared/services/UserService";
-import { getToken, removeToken, saveToken } from "../shared/utils/TokenStorage";
+import {
+  getAdminStatus,
+  getToken,
+  removeAdminStatus,
+  removeToken,
+  saveAdminStatus,
+  saveToken,
+} from "../shared/utils/TokenStorage";
 
 //Importar bien para que no falle al usar el token
 interface AuthContextData {
@@ -44,32 +51,43 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const loadToken = async () => {
+    const loadInitialState = async () => {
       try {
         const token = await getToken();
-        setUserToken(token);
+        const adminStatus = await getAdminStatus();
+
+        if (token) {
+          setUserToken(token);
+          setIsAdmin(adminStatus);
+        }
       } catch (error) {
-        console.error("Error al cargar el token", error);
+        console.error("Error al cargar el estado inicial:", error);
+        setUserToken(null);
+        setIsAdmin(false);
       } finally {
         setLoading(false);
       }
     };
 
-    loadToken();
+    loadInitialState();
   }, []);
 
   const login = async (identifier: string, password: string) => {
     try {
+      setLoading(true);
       const response: Credentials = await loginService({
         identifier,
         password,
       });
       await saveToken(response.token);
+      await saveAdminStatus(response.admin);
       setUserToken(response.token);
-      setIsAdmin(response.admin); // Guardar el estado de admin
+      setIsAdmin(response.admin);
     } catch (error) {
       console.error("Login fallido:", error);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -87,11 +105,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
   const logout = async () => {
     try {
+      setLoading(true);
       await removeToken();
+      await removeAdminStatus();
       setUserToken(null);
-      setIsAdmin(false); // Resetear el estado de admin
+      setIsAdmin(false);
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -4,7 +4,7 @@ import { AnswerDTO, QuizDetailResponse, QuizSubmitRequest, QuizSubmitResponse } 
 import { getToken } from '../utils/TokenStorage';
 
 /** API base URL */
-const URL = "http://localhost:8080/api/v1/verification/challenge";
+const URL = "http://vps-5060784-x.dattaweb.com:8080/api/v1/verification/challenge";
 
 const getAuthHeaders = async () => {
     const token = await getToken();

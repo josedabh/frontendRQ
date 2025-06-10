@@ -1,4 +1,4 @@
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -17,12 +17,15 @@ import { Theme } from '../../../shared/themes/themes';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
 import { getStateLabel } from '../../../shared/utils/Utils';
 
+// Cambiar el tipo de navegación
+type ManageChallengesScreenNavigationProp = NativeStackNavigationProp<AdminStackParamList>;
+
 export default function ManageChallengesScreen() {
     // Acceso al tema y estilos personalizados
     const { theme } = useTheme();
     const styles = createStyles(theme);
     // Navegación al stack de administración
-    const navigation = useNavigation<BottomTabNavigationProp<AdminStackParamList, "ManageChallenges">>();
+    const navigation = useNavigation<ManageChallengesScreenNavigationProp>();
     const [input, setInput] = useState("");
     const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
 
@@ -45,7 +48,7 @@ export default function ManageChallengesScreen() {
     }, []);
 
     const onCreate = () => {
-        navigation.navigate("AddChallenge");
+        navigation.navigate('AddChallenge', { id: undefined });
     };
 
     const onEdit = (item: ChallengeResponse) => {

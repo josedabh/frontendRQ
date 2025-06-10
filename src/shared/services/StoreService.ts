@@ -4,7 +4,7 @@ import { getToken } from "../../shared/utils/TokenStorage";
 import { HistoryShopping, RewardRequest, RewardResponse } from "../models/StoreData";
 
 /** Url de la Api */
-const URL = "http://localhost:8080/api/v1/store";
+const URL = "http://vps-5060784-x.dattaweb.com:8080/api/v1/store";
 
 const getAuthHeaders = async () => {
     const token = await getToken();
