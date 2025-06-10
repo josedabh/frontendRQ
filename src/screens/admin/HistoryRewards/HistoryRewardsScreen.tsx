@@ -27,7 +27,8 @@ export default function HistoryRewardsScreen() {
         const query = input.toLowerCase();
         return historyRewards.filter((hisRew) => 
             hisRew.userName.toLowerCase().includes(query) ||
-            hisRew.rewardName.toLowerCase().includes(query)
+            hisRew.rewardName.toLowerCase().includes(query) ||
+            hisRew.userUsername.toLowerCase().includes(query)
         );
     }, [input, historyRewards]);
 
@@ -50,7 +51,7 @@ export default function HistoryRewardsScreen() {
             <View style={styles.header}>
                 <Text style={styles.headerText}>Transacción #{item.transactionId}</Text>
                 <Text style={styles.date}>
-                    {new Date(item.transactionPurchaseDate).toLocaleDateString()}
+                    {new Date(item.purchaseDate).toLocaleDateString()}
                 </Text>
             </View>
 
@@ -58,7 +59,7 @@ export default function HistoryRewardsScreen() {
                 <View style={styles.column}>
                     <Text style={styles.label}>Usuario</Text>
                     <Text style={styles.value}>{item.userName} {item.userLastname}</Text>
-                    <Text style={styles.subValue}>@{item.userApodo}</Text>
+                    <Text style={styles.subValue}>@{item.userUsername}</Text>
                 </View>
                 <View style={styles.column}>
                     <Text style={styles.label}>Recompensa</Text>
@@ -66,6 +67,11 @@ export default function HistoryRewardsScreen() {
                     <Text style={styles.points}>{item.rewardPoints} pts</Text>
                 </View>
             </View>
+            <View style={styles.pointsInfo}>
+                <Text style={styles.pointsText}>Puntos anteriores: {item.pointsBefore}</Text>
+                <Text style={styles.pointsText}>Puntos restantes: {item.pointsAfter}</Text>
+            </View>
+            <Text style={styles.description}>{item.rewardDescription}</Text>
         </View>
     );
 
@@ -182,4 +188,20 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         color: theme.empty,
         fontSize: 16,
     },
+    pointsInfo: {
+        marginTop: 12,
+        padding: 8,
+        backgroundColor: theme.backgroundAlt,
+        borderRadius: 8,
+    },
+    pointsText: {
+        color: theme.text,
+        fontSize: 14,
+    },
+    description: {
+        marginTop: 8,
+        color: theme.textMuted,
+        fontSize: 14,
+        fontStyle: 'italic',
+    }
 });

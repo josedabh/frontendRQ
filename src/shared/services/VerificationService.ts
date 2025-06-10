@@ -1,10 +1,34 @@
 import axios from 'axios';
+import NetInfo from '@react-native-community/netinfo';
 
 import { AnswerDTO, QuizDetailResponse, QuizSubmitRequest, QuizSubmitResponse } from '../models/VerificationData';
 import { getToken } from '../utils/TokenStorage';
+import { API_ROUTES } from '../config/api.config';
 
 /** API base URL */
-const URL = "http://localhost:8080/api/v1/verification/challenge";
+const URL = API_ROUTES.verification;
+
+// Crear una instancia de axios
+const api = axios.create({
+    baseURL: URL,
+    timeout: 10000
+});
+
+// Configurar el interceptor
+api.interceptors.request.use(async (config) => {
+    const netInfo = await NetInfo.fetch();
+    
+    if (!netInfo.isConnected) {
+        return Promise.reject(new Error('No hay conexión a Internet'));
+    }
+    
+    const token = await getToken();
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    return config;
+});
 
 const getAuthHeaders = async () => {
     const token = await getToken();

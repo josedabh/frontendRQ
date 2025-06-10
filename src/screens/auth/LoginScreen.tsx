@@ -29,7 +29,7 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
     try {
       await login(email, password);
       Alert.alert("Login correcto", "Bienvenido a la app");
-      navigation.replace("Layout");
+      navigation.replace('Layout');
     } catch (error: any) {
       Alert.alert("Error", error.message || "Error desconocido");
     }

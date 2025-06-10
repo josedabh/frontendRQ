@@ -1,22 +1,47 @@
+import NetInfo from '@react-native-community/netinfo';
 import axios from 'axios';
 
-import { getToken } from '../../shared/utils/TokenStorage';
-import { Credentials, FormPassword, Login, Register, UpdateUserInfoRequest, UserProfile, UserResponse } from '../models/UserData';
+import createAxiosInstance from '../config/axios.config';
+import {
+  Credentials,
+  FormPassword,
+  Login,
+  Register,
+  UpdateUserInfoRequest,
+  UserProfile,
+  UserResponse,
+} from '../models/UserData';
+import { API_ROUTES } from '../config/api.config';
 
 /** Url de la Api */
-const URL = "http://localhost:8080/api/v1/auth";
+const BASE_URL = API_ROUTES.base;
+const ADMIN_URL = API_ROUTES.admin;
+const AUTH_URL = API_ROUTES.auth;
 
-const getAuthHeaders = async () => {
-  const token = await getToken();
-  return {
-    Authorization: `Bearer ${token}`,
-  };
-};
+// Instancia para rutas públicas (sin token)
+const publicApi = axios.create({
+    baseURL: AUTH_URL,
+    timeout: 10000
+});
 
+// Configurar interceptor solo para verificar conexión en rutas públicas
+publicApi.interceptors.request.use(async (config) => {
+    const netInfo = await NetInfo.fetch();
+    if (!netInfo.isConnected) {
+        return Promise.reject(new Error('No hay conexión a Internet'));
+    }
+    return config;
+});
+
+// Instancia para rutas protegidas (con token)
+const api = createAxiosInstance(AUTH_URL);
+const adminApi = createAxiosInstance(ADMIN_URL);
+
+/** Rutas públicas (sin token) */
 /** Api Get que dice hola de prueba */
 export const prueba = async (): Promise<string> => {
   try {
-    const response = await axios.get<string>(`${URL}/hello`);
+    const response = await publicApi.get<string>(`${AUTH_URL}/hello`);
     return response.data;
   } catch (error) {
     console.error("No funciona " + error);
@@ -24,15 +49,32 @@ export const prueba = async (): Promise<string> => {
   }
 };
 
-/**Api Get: lista de usuarios */
+export const registerUser = async (
+  UserRegister: Register,
+): Promise<Credentials> => {
+  try {
+    const response = await publicApi.post<Credentials>(`${AUTH_URL}/register`, UserRegister);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const loginUser = async (login: Login): Promise<Credentials> => {
+  try {
+    const response = await publicApi.post<Credentials>(`${AUTH_URL}/login`, login);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+/** Rutas protegidas (con token) */
 export const getListUsers = async (): Promise<UserResponse[]> => {
   try {
-    const headers = await getAuthHeaders();
-    const URL2 = URL.replace("auth", "admin");
-    const response = await axios.get<UserResponse[]>(
-      `${URL2}/list-users`,
-      { headers },
-    );
+    const response = await adminApi.get<UserResponse[]>(`${ADMIN_URL}/list-users`);
     return response.data;
   } catch (error) {
     console.error("Error al obtener usuarios:", error);
@@ -40,44 +82,9 @@ export const getListUsers = async (): Promise<UserResponse[]> => {
   }
 };
 
-/** Api Post: Registra el usaurio al no estar logeado
- * @returns token para validar la llamadas de la api
- */
-export const registerUser = async (
-  UserRegister: Register,
-): Promise<Credentials> => {
-  try {
-    const newUser = await axios.post<Credentials>(
-      `${URL}/register`,
-      UserRegister,
-    );
-    return newUser.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-/** Api Post: Inicio de sesion del usuario
- * @returns token para validar la llamadas de la api
- */
-export const loginUser = async (login: Login): Promise<Credentials> => {
-  try {
-    const token = await axios.post<Credentials>(`${URL}/login`, login);
-    return token.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-/** Api Get: Muestra la informacion del usuario actual */
 export const getMyUserInfo = async (): Promise<UserProfile> => {
   try {
-    const headers = await getAuthHeaders();
-    const response = await axios.get<UserProfile>(`${URL}/info-user`, {
-      headers,
-    });
+    const response = await api.get<UserProfile>(`${AUTH_URL}/info-user`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -85,13 +92,11 @@ export const getMyUserInfo = async (): Promise<UserProfile> => {
   }
 };
 
-/**Api Put: Cambia la contraseña */
+/** Api Put: Cambia la contraseña */
 export const changePassword = async (
   formPassword: FormPassword): Promise<void> => {
   try {
-    const headers = await getAuthHeaders();
-    await axios.put( `${URL}/change-password`, formPassword ,
-      { headers });
+    await api.put(`${AUTH_URL}/change-password`, formPassword);
   } catch (error) {
     console.error("Error al cambiar la contraseña:", error);
     throw error;
@@ -100,12 +105,7 @@ export const changePassword = async (
 
 export const updateUserInfo = async (userData: UpdateUserInfoRequest): Promise<UserResponse> => {
   try {
-    const headers = await getAuthHeaders();
-    const response = await axios.patch<UserResponse>(
-      `${URL}/info-user`, 
-      userData,
-      { headers }
-    );
+    const response = await api.patch<UserResponse>(`${AUTH_URL}/info-user`, userData);
     return response.data;
   } catch (error) {
     console.error("Error updating user info:", error);
