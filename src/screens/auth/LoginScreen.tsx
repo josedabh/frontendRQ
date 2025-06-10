@@ -28,7 +28,8 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
   const handleLogin = async () => {
     try {
       await login(email, password);
-      navigation.replace("Layout");
+      Alert.alert("Login correcto", "Bienvenido a la app");
+      navigation.replace('Layout');
     } catch (error: any) {
       Alert.alert("Error", error.message || "Error desconocido");
     }

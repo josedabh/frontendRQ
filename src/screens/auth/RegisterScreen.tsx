@@ -62,7 +62,8 @@ export function RegisterScreen() {
 
       await register(userData);
       Alert.alert("Éxito", "Cuenta creada correctamente");
-      navigation.replace("Layout"); // Navega al home después del registro exitoso
+      // Change from reset to replace
+      navigation.replace('Layout');
     } catch (error: any) {
       Alert.alert("Error", error.message || "Error al crear la cuenta");
     }

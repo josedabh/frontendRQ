@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import axios from 'axios';
@@ -22,7 +22,6 @@ import RegisterScreen from './src/screens/auth/RegisterScreen';
 import Layout from './src/screens/Layout';
 import NoInternetScreen from './src/screens/NoInternetScreen';
 
-// Añade la importación de GestureHandlerRootView
 export type RootStackParamList = {
   Main: undefined;
   Login: undefined;
@@ -32,7 +31,7 @@ export type RootStackParamList = {
   Theme: undefined;
   Challenge: { id: string };
   Store: { id: number };
-  Home: undefined; // Añadir esta ruta
+  Home: undefined;
   Admin: {
     screen: keyof AdminStackParamList;
     params?: any;
@@ -46,36 +45,9 @@ export type RootStackParamList = {
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
-function AuthStack() {
-  return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      <RootStack.Screen name="Main" component={MainScreen} />
-      <RootStack.Screen name="Login" component={LoginScreen} />
-      <RootStack.Screen name="Register" component={RegisterScreen} />
-    </RootStack.Navigator>
-  );
-}
-
-function AppStack() {
-  return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      <RootStack.Screen name="Layout" component={Layout} />
-      <RootStack.Screen name="Datauser" component={Datauser} />
-      <RootStack.Screen name="Theme" component={ThemeScreen} />
-      <RootStack.Screen name="Challenge" component={ChallengeScreen} />
-      <RootStack.Screen name="ValidationQuest" component={ValidationQuestScreen} />
-      <RootStack.Screen name="HistoryShopping" component={HistoryShoppingScreen} />
-      <RootStack.Screen name="HistoryChallenges" component={HistoryChallengesScreen} />
-      <RootStack.Screen name="Store" component={StoreScreen} />
-      <RootStack.Screen name="Admin" component={AdminStackScreen} />
-    </RootStack.Navigator>
-  );
-}
-
 function AppNavigator() {
   const { isAuthenticated, loading } = useContext(AuthContext);
 
-  // Mostrar un loader mientras se verifica el token
   if (loading) {
     return (
       <View style={styles.loader}>
@@ -87,14 +59,14 @@ function AppNavigator() {
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
       {!isAuthenticated ? (
-        // Stack de Autenticación
+        // Auth screens
         <>
           <RootStack.Screen name="Main" component={MainScreen} />
           <RootStack.Screen name="Login" component={LoginScreen} />
           <RootStack.Screen name="Register" component={RegisterScreen} />
         </>
       ) : (
-        // Stack de Aplicación
+        // App screens
         <>
           <RootStack.Screen name="Layout" component={Layout} />
           <RootStack.Screen name="Datauser" component={Datauser} />
@@ -113,7 +85,6 @@ function AppNavigator() {
 
 export default function App() {
   return (
-    // Envuelve toda la app con GestureHandlerRootView
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NetworkProvider>
         <ThemeProvider>
