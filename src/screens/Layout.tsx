@@ -22,6 +22,10 @@ export type RootTabParamList = {
     screen: keyof AdminStackParamList;
     params?: any;
   };
+  Datauser: undefined;
+  HistoryChallenges: undefined;
+  HistoryShopping: undefined;
+  Theme: undefined;
 };
 
 // 2. Crea el Tab con el tipo genérico

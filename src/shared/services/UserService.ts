@@ -11,11 +11,12 @@ import {
   UserProfile,
   UserResponse,
 } from '../models/UserData';
+import { API_ROUTES } from '../config/api.config';
 
 /** Url de la Api */
-const BASE_URL = "http://vps-5060784-x.dattaweb.com:8080/api/v1";
-const ADMIN_URL = `${BASE_URL}/admin`;
-const AUTH_URL = `${BASE_URL}/auth`;
+const BASE_URL = API_ROUTES.base;
+const ADMIN_URL = API_ROUTES.admin;
+const AUTH_URL = API_ROUTES.auth;
 
 // Instancia para rutas públicas (sin token)
 const publicApi = axios.create({
@@ -40,7 +41,7 @@ const adminApi = createAxiosInstance(ADMIN_URL);
 /** Api Get que dice hola de prueba */
 export const prueba = async (): Promise<string> => {
   try {
-    const response = await publicApi.get<string>('/hello');
+    const response = await publicApi.get<string>(`${AUTH_URL}/hello`);
     return response.data;
   } catch (error) {
     console.error("No funciona " + error);
@@ -48,14 +49,11 @@ export const prueba = async (): Promise<string> => {
   }
 };
 
-/** Api Post: Registra el usaurio al no estar logeado
- * @returns token para validar la llamadas de la api
- */
 export const registerUser = async (
   UserRegister: Register,
 ): Promise<Credentials> => {
   try {
-    const response = await publicApi.post<Credentials>('/register', UserRegister);
+    const response = await publicApi.post<Credentials>(`${AUTH_URL}/register`, UserRegister);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -63,12 +61,9 @@ export const registerUser = async (
   }
 };
 
-/** Api Post: Inicio de sesion del usuario
- * @returns token para validar la llamadas de la api
- */
 export const loginUser = async (login: Login): Promise<Credentials> => {
   try {
-    const response = await publicApi.post<Credentials>('/login', login);
+    const response = await publicApi.post<Credentials>(`${AUTH_URL}/login`, login);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -77,10 +72,9 @@ export const loginUser = async (login: Login): Promise<Credentials> => {
 };
 
 /** Rutas protegidas (con token) */
-/** Api Get: lista de usuarios */
 export const getListUsers = async (): Promise<UserResponse[]> => {
   try {
-    const response = await adminApi.get<UserResponse[]>('/list-users');
+    const response = await adminApi.get<UserResponse[]>(`${ADMIN_URL}/list-users`);
     return response.data;
   } catch (error) {
     console.error("Error al obtener usuarios:", error);
@@ -88,10 +82,9 @@ export const getListUsers = async (): Promise<UserResponse[]> => {
   }
 };
 
-/** Api Get: Muestra la informacion del usuario actual */
 export const getMyUserInfo = async (): Promise<UserProfile> => {
   try {
-    const response = await api.get<UserProfile>('/info-user');
+    const response = await api.get<UserProfile>(`${AUTH_URL}/info-user`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -103,7 +96,7 @@ export const getMyUserInfo = async (): Promise<UserProfile> => {
 export const changePassword = async (
   formPassword: FormPassword): Promise<void> => {
   try {
-    await api.put('/change-password', formPassword);
+    await api.put(`${AUTH_URL}/change-password`, formPassword);
   } catch (error) {
     console.error("Error al cambiar la contraseña:", error);
     throw error;
@@ -112,7 +105,7 @@ export const changePassword = async (
 
 export const updateUserInfo = async (userData: UpdateUserInfoRequest): Promise<UserResponse> => {
   try {
-    const response = await api.patch<UserResponse>('/info-user', userData);
+    const response = await api.patch<UserResponse>(`${AUTH_URL}/info-user`, userData);
     return response.data;
   } catch (error) {
     console.error("Error updating user info:", error);

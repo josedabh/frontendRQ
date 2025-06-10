@@ -1,15 +1,10 @@
 import axios from 'axios';
-import NetInfo from '@react-native-community/netinfo';
-
-import { getToken } from '../../shared/utils/TokenStorage';
+import { getToken } from '../utils/TokenStorage';
 import { ChallengeRequest, ChallengeResponse, ChallengeHistoryResponse } from '../models/ChallengeData';
-import createAxiosInstance from '../config/axios.config';
+import { API_ROUTES } from '../config/api.config';
 
 /** Url de la Api */
-const BASE_URL = "http://vps-5060784-x.dattaweb.com:8080/api/v1/challenge";
-
-// Instancia para rutas protegidas (con token)
-const api = createAxiosInstance(BASE_URL);
+const BASE_URL = API_ROUTES.challenge;
 
 // Mantener getAuthHeaders para compatibilidad
 const getAuthHeaders = async () => {

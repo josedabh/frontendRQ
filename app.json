@@ -24,9 +24,7 @@
       "permissions": [
         "INTERNET",
         "ACCESS_NETWORK_STATE"
-      ],
-      "usesCleartextTraffic": true,
-      "networkSecurityConfig": true
+      ]
     },
     "web": {
       "favicon": "./assets/portada_rq.png"

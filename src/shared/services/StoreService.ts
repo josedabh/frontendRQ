@@ -1,9 +1,10 @@
 import createAxiosInstance from '../config/axios.config';
+import { API_ROUTES } from '../config/api.config';
 
 import { HistoryShopping, RewardRequest, RewardResponse } from "../models/StoreData";
 
 /** Url de la Api */
-const BASE_URL = "http://vps-5060784-x.dattaweb.com:8080/api/v1/store";
+const BASE_URL = API_ROUTES.store;
 const api = createAxiosInstance(BASE_URL);
 
 /** Api Post: Creacion de una recompensa */

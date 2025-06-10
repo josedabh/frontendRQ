@@ -3,9 +3,10 @@ import NetInfo from '@react-native-community/netinfo';
 
 import { AnswerDTO, QuizDetailResponse, QuizSubmitRequest, QuizSubmitResponse } from '../models/VerificationData';
 import { getToken } from '../utils/TokenStorage';
+import { API_ROUTES } from '../config/api.config';
 
 /** API base URL */
-const URL = "http://vps-5060784-x.dattaweb.com:8080/api/v1/verification/challenge";
+const URL = API_ROUTES.verification;
 
 // Crear una instancia de axios
 const api = axios.create({

@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useContext, useMemo } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import axios from 'axios';
 
 import { AuthContext, AuthProvider } from './src/context/AuthContext';
 import { NetworkProvider, useNetwork } from './src/context/NetworkContext';
@@ -144,3 +145,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+if(__DEV__) {
+  axios.interceptors.request.use(request => {
+    console.log('Starting Request:', {
+      url: request.url,
+      method: request.method,
+      headers: request.headers
+    });
+    return request;
+  });
+}

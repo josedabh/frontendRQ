@@ -2,7 +2,7 @@ import { CompositeNavigationProp, useNavigation } from '@react-navigation/native
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useContext, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import Card from '../../components/shared/Card';
@@ -103,11 +103,25 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         paddingVertical: 16,
         paddingHorizontal: 20,
         borderRadius: 12,
-        shadowColor: theme.shadowColor,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
+        ...Platform.select({
+            ios: {
+                shadowColor: theme.shadowColor,
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+            },
+            android: {
+                elevation: 4,
+                backgroundColor: theme.buttonPrimary, // Reafirmar el color de fondo en Android
+                borderRadius: 12, // Reafirmar el borderRadius en Android
+            },
+            web: {
+                shadowColor: theme.shadowColor,
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+            }
+        }),
     },
     buttonText: {
         color: theme.buttonText,

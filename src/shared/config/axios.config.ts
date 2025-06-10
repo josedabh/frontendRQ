@@ -5,22 +5,31 @@ import { getToken } from '../utils/TokenStorage';
 const createAxiosInstance = (baseURL: string) => {
     const api = axios.create({
         baseURL,
-        timeout: 10000
+        timeout: 10000,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
     });
 
     api.interceptors.request.use(async (config) => {
-        const netInfo = await NetInfo.fetch();
-        
-        if (!netInfo.isConnected) {
-            return Promise.reject(new Error('No hay conexión a Internet'));
+        try {
+            const netInfo = await NetInfo.fetch();
+            
+            if (!netInfo.isConnected) {
+                return Promise.reject(new Error('No hay conexión a Internet'));
+            }
+            
+            const token = await getToken();
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            
+            return config;
+        } catch (error) {
+            console.error('Error en interceptor:', error);
+            return Promise.reject(error);
         }
-        
-        const token = await getToken();
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        
-        return config;
     });
 
     return api;

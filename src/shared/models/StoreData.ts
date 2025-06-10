@@ -17,15 +17,13 @@ export interface RewardResponse {
 
 export interface HistoryShopping {
   transactionId: number;
-  userId: string;
   userName: string;
   userLastname: string;
-  userApodo: string;
-  userNumPhone: string;
-  userPoints: number;
-  transactionPurchaseDate: string;
-  rewardId: number;
+  userUsername: string;
+  pointsBefore: number;
+  purchaseDate: string;
   rewardName: string;
   rewardDescription: string;
   rewardPoints: number;
+  pointsAfter: number;
 }
