@@ -1,21 +1,24 @@
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { ChallengeResponse } from '../../../shared/models/ChallengeData';
-import { assignVerificationType, deleteChallenge, deleteVerificationType, getAllChallenges, startChallenge } from '../../../shared/services/ChallengeService';
-import colors from '../../../shared/themes/constants/colors';
-import { AdminStackParamList } from '../AdminStackScreen';
-import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
+import AssignVerificationModal from '../../../components/layout/admin/AssignVerificationModal';
 import ButtonGeneric from '../../../components/layout/admin/ButtonGeneric';
 import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
+import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import MySearchBar from '../../../components/shared/MySearchBar';
-import AssignVerificationModal from '../../../components/layout/admin/AssignVerificationModal';
 import { useTheme } from '../../../context/ThemeContext';
+import { ChallengeResponse } from '../../../shared/models/ChallengeData';
+import {
+    assignVerificationType,
+    deleteVerificationType,
+    getAllChallenges,
+    startChallenge,
+} from '../../../shared/services/ChallengeService';
 import { Theme } from '../../../shared/themes/themes';
-import createTextStyles from '../../../shared/themes/styles/textStyles';
 import { getStateLabel } from '../../../shared/utils/Utils';
+import { AdminStackParamList } from '../AdminStackScreen';
 
 // Cambiar el tipo de navegación
 type ManageChallengesScreenNavigationProp = NativeStackNavigationProp<AdminStackParamList>;
@@ -53,29 +56,6 @@ export default function ManageChallengesScreen() {
 
     const onEdit = (item: ChallengeResponse) => {
         navigation.navigate('AddChallenge', { id: item.id });
-    };
-
-    const [modalVisible, setModalVisible] = useState(false);
-    const [toDelete, setToDelete] = useState<ChallengeResponse | null>(null);
-
-    const onDelete = (item: ChallengeResponse) => {
-        setToDelete(item);
-        setModalVisible(true);
-    };
-
-    const handleConfirm = () => {
-        if (toDelete) {
-            deleteChallenge(toDelete.id)
-                .then(() => setChallenges(ps => ps.filter(p => p.id !== toDelete.id)))
-                .catch(console.error);
-        }
-        setModalVisible(false);
-        setToDelete(null);
-    };
-
-    const handleCancel = () => {
-        setModalVisible(false);
-        setToDelete(null);
     };
 
     const [verificationModalVisible, setVerificationModalVisible] = useState(false);
@@ -173,33 +153,34 @@ export default function ManageChallengesScreen() {
                 </Text>
             </View>
             <View style={styles.actions}>
+                {item.id && (
+                    <>
+                        <TouchableOpacity
+                            onPress={() => handleStartChallenge(item.id)}
+                            style={[styles.actionBtn, styles.startButton]}
+                        >
+                            <Text style={styles.actionText}>Iniciar</Text>
+                        </TouchableOpacity>
 
-                <TouchableOpacity
-                    onPress={() => handleStartChallenge(item.id)}
-                    style={[styles.actionBtn, styles.startButton]}
-                >
-                    <Text style={styles.actionText}>Iniciar</Text>
-                </TouchableOpacity>
+                        <TouchableOpacity 
+                            onPress={() => navigation.navigate('AddChallenge', { id: item.id })} 
+                            style={styles.actionBtn}
+                        >
+                            <Text style={styles.actionText}>Editar</Text>
+                        </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => onEdit(item)} style={styles.actionBtn}>
-                    <Text style={styles.actionText}>Editar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => onDelete(item)}
-                    style={styles.actionBtn}
-                >
-                    <Text style={styles.actionText}>Borrar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => onVerify(item)}
-                    style={styles.actionBtn}
-                >
-                    <Text style={styles.actionText}>
-                        {item.verificationType != null
-                            ? "Quitar tipo verificación"
-                            : "Asignar tipo verificación"}
-                    </Text>
-                </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => onVerify(item)}
+                            style={styles.actionBtn}
+                        >
+                            <Text style={styles.actionText}>
+                                {item.verificationType != null
+                                    ? "Quitar verificación"
+                                    : "Asignar verificación"}
+                            </Text>
+                        </TouchableOpacity>
+                    </>
+                )}
             </View>
         </View>
     );
@@ -222,15 +203,6 @@ export default function ManageChallengesScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* Modal de confirmación para eliminar */}
-            <ConfirmModal
-                visible={modalVisible}
-                title="Eliminar reto"
-                message={`¿Eliminar "${toDelete?.title}"?`}
-                onConfirm={handleConfirm}
-                onCancel={handleCancel}
-            />
-
             {/* Modal para asignar tipo de verificación */}
             <AssignVerificationModal
                 visible={verificationModalVisible}
@@ -280,15 +252,6 @@ export default function ManageChallengesScreen() {
                 contentContainerStyle={styles.list}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
                 ListEmptyComponent={<Text style={styles.empty}>No hay retos</Text>}
-            />
-
-            {/* Modal de confirmación para eliminar un producto */}
-            <ConfirmModal
-                visible={modalVisible}
-                title="Eliminar reto"
-                message={`¿Eliminar "${toDelete?.title}"?`}
-                onConfirm={handleConfirm}
-                onCancel={handleCancel}
             />
         </SafeAreaView>
     );
@@ -367,6 +330,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: theme.buttonSecondary,
         borderRadius: 6,
+        marginHorizontal: 4,
     },
     actionText: {
         fontSize: 12,

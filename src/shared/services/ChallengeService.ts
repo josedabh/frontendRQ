@@ -200,3 +200,17 @@ export const getCompletedChallengesHistory = async (): Promise<ChallengeHistoryR
         throw error;
     }
 };
+
+export const cancelChallenge = async (id: string): Promise<ChallengeResponse> => {
+    try {
+      const headers = await getAuthHeaders();
+        const response = await axios.put<ChallengeResponse>(`${BASE_URL}/cancel-challenge/${id}`,
+          {}, 
+          { headers }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error cancelling challenge:", error);
+        throw error;
+    }
+};
