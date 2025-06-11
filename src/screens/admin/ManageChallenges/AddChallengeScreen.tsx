@@ -5,11 +5,18 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Alert, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
+import ConfirmModal from '../../../components/layout/admin/ConfirmModal';
 import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
 import { MyButton } from '../../../components/shared/MyButton';
 import { useTheme } from '../../../context/ThemeContext';
 import { ChallengeRequest, ChallengeResponse } from '../../../shared/models/ChallengeData';
-import { createChallenge, getChallengeById, updateChallenge } from '../../../shared/services/ChallengeService';
+import {
+    cancelChallenge,
+    createChallenge,
+    deleteChallenge,
+    getChallengeById,
+    updateChallenge,
+} from '../../../shared/services/ChallengeService';
 import { Theme } from '../../../shared/themes/themes';
 import { AdminStackParamList } from '../AdminStackScreen';
 
@@ -61,6 +68,8 @@ export default function AddChallengeScreen() {
     // Estados para controlar la visibilidad de los selectores de fecha
     const [showStartPicker, setShowStartPicker] = useState(false);
     const [showEndPicker, setShowEndPicker] = useState(false);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+    const [cancelModalVisible, setCancelModalVisible] = useState(false);
 
     /** Función auxiliar para formatear fechas */
     const formatDate = (date: Date): string => {
@@ -120,6 +129,38 @@ export default function AddChallengeScreen() {
                 "Error",
                 `No se pudo crear el reto: ${error.message || "Error desconocido"}`,
             );
+        }
+    };
+
+    const handleDelete = () => {
+        if (!editId) return;
+        setDeleteModalVisible(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!editId) return;
+        try {
+            await deleteChallenge(editId);
+            setDeleteModalVisible(false);
+            navigation.navigate("ManageChallenges");
+        } catch (error) {
+            console.error("Error deleting challenge:", error);
+        }
+    };
+
+    const handleCancel = () => {
+        if (!editId) return;
+        setCancelModalVisible(true);
+    };
+
+    const confirmCancel = async () => {
+        if (!editId) return;
+        try {
+            await cancelChallenge(editId);
+            setCancelModalVisible(false);
+            navigation.navigate("ManageChallenges");
+        } catch (error) {
+            console.error("Error cancelling challenge:", error);
         }
     };
 
@@ -264,23 +305,54 @@ export default function AddChallengeScreen() {
                     setShowEndPicker
                 )}
 
-                {/* Botón de envío */}
+                {/* Botones de acción */}
                 <View style={styles.buttonContainer}>
-                    {/** Boton guardar */}
                     <MyButton
                         title="Guardar Challenge"
                         style={styles.btnSave}
                         onPress={handleSubmit}
                     />
 
-                    {/** Boton volver */}
+                    {editId && (
+                        <>
+                            <MyButton
+                                title="Cancelar Reto"
+                                style={styles.btnCancel}
+                                onPress={handleCancel}
+                            />
+                            <MyButton
+                                title="Borrar Reto"
+                                style={styles.btnDelete}
+                                onPress={handleDelete}
+                            />
+                        </>
+                    )}
+
                     <MyButton
                         title="Volver"
-                        style={styles.btnCancel}
+                        style={styles.btnBack}
                         onPress={() => navigation.goBack()}
                     />
                 </View>
             </ScrollView>
+
+            {/* Delete Confirmation Modal */}
+            <ConfirmModal
+                visible={deleteModalVisible}
+                title="Eliminar reto"
+                message="¿Estás seguro de que quieres eliminar este reto?"
+                onConfirm={confirmDelete}
+                onCancel={() => setDeleteModalVisible(false)}
+            />
+
+            {/* Cancel Challenge Modal */}
+            <ConfirmModal
+                visible={cancelModalVisible}
+                title="Cancelar reto"
+                message="¿Estás seguro de que quieres cancelar este reto?"
+                onConfirm={confirmCancel}
+                onCancel={() => setCancelModalVisible(false)}
+            />
         </SafeAreaView>
     );
 }
@@ -359,15 +431,27 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 24,
+        flexWrap: 'wrap',
+        gap: 8,
     },
     btnSave: {
         backgroundColor: theme.success,
         flex: 1,
-        marginRight: 8,
+        minWidth: '45%',
     },
     btnCancel: {
+        backgroundColor: theme.warning,
+        flex: 1,
+        minWidth: '45%',
+    },
+    btnDelete: {
         backgroundColor: theme.error,
         flex: 1,
-        marginLeft: 8,
+        minWidth: '45%',
+    },
+    btnBack: {
+        backgroundColor: theme.buttonSecondary,
+        flex: 1,
+        minWidth: '45%',
     },
 });
