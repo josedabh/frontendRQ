@@ -5,12 +5,11 @@ import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } fro
 
 import { RootStackParamList } from '../../../../App';
 import ScreenHeader from '../../../components/layout/admin/ScreenHeader';
+import { useTheme } from '../../../context/ThemeContext';
 import { HistoryShopping } from '../../../shared/models/StoreData';
 import { getListHistoryRewardsUser } from '../../../shared/services/StoreService';
 import colors from '../../../shared/themes/constants/colors';
-import textStyles from '../../../shared/themes/styles/textStyles';
 import createTextStyles from '../../../shared/themes/styles/textStyles';
-import { useTheme } from '../../../context/ThemeContext';
 import { Theme } from '../../../shared/themes/themes';
 
 type NavProps = BottomTabNavigationProp<RootStackParamList, 'HistoryShopping'>;
@@ -47,25 +46,31 @@ export default function HistoryShoppingScreen() {
             <View style={styles.section}>
                 <Text style={[textStyles.subtitle, styles.rewardName]}>{item.rewardName}</Text>
                 <Text style={styles.description}>{item.rewardDescription}</Text>
-                <Text style={styles.points}>{item.rewardPoints} pts</Text>
+                <Text style={styles.points}>Coste: {item.rewardPoints} pts</Text>
             </View>
 
-            {/* User Information */}
+            {/* User Information & Points Change */}
             <View style={styles.section}>
                 <View style={styles.userHeader}>
                     <Text style={styles.userName}>
                         {item.userName} {item.userLastname}
                     </Text>
-                    <Text style={styles.userNick}>@{item.userApodo}</Text>
+                    <Text style={styles.userNick}>@{item.userUsername}</Text>
                 </View>
-                <Text style={styles.userInfo}>Tel: {item.userNumPhone}</Text>
-                <Text style={styles.userInfo}>Puntos disponibles: {item.userPoints}</Text>
+                <View style={styles.pointsContainer}>
+                    <Text style={styles.pointsLabel}>Puntos antes:</Text>
+                    <Text style={styles.pointsValue}>{item.pointsBefore}</Text>
+                </View>
+                <View style={styles.pointsContainer}>
+                    <Text style={styles.pointsLabel}>Puntos después:</Text>
+                    <Text style={styles.pointsValue}>{item.pointsAfter}</Text>
+                </View>
             </View>
 
             {/* Transaction Date */}
             <View style={styles.footer}>
                 <Text style={styles.date}>
-                    Comprado el: {new Date(item.transactionPurchaseDate).toLocaleString('es-ES', {
+                    Comprado el: {new Date(item.purchaseDate).toLocaleString('es-ES', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',
@@ -156,10 +161,33 @@ const createStyles = (theme: Theme) => StyleSheet.create({
         fontWeight: '600',
         color: theme.primary,
     },
+    pointsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 8,
+        paddingHorizontal: 8,
+        backgroundColor: theme.backgroundAlt,
+        borderRadius: 6,
+        padding: 4,
+    },
+    pointsLabel: {
+        fontSize: 14,
+        color: theme.text,
+        fontWeight: '500',
+    },
+    pointsValue: {
+        fontSize: 14,
+        color: theme.primary,
+        fontWeight: '600',
+    },
     userHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 4,
+        marginBottom: 12,
+        paddingBottom: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.border,
     },
     userName: {
         fontSize: 16,
@@ -170,12 +198,6 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     userNick: {
         fontSize: 14,
         color: theme.primary,
-        fontStyle: 'italic',
-    },
-    userInfo: {
-        fontSize: 14,
-        color: theme.secondary,
-        marginTop: 2,
     },
     footer: {
         marginTop: 4,
