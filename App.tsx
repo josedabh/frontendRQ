@@ -21,6 +21,7 @@ import MainScreen from './src/screens/auth/MainScreen';
 import RegisterScreen from './src/screens/auth/RegisterScreen';
 import Layout from './src/screens/Layout';
 import NoInternetScreen from './src/screens/NoInternetScreen';
+import PermissionHandler from './src/components/shared/PermissionHandler';
 
 export type RootStackParamList = {
   Main: undefined;
@@ -90,6 +91,7 @@ export default function App() {
         <ThemeProvider>
           <AuthProvider>
             <NavigationContainer>
+              <PermissionHandler />
               <NetworkAwareApp />
             </NavigationContainer>
           </AuthProvider>
