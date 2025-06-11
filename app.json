@@ -12,8 +12,25 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.josedabh.RoutineQuest",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true,
+          "NSExceptionDomains": {
+            "localhost": {
+              "NSExceptionAllowsInsecureHTTPLoads": true,
+              "NSIncludesSubdomain": false
+            }
+          }
+        }
+      },
+      "usesAppleSignIn": false,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -23,8 +40,21 @@
       "package": "com.josedabh.RoutineQuest",
       "permissions": [
         "INTERNET",
-        "ACCESS_NETWORK_STATE"
-      ]
+        "ACCESS_NETWORK_STATE",
+        "ACCESS_WIFI_STATE",
+        "FOREGROUND_SERVICE",
+        "RECEIVE_BOOT_COMPLETED",
+        "WAKE_LOCK"
+      ],
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "usesCleartextTraffic": true,
+      "softwareKeyboardLayoutMode": "resize"
+    },
+    "androidStatusBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#FFFFFF"
     },
     "web": {
       "favicon": "./assets/portada_rq.png"
@@ -33,6 +63,9 @@
       "eas": {
         "projectId": "500ce1c7-bc44-48a7-acdb-79fe144f264b"
       }
-    }
+    },
+    "plugins": [
+      "expo-build-properties"
+    ]
   }
 }
