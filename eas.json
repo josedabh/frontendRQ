@@ -27,7 +27,6 @@
   "submit": {
     "preview": {
       "android": {
-        "serviceAccountKeyPath": "./google-service-account.json",
         "track": "internal"
       }
     },
