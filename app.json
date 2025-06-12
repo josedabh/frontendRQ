@@ -59,7 +59,6 @@
         "android.permission.RECORD_AUDIO",
         "android.permission.RECORD_AUDIO"
       ],
-      "usesCleartextTraffic": true,
       "softwareKeyboardLayoutMode": "resize"
     },
     "androidStatusBar": {
@@ -81,6 +80,16 @@
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ]
   }
 }
