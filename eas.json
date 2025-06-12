@@ -8,22 +8,12 @@
       "android": {
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease",
-        "withoutCredentials": true,
-        "credentialsSource": "local"
+        "withoutCredentials": true
       },
-      "distribution": "internal",
       "env": {
         "API_URL": "http://200.58.107.89:8080"
-      }
-    }
-  },
-  "submit": {
-    "preview": {
-      "android": {
-        "track": "internal",
-        "releaseStatus": "draft",
-        "serviceAccountKeyPath": "local"
-      }
+      },
+      "channel": "preview"
     }
   }
 }
