@@ -16,13 +16,5 @@
       },
       "channel": "preview"
     }
-  },
-  "submit": {
-    "preview": {
-      "android": {
-        "track": "internal",
-        "releaseStatus": "draft"
-      }
-    }
   }
 }
