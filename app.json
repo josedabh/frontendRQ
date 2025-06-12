@@ -76,6 +76,11 @@
       "enabled": true,
       "checkAutomatically": "ON_LOAD",
       "url": "https://u.expo.dev/500ce1c7-bc44-48a7-acdb-79fe144f264b"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "500ce1c7-bc44-48a7-acdb-79fe144f264b"
+      }
     }
   }
 }
