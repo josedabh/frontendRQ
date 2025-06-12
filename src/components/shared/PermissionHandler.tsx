@@ -1,21 +1,30 @@
 import React, { useEffect } from 'react';
-import { PermissionsAndroid, Platform, Alert, BackHandler } from 'react-native';
+import { Platform, Alert, BackHandler } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
+import * as Location from 'expo-location';
 
 const PermissionHandler = () => {
   useEffect(() => {
     const requestPermissions = async () => {
+      if (Platform.OS !== 'android') return;
+
       try {
-        // Check network first
-        const networkState = await NetInfo.fetch();
-        if (!networkState.isConnected) {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+
+        if (status !== 'granted') {
           Alert.alert(
-            "Error de Conexión",
-            "No hay conexión a Internet. La aplicación necesita conexión para funcionar.",
+            "Permiso de Ubicación Denegado",
+            "RoutineQuest necesita acceso a la ubicación para validar los retos basados en ubicación.",
             [
               { 
                 text: "Reintentar", 
                 onPress: () => requestPermissions() 
+              },
+              { 
+                text: "Abrir Ajustes", 
+                onPress: () => {
+                  BackHandler.exitApp();
+                }
               },
               { 
                 text: "Salir", 
@@ -28,50 +37,28 @@ const PermissionHandler = () => {
           return;
         }
 
-        // Android permissions
-        if (Platform.OS === 'android') {
-          const permissions = [
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            PermissionsAndroid.PERMISSIONS.ACCESS_NETWORK_STATE,
-            PermissionsAndroid.PERMISSIONS.INTERNET
-          ];
-
-          const granted = await PermissionsAndroid.requestMultiple(permissions);
-
-          const missingPermissions = Object.entries(granted)
-            .filter(([_, value]) => value !== PermissionsAndroid.RESULTS.GRANTED)
-            .map(([key]) => key);
-
-          if (missingPermissions.length > 0) {
-            Alert.alert(
-              "Permisos Requeridos",
-              "Se necesitan los siguientes permisos:\n\n" +
-              "• Ubicación (para validar retos)\n" +
-              "• Internet\n" +
-              "• Estado de red\n",
-              [
-                { 
-                  text: "Reintentar", 
-                  onPress: () => requestPermissions() 
-                },
-                { 
-                  text: "Salir", 
-                  onPress: () => BackHandler.exitApp(),
-                  style: 'cancel' 
-                }
-              ],
-              { cancelable: false }
-            );
-          }
+        // Verificar conexión a internet
+        const networkState = await NetInfo.fetch();
+        if (!networkState.isConnected) {
+          Alert.alert(
+            "Error de Conexión",
+            "No hay conexión a Internet. La aplicación necesita conexión para funcionar.",
+            [
+              { text: "Reintentar", onPress: () => requestPermissions() },
+              { text: "Salir", onPress: () => BackHandler.exitApp(), style: 'cancel' }
+            ],
+            { cancelable: false }
+          );
+          return;
         }
+
       } catch (err) {
         console.warn('Error solicitando permisos:', err);
         Alert.alert(
-          "Error",
+          "Error de Permisos",
           "No se pudieron verificar los permisos necesarios.",
           [
-            { text: "Reintentar", onPress: () => requestPermissions() },
-            { text: "Salir", onPress: () => BackHandler.exitApp() }
+            { text: "Reintentar", onPress: () => requestPermissions() }
           ]
         );
       }
@@ -79,7 +66,6 @@ const PermissionHandler = () => {
 
     requestPermissions();
 
-    // Set up network listener
     const unsubscribe = NetInfo.addEventListener(state => {
       if (!state.isConnected) {
         Alert.alert(
