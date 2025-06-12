@@ -1,28 +1,42 @@
 import React, { useEffect } from 'react';
 import { PermissionsAndroid, Platform, Alert, BackHandler } from 'react-native';
-import * as Network from 'expo-network';
+import NetInfo from '@react-native-community/netinfo';
 
 const PermissionHandler = () => {
   useEffect(() => {
     const requestPermissions = async () => {
       try {
-        // Verificar estado de red
-        const networkState = await Network.getNetworkStateAsync();
+        // Check network first
+        const networkState = await NetInfo.fetch();
         if (!networkState.isConnected) {
           Alert.alert(
-            "Sin conexión",
-            "La aplicación necesita acceso a internet para funcionar"
+            "Error de Conexión",
+            "No hay conexión a Internet. La aplicación necesita conexión para funcionar.",
+            [
+              { 
+                text: "Reintentar", 
+                onPress: () => requestPermissions() 
+              },
+              { 
+                text: "Salir", 
+                onPress: () => BackHandler.exitApp(),
+                style: 'cancel' 
+              }
+            ],
+            { cancelable: false }
           );
+          return;
         }
 
-        // Solicitar permisos en Android
+        // Android permissions
         if (Platform.OS === 'android') {
-          const granted = await PermissionsAndroid.requestMultiple([
+          const permissions = [
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
             PermissionsAndroid.PERMISSIONS.ACCESS_NETWORK_STATE,
-            PermissionsAndroid.PERMISSIONS.INTERNET,
-            PermissionsAndroid.PERMISSIONS.ACCESS_WIFI_STATE,
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-          ]);
+            PermissionsAndroid.PERMISSIONS.INTERNET
+          ];
+
+          const granted = await PermissionsAndroid.requestMultiple(permissions);
 
           const missingPermissions = Object.entries(granted)
             .filter(([_, value]) => value !== PermissionsAndroid.RESULTS.GRANTED)
@@ -30,25 +44,54 @@ const PermissionHandler = () => {
 
           if (missingPermissions.length > 0) {
             Alert.alert(
-              "Permisos requeridos",
-              "La aplicación necesita los siguientes permisos para funcionar correctamente:\n\n" +
-              "• Acceso a Internet\n" +
-              "• Estado de la red\n" +
-              "• Ubicación (para validación de retos)\n\n" +
-              "Por favor, concede estos permisos para continuar.",
+              "Permisos Requeridos",
+              "Se necesitan los siguientes permisos:\n\n" +
+              "• Ubicación (para validar retos)\n" +
+              "• Internet\n" +
+              "• Estado de red\n",
               [
-                { text: "Reintentar", onPress: () => requestPermissions() },
-                { text: "Salir", onPress: () => BackHandler.exitApp() }
-              ]
+                { 
+                  text: "Reintentar", 
+                  onPress: () => requestPermissions() 
+                },
+                { 
+                  text: "Salir", 
+                  onPress: () => BackHandler.exitApp(),
+                  style: 'cancel' 
+                }
+              ],
+              { cancelable: false }
             );
           }
         }
       } catch (err) {
-        console.warn('Error al solicitar permisos:', err);
+        console.warn('Error solicitando permisos:', err);
+        Alert.alert(
+          "Error",
+          "No se pudieron verificar los permisos necesarios.",
+          [
+            { text: "Reintentar", onPress: () => requestPermissions() },
+            { text: "Salir", onPress: () => BackHandler.exitApp() }
+          ]
+        );
       }
     };
 
     requestPermissions();
+
+    // Set up network listener
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (!state.isConnected) {
+        Alert.alert(
+          "Sin Conexión",
+          "Se ha perdido la conexión a Internet",
+          [{ text: "OK" }],
+          { cancelable: false }
+        );
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   return null;
