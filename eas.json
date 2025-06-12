@@ -9,7 +9,7 @@
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease",
         "withoutCredentials": true,
-        "credentialsSource": "local"
+        "credentialsSource": "remote"
       },
       "distribution": "internal",
       "env": {
@@ -28,6 +28,7 @@
   "submit": {
     "preview": {
       "android": {
+        "serviceAccountKeyPath": "./google-service-account.json",
         "track": "internal"
       }
     },
