@@ -41,7 +41,7 @@ export function MainScreen({ navigation }: MainScreenProps) {
             resizeMode="contain"
           />
 
-          <View style={[authStyles.buttonContainer, styles.buttonContainer]}>
+          <View style={[authStyles.buttonContainer, styles.mainButtonContainer]}>
             <MyButton
               title="Iniciar sesión"
               onPress={() => navigation.navigate("Login")}
@@ -74,9 +74,10 @@ const styles = StyleSheet.create({
     height: 300,
     marginBottom: 40,
   },
-  buttonContainer: {
+  mainButtonContainer: {
     width: "100%",
     gap: 16,
+    marginTop: 0,
   },
   loginButton: {
     backgroundColor: colors.primary,
