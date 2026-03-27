@@ -7,6 +7,7 @@ import { RootStackParamList } from '../../../App';
 import { MyButton } from '../../components/shared/MyButton';
 import { useTheme } from '../../context/ThemeContext';
 import colors from '../../shared/themes/constants/colors';
+import createAuthStyles from '../../shared/themes/styles/authStyles';
 import createTextStyles from '../../shared/themes/styles/textStyles';
 
 // Define las props del componente
@@ -18,18 +19,19 @@ type MainScreenProps = NativeStackScreenProps<RootStackParamList, "Main">;
 export function MainScreen({ navigation }: MainScreenProps) {
   const { theme } = useTheme();
   const textStyles = createTextStyles(theme);
+  const authStyles = createAuthStyles(theme);
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={authStyles.container}>
       <ScrollView
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={authStyles.scrollContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.content}>
+        <View style={[authStyles.contentCentered, styles.content]}>
           <Text style={[textStyles.title, styles.mainTitle]}>
             Bienvenido a Routine Quest
           </Text>
 
-          <Text style={[textStyles.subtitle, styles.subtitle]}>
+          <Text style={[textStyles.subtitle, authStyles.subtitle]}>
             Tu aventura hacia mejores hábitos comienza aquí
           </Text>
 
@@ -39,7 +41,7 @@ export function MainScreen({ navigation }: MainScreenProps) {
             resizeMode="contain"
           />
 
-          <View style={styles.buttonContainer}>
+          <View style={[authStyles.buttonContainer, styles.mainButtonContainer]}>
             <MyButton
               title="Iniciar sesión"
               onPress={() => navigation.navigate("Login")}
@@ -58,19 +60,8 @@ export function MainScreen({ navigation }: MainScreenProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.backgroundLight,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    padding: 24,
-  },
   content: {
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    minHeight: "100%",
   },
   mainTitle: {
     fontSize: 32,
@@ -78,19 +69,15 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     color: colors.primary,
   },
-  subtitle: {
-    textAlign: "center",
-    marginBottom: 32,
-    color: colors.textSecondary,
-  },
   image: {
     width: "100%",
     height: 300,
     marginBottom: 40,
   },
-  buttonContainer: {
+  mainButtonContainer: {
     width: "100%",
     gap: 16,
+    marginTop: 0,
   },
   loginButton: {
     backgroundColor: colors.primary,
