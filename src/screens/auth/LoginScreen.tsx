@@ -7,9 +7,7 @@ import { RootStackParamList } from '../../../App';
 import { MyButton } from '../../components/shared/MyButton';
 import { AuthContext } from '../../context/AuthContext';
 import colors from '../../shared/themes/constants/colors';
-import globalStyles from '../../shared/themes/styles/globalStyles';
-import textStyles from '../../shared/themes/styles/textStyles';
-import createGlobalStyles from '../../shared/themes/styles/globalStyles';
+import createAuthStyles from '../../shared/themes/styles/authStyles';
 import { useTheme } from '../../context/ThemeContext';
 import createTextStyles from '../../shared/themes/styles/textStyles';
 
@@ -19,7 +17,7 @@ type LoginScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
 export function LoginScreen({ navigation }: LoginScreenProps) {
   const { theme } = useTheme();
   const textStyles = createTextStyles(theme);
-  const globalStyles = createGlobalStyles(theme);
+  const authStyles = createAuthStyles(theme);
 
   const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
@@ -36,20 +34,20 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={authStyles.container}>
       <ScrollView 
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={authStyles.scrollContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.content}>
-          <Text style={[textStyles.title, styles.title]}>Iniciar sesión</Text>
+        <View style={authStyles.contentCentered}>
+          <Text style={[textStyles.title, authStyles.title]}>Iniciar sesión</Text>
           
-          <View style={styles.form}>
+          <View style={authStyles.form}>
             <TextInput
               placeholder="Correo electrónico"
               value={email}
               onChangeText={setEmail}
-              style={[globalStyles.input, styles.input]}
+              style={authStyles.input}
               keyboardType="email-address"
               autoCapitalize="none"
             />
@@ -58,10 +56,10 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
               value={password}
               onChangeText={setPassword}
               secureTextEntry
-              style={[globalStyles.input, styles.input]}
+              style={authStyles.input}
             />
 
-            <View style={styles.buttonContainer}>
+            <View style={authStyles.buttonContainer}>
               <MyButton 
                 onPress={handleLogin} 
                 title="Iniciar sesión"
@@ -86,39 +84,6 @@ export function LoginScreen({ navigation }: LoginScreenProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.backgroundLight,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-  },
-  content: {
-    flex: 1,
-    padding: 24,
-    justifyContent: 'center',
-    minHeight: '100%',
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: 32,
-    color: colors.primary,
-  },
-  form: {
-    width: '100%',
-    gap: 16,
-  },
-  input: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: colors.backgroundDark,
-    borderRadius: 8,
-    padding: 12,
-  },
-  buttonContainer: {
-    gap: 12,
-    marginTop: 24,
-  },
   loginButton: {
     backgroundColor: colors.primary,
   },

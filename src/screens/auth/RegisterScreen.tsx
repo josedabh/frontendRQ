@@ -8,6 +8,7 @@ import { RootStackParamList } from '../../../App';
 import { MyButton } from '../../components/shared/MyButton';
 import { AuthContext } from '../../context/AuthContext';
 import colors from '../../shared/themes/constants/colors';
+import createAuthStyles from '../../shared/themes/styles/authStyles';
 import createTextStyles from '../../shared/themes/styles/textStyles';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -21,6 +22,7 @@ type RegisterScreenNavigationProp = NativeStackNavigationProp<
 export function RegisterScreen() {
   const { theme } = useTheme();
   const textStyles = createTextStyles(theme);
+  const authStyles = createAuthStyles(theme);
 
   const navigation = useNavigation<RegisterScreenNavigationProp>();
   const { register } = useContext(AuthContext);
@@ -69,38 +71,38 @@ export function RegisterScreen() {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={[textStyles.title, styles.title]}>Crear Cuenta</Text>
+    <SafeAreaView style={authStyles.container}>
+      <ScrollView contentContainerStyle={authStyles.scrollContainer}>
+        <Text style={[textStyles.title, authStyles.title]}>Crear Cuenta</Text>
 
-        <View style={styles.form}>
+        <View style={authStyles.form}>
           <TextInput
-            style={styles.input}
+            style={authStyles.input}
             placeholder="Nombre"
             value={formData.name}
             onChangeText={(text) => setFormData({ ...formData, name: text })}
           />
           <TextInput
-            style={styles.input}
+            style={authStyles.input}
             placeholder="Apellidos"
             value={formData.lastname}
             onChangeText={(text) => setFormData({ ...formData, lastname: text })}
           />
           <TextInput
-            style={styles.input}
+            style={authStyles.input}
             placeholder="Nombre de usuario"
             value={formData.username}
             onChangeText={(text) => setFormData({ ...formData, username: text })}
           />
           <TextInput
-            style={styles.input}
+            style={authStyles.input}
             placeholder="Teléfono"
             value={formData.phone}
             onChangeText={(text) => setFormData({ ...formData, phone: text })}
             keyboardType="phone-pad"
           />
           <TextInput
-            style={styles.input}
+            style={authStyles.input}
             placeholder="Email"
             value={formData.email}
             onChangeText={(text) => setFormData({ ...formData, email: text })}
@@ -108,21 +110,21 @@ export function RegisterScreen() {
             autoCapitalize="none"
           />
           <TextInput
-            style={styles.input}
+            style={authStyles.input}
             placeholder="Contraseña"
             value={formData.password}
             onChangeText={(text) => setFormData({ ...formData, password: text })}
             secureTextEntry
           />
           <TextInput
-            style={styles.input}
+            style={authStyles.input}
             placeholder="Confirmar contraseña"
             value={formData.confirmPassword}
             onChangeText={(text) => setFormData({ ...formData, confirmPassword: text })}
             secureTextEntry
           />
 
-          <View style={styles.buttonContainer}>
+          <View style={authStyles.buttonContainer}>
             <MyButton 
               title="Crear cuenta" 
               onPress={handleRegister}
@@ -141,34 +143,6 @@ export function RegisterScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.backgroundLight,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    padding: 24,
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: 32,
-    color: colors.primary,
-  },
-  form: {
-    gap: 16,
-  },
-  input: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: colors.backgroundDark,
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-  },
-  buttonContainer: {
-    gap: 12,
-    marginTop: 24,
-  },
   registerButton: {
     backgroundColor: colors.primary,
   },
