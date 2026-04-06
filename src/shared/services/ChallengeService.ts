@@ -141,16 +141,9 @@ interface CompleteChallengeParams {
 }
 
 export const completeChallenge = async (params: CompleteChallengeParams) => {
-  const token = await getToken();
   const response = await api.post(
     `${process.env.REACT_APP_API_URL}/challenges/verify`,
     params,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    }
   );
   return response.data;
 };

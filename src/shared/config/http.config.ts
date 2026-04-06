@@ -93,10 +93,11 @@ class FetchClient {
                     `HTTP error! status: ${fetchResponse.status}`,
                 );
                 httpError.response = { status: fetchResponse.status };
+                let chainedError = httpError;
                 for (const interceptor of this.responseInterceptorList) {
-                    return await interceptor.error(httpError);
+                    chainedError = await interceptor.error(chainedError).catch((e: any) => { throw e; });
                 }
-                throw httpError;
+                throw chainedError;
             }
 
             const contentType = fetchResponse.headers.get('content-type');
@@ -115,10 +116,11 @@ class FetchClient {
             return response;
         } catch (error: any) {
             clearTimeout(timeoutId);
+            let chainedError = error;
             for (const interceptor of this.responseInterceptorList) {
-                return await interceptor.error(error);
+                chainedError = await interceptor.error(chainedError).catch((e: any) => { throw e; });
             }
-            throw error;
+            throw chainedError;
         }
     }
 
