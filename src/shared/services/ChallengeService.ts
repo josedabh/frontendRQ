@@ -1,10 +1,12 @@
-import axios from 'axios';
+import createFetchInstance from '../config/http.config';
 import { getToken } from '../utils/TokenStorage';
 import { ChallengeRequest, ChallengeResponse, ChallengeHistoryResponse } from '../models/ChallengeData';
 import { API_ROUTES } from '../config/api.config';
 
 /** Url de la Api */
 const BASE_URL = API_ROUTES.challenge;
+
+const api = createFetchInstance(BASE_URL);
 
 // Mantener getAuthHeaders para compatibilidad
 const getAuthHeaders = async () => {
@@ -20,7 +22,7 @@ export const getChallengeById = async (
 ): Promise<ChallengeResponse> => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.get<ChallengeResponse>(
+    const response = await api.get<ChallengeResponse>(
       `${BASE_URL}/find-challenge/${id}`,
       { headers },
     );
@@ -37,7 +39,7 @@ export const createChallenge = async (
 ): Promise<ChallengeRequest> => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.post<ChallengeRequest>(
+    const response = await api.post<ChallengeRequest>(
       `${BASE_URL}/create-challenge`,
       challengeRequest,
       { headers },
@@ -52,7 +54,7 @@ export const createChallenge = async (
 export const deleteChallenge = async (id: string): Promise<void> => {
   try {
     const headers = await getAuthHeaders();
-    await axios.delete(`${BASE_URL}/delete-challenge/${id}`, { headers });
+    await api.delete(`${BASE_URL}/delete-challenge/${id}`, { headers });
   } catch (error) {
     console.error("Error al eliminar el reto:", error);
     throw error;
@@ -65,7 +67,7 @@ export const updateChallenge = async (
 ): Promise<ChallengeRequest> => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.put<ChallengeRequest>(
+    const response = await api.put<ChallengeRequest>(
       `${BASE_URL}/update-challenge/${id}`,
       challengeRequest,
       { headers },
@@ -80,7 +82,7 @@ export const updateChallenge = async (
 export const getAllChallenges = async (): Promise<ChallengeResponse[]> => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.get<ChallengeResponse[]>( `${BASE_URL}/admin/list-challenges`,
+    const response = await api.get<ChallengeResponse[]>( `${BASE_URL}/admin/list-challenges`,
       { headers });
     return response.data;
   } catch (error) {
@@ -93,7 +95,7 @@ export const getAllChallenges = async (): Promise<ChallengeResponse[]> => {
 export const assignVerificationType = async (challengeId: string, type: string) => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.patch<String>( `${BASE_URL}/${challengeId}/assign-verification/${type}`, {},
+    const response = await api.patch<String>( `${BASE_URL}/${challengeId}/assign-verification/${type}`, {},
      { headers });
     return response.data;
   } catch (error) {
@@ -106,7 +108,7 @@ export const assignVerificationType = async (challengeId: string, type: string) 
 export const deleteVerificationType = async (challengeId: string) => {
   try {
     const headers = await getAuthHeaders();
-    const response = await axios.delete<void>( `${BASE_URL}/verification/${challengeId}`,
+    const response = await api.delete<void>( `${BASE_URL}/verification/${challengeId}`,
       { headers });
     return response.data;
   } catch (error) {
@@ -118,7 +120,7 @@ export const deleteVerificationType = async (challengeId: string) => {
 export const getNextVerificationId = async (type: string): Promise<string> => {
     try {
         const headers = await getAuthHeaders();
-        const response = await axios.post(
+        const response = await api.post(
             `/next-verification-id/${type}`,
             {},
             { headers }
@@ -139,11 +141,13 @@ interface CompleteChallengeParams {
 }
 
 export const completeChallenge = async (params: CompleteChallengeParams) => {
-  const response = await axios.post(
+  const token = await getToken();
+  const response = await api.post(
     `${process.env.REACT_APP_API_URL}/challenges/verify`,
     params,
     {
       headers: {
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     }
@@ -154,7 +158,7 @@ export const completeChallenge = async (params: CompleteChallengeParams) => {
 export const joinChallenge = async (challengeId: string): Promise<void> => {
     try {
         const headers = await getAuthHeaders();
-        await axios.post(`${BASE_URL}/join/${challengeId}`, {}, { headers });
+        await api.post(`${BASE_URL}/join/${challengeId}`, {}, { headers });
     } catch (error) {
         console.error('Error joining challenge:', error);
         throw error;
@@ -164,7 +168,7 @@ export const joinChallenge = async (challengeId: string): Promise<void> => {
 export const listChallengesForUser = async (): Promise<ChallengeResponse[]> => {
     try {
         const headers = await getAuthHeaders();
-        const response = await axios.get<ChallengeResponse[]>(`${BASE_URL}/user/list-challenges`, { headers });
+        const response = await api.get<ChallengeResponse[]>(`${BASE_URL}/user/list-challenges`, { headers });
         return response.data;
     } catch (error) {
         console.error("Error al obtener los retos del usuario:", error);
@@ -175,7 +179,7 @@ export const listChallengesForUser = async (): Promise<ChallengeResponse[]> => {
 export const startChallenge = async (challengeId: string): Promise<ChallengeResponse> => {
     try {
         const headers = await getAuthHeaders();
-        const response = await axios.patch<ChallengeResponse>(
+        const response = await api.patch<ChallengeResponse>(
             `${BASE_URL}/start/${challengeId}`, 
             {}, 
             { headers }
@@ -190,7 +194,7 @@ export const startChallenge = async (challengeId: string): Promise<ChallengeResp
 export const getCompletedChallengesHistory = async (): Promise<ChallengeHistoryResponse[]> => {
     try {
         const headers = await getAuthHeaders();
-        const response = await axios.get<ChallengeHistoryResponse[]>(
+        const response = await api.get<ChallengeHistoryResponse[]>(
             `${BASE_URL}/history-challenges`,
             { headers }
         );
@@ -204,7 +208,7 @@ export const getCompletedChallengesHistory = async (): Promise<ChallengeHistoryR
 export const cancelChallenge = async (id: string): Promise<ChallengeResponse> => {
     try {
       const headers = await getAuthHeaders();
-        const response = await axios.put<ChallengeResponse>(`${BASE_URL}/cancel-challenge/${id}`,
+        const response = await api.put<ChallengeResponse>(`${BASE_URL}/cancel-challenge/${id}`,
           {}, 
           { headers }
         );

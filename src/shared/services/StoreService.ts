@@ -1,11 +1,11 @@
-import createAxiosInstance from '../config/axios.config';
+import createFetchInstance from '../config/http.config';
 import { API_ROUTES } from '../config/api.config';
 
 import { HistoryShopping, RewardRequest, RewardResponse } from "../models/StoreData";
 
 /** Url de la Api */
 const BASE_URL = API_ROUTES.store;
-const api = createAxiosInstance(BASE_URL);
+const api = createFetchInstance(BASE_URL);
 
 /** Api Post: Creacion de una recompensa */
 export const createReward = async (request: RewardRequest) => {
