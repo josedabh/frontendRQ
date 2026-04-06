@@ -1,7 +1,5 @@
 import NetInfo from '@react-native-community/netinfo';
-import axios from 'axios';
-
-import createAxiosInstance from '../config/axios.config';
+import createFetchInstance from '../config/http.config';
 import {
   Credentials,
   FormPassword,
@@ -19,12 +17,9 @@ const ADMIN_URL = API_ROUTES.admin;
 const AUTH_URL = API_ROUTES.auth;
 
 // Instancia para rutas públicas (sin token)
-const publicApi = axios.create({
-    baseURL: AUTH_URL,
-    timeout: 10000
-});
+const publicApi = createFetchInstance(AUTH_URL);
 
-// Configurar interceptor solo para verificar conexión en rutas públicas
+// Reemplazamos el interceptor para verificar solo conexión en rutas públicas
 publicApi.interceptors.request.use(async (config) => {
     const netInfo = await NetInfo.fetch();
     if (!netInfo.isConnected) {
@@ -34,8 +29,8 @@ publicApi.interceptors.request.use(async (config) => {
 });
 
 // Instancia para rutas protegidas (con token)
-const api = createAxiosInstance(AUTH_URL);
-const adminApi = createAxiosInstance(ADMIN_URL);
+const api = createFetchInstance(AUTH_URL);
+const adminApi = createFetchInstance(ADMIN_URL);
 
 /** Rutas públicas (sin token) */
 /** Api Get que dice hola de prueba */

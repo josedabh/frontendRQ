@@ -1,5 +1,5 @@
-import axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
+import createFetchInstance from '../config/http.config';
 
 import { AnswerDTO, QuizDetailResponse, QuizSubmitRequest, QuizSubmitResponse } from '../models/VerificationData';
 import { getToken } from '../utils/TokenStorage';
@@ -8,11 +8,8 @@ import { API_ROUTES } from '../config/api.config';
 /** API base URL */
 const URL = API_ROUTES.verification;
 
-// Crear una instancia de axios
-const api = axios.create({
-    baseURL: URL,
-    timeout: 10000
-});
+// Crear una instancia del cliente HTTP
+const api = createFetchInstance(URL);
 
 // Configurar el interceptor
 api.interceptors.request.use(async (config) => {
@@ -46,7 +43,7 @@ export const createQuizVerification = async (
 ): Promise<void> => {
     try {
         const headers = await getAuthHeaders();
-        await axios.post(
+        await api.post(
             `${URL}/quiz`,
             quizSubmitRequest,
             { headers }
@@ -66,7 +63,7 @@ export const getQuizForChallenge = async (
 ): Promise<QuizSubmitResponse> => {
     try {
         const headers = await getAuthHeaders();
-        const response = await axios.get<QuizSubmitResponse>(
+        const response = await api.get<QuizSubmitResponse>(
             `${URL}/quiz/${quizId}`,
             { headers }
         );
@@ -89,7 +86,7 @@ export const submitQuiz = async (
 ): Promise<void> => {
     try {
         const headers = await getAuthHeaders();
-        await axios.post(
+        await api.post(
             `${URL}/submit-quiz?challengeId=${challengeId}`,
             userAnswers,
             { headers }
@@ -109,7 +106,7 @@ export const getQuizDetailsForChallenge = async (
 ): Promise<QuizDetailResponse> => {
     try {
         const headers = await getAuthHeaders();
-        const response = await axios.get<QuizDetailResponse>(
+        const response = await api.get<QuizDetailResponse>(
             `${URL}/details/${challengeId}`,
             { headers }
         );
